@@ -25,7 +25,7 @@ function it(name: string, fn: () => void) {
 }
 
 // 1. Test Pl1Parser
-it('Pl1Parser: Trích xuất chính xác tên bài, số tiết và YCCĐ từ tệp PL1', () => {
+it('Pl1Parser: Trích xuất chính xác tên bài, số tiết, YCCĐ và danh mục bài học từ tệp PL1', () => {
   const dummyBuffer = Buffer.from('<w:t>Kế hoạch dạy học môn Toán 8 Bài Đa thức 2 tiết</w:t>');
   const data = Pl1Parser.extract(dummyBuffer, 'PL1_Toan8_KNTT.docx');
   assert.strictEqual(data.subject, 'Toán');
@@ -33,6 +33,17 @@ it('Pl1Parser: Trích xuất chính xác tên bài, số tiết và YCCĐ từ t
   assert.strictEqual(data.total_periods, 2);
   assert.ok(data.yccd.length >= 3, 'YCCĐ phải có ít nhất 3 mục');
   assert.ok(data.nls_indicators.length >= 1, 'Phải có ít nhất 1 chỉ báo NLS');
+  assert.ok(data.catalog && data.catalog.length >= 1, 'Danh mục bài học phải có ít nhất 1 bài để giáo viên lựa chọn');
+});
+
+it('Pl1Parser: Cung cấp danh mục bài học chuẩn GDPT 2018 theo môn và khối lớp', () => {
+  const catalogToan8 = Pl1Parser.getStandardCurriculum('Toán', 8);
+  assert.ok(catalogToan8.length >= 2, 'Toán 8 phải có ít nhất 2 bài học chuẩn');
+  assert.ok(catalogToan8.some(item => item.lesson_title.toLowerCase().includes('đa thức')), 'Phải có bài Đa thức');
+
+  const catalogKhtn7 = Pl1Parser.getStandardCurriculum('Khoa học tự nhiên', 7);
+  assert.ok(catalogKhtn7.length >= 2, 'KHTN 7 phải có ít nhất 2 bài học chuẩn');
+  assert.ok(catalogKhtn7.some(item => item.lesson_title.toLowerCase().includes('tốc độ')), 'Phải có bài Tốc độ');
 });
 
 // 2. Test VideoAiService Dialogue Validator
