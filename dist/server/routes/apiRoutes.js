@@ -206,17 +206,34 @@ exports.apiRouter.get('/export/:type', (req, res) => {
       <title>KHDH ${lesson.lesson_title}</title>
       <style>
         @page { size: A4 portrait; margin: 20mm 20mm 20mm 20mm; }
-        body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; }
-        h2 { text-align: center; font-size: 16pt; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin: 6pt 0; }
-        td, th { border: 1pt solid #000; padding: 5pt; font-size: 12.5pt; vertical-align: top; }
+        body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; color: #000; }
+        table.khdh-header-box { width: 100%; border-collapse: collapse; border: 1pt dashed #000; margin-bottom: 14pt; }
+        table.khdh-header-box td { width: 50%; border: 1pt dashed #000; padding: 6pt 8pt; text-align: center; vertical-align: middle; }
       </style>
       </head>
       <body>
-        <div style="text-align:center;font-size:12pt;margin-bottom:12pt">
-          <b>KẾ HOẠCH BÀI DẠY (FORM V12 — 4 PHẦN LIÊN TỤC, KHÔNG TÁCH TIẾT)</b><br>
-          <h2>${lesson.lesson_title.toUpperCase()}</h2>
-          <p>Môn: ${lesson.subject} – Lớp: ${lesson.grade} | Thời lượng: ${lesson.total_periods} tiết (PPCT: ${lesson.ppct.join(', ')})</p>
+        <table class="khdh-header-box">
+          <tr>
+            <td>
+              <div style="font-weight:bold; font-size:13pt; text-transform:uppercase;">TRƯỜNG THCS QUANG TRUNG</div>
+              <div style="font-weight:bold; font-size:13pt; text-transform:uppercase;">TỔ: TOÁN - TIN HỌC</div>
+            </td>
+            <td>
+              <div style="font-style:italic; font-size:12.5pt;">Họ và tên giáo viên:</div>
+              <div style="font-weight:bold; font-size:13pt; text-transform:uppercase;">LÊ TÂM</div>
+            </td>
+          </tr>
+        </table>
+        <div style="text-align:center; margin-bottom:16pt;">
+          <div style="color:#1f4e79; font-size:15pt; font-weight:bold; text-transform:uppercase; margin-bottom:4pt;">
+            ${lesson.lesson_title.trim().toUpperCase().startsWith('BÀI') ? lesson.lesson_title.trim().toUpperCase() : 'BÀI: ' + lesson.lesson_title.trim().toUpperCase()}
+          </div>
+          <div style="font-style:italic; font-size:13pt; margin-bottom:2pt;">
+            Môn học: ${lesson.subject} - Lớp: ${lesson.grade} (${lesson.chapter || 'Chương I: Đa thức'})
+          </div>
+          <div style="font-style:italic; font-size:13pt;">
+            (Thời gian thực hiện: ${lesson.total_periods < 10 ? '0' + lesson.total_periods : lesson.total_periods} tiết - Tiết PPCT: ${lesson.ppct.join(', ')})
+          </div>
         </div>
       </body>
       </html>

@@ -328,6 +328,22 @@ class Pl1Parser {
                         { id: 'YCCD-03', text: 'Giải được bài toán tìm x và chứng minh chia hết.', level: 'VAN_DUNG' }
                     ],
                     nls_indicators: [{ id: 'NLS-01', indicator: 'Kiểm tra phân tích nhân tử qua công cụ số', target_activity: 'act_b2', tool: 'WolframAlpha / AI Solver', student_action: 'Đối chiếu kết quả phân tích', product: 'Bảng đối chiếu', evidence: 'Phiếu học tập' }]
+                },
+                {
+                    id: 'std_toan8_04',
+                    lesson_title: 'Bài 5. Phép chia đa thức cho đơn thức',
+                    subject: 'Toán',
+                    grade: 8,
+                    chapter: 'Chương I: Đa thức',
+                    total_periods: 1,
+                    ppct: [11],
+                    weeks: [6],
+                    yccd: [
+                        { id: 'YCCD-01', text: 'Nhận biết được quy tắc chia đa thức cho đơn thức trong trường hợp chia hết.', level: 'NHAN_BIET' },
+                        { id: 'YCCD-02', text: 'Thực hiện thành thạo phép chia từng hạng tử của đa thức cho đơn thức rồi cộng kết quả lại.', level: 'THONG_HIEU' },
+                        { id: 'YCCD-03', text: 'Vận dụng phép chia đa thức cho đơn thức vào bài toán tìm x và rút gọn biểu thức.', level: 'VAN_DUNG' }
+                    ],
+                    nls_indicators: [{ id: 'NLS-01', indicator: 'Kiểm tra phép chia đa thức bằng công cụ số hoặc CAS', target_activity: 'act_b2', tool: 'WebApp Math Assistant', student_action: 'Đối chiếu kết quả phép chia đa thức', product: 'Bảng đối chiếu', evidence: 'Phiếu học tập' }]
                 }
             ];
         }

@@ -211,9 +211,9 @@ button,input,select,textarea{font:inherit}
       </div>
     </div>
     <div class="row">
-      <!-- Lesson Selector: Not defaulted to Math 8 -->
       <select id="presetLessonSelect" class="btn sm" style="font-weight:700">
         <option value="">-- Chưa chọn bài học (Chờ nạp nguồn) --</option>
+        <option value="math8_chia_dathuc">🌟 [Mẫu thực tế] Toán 8 — Bài 5: Phép chia đa thức cho đơn thức (1 tiết - PPCT: 11)</option>
         <option value="math8">[Mẫu thử nghiệm] Toán 8 — Bài: Đa thức (2 tiết)</option>
         <option value="science7">[Mẫu thử nghiệm] KHTN 7 — Bài: Tốc độ chuyển động (3 tiết)</option>
         <option value="informatics8">[Mẫu thử nghiệm] Tin học 8 — Bài: Thuật toán tìm kiếm tuần tự (2 tiết)</option>
@@ -1425,6 +1425,132 @@ const LESSON_DATABASE = {
       }
     ]
   },
+  math8_chia_dathuc: {
+    lesson_id: "MATH8_CHIA_DATHUC",
+    subject: "Toán",
+    grade: 8,
+    chapter: "Chương I: Đa thức",
+    lesson_title: "Bài 5. Phép chia đa thức cho đơn thức",
+    total_periods: 1,
+    ppct: [11],
+    weeks: [6],
+    yccd: [
+      { id: "YCCD-01", text: "Nhận biết được quy tắc chia đa thức cho đơn thức trong trường hợp các hạng tử đều chia hết.", level: "NHAN_BIET" },
+      { id: "YCCD-02", text: "Thực hiện thành thạo phép chia từng hạng tử của đa thức cho đơn thức rồi cộng các kết quả lại.", level: "THONG_HIEU" },
+      { id: "YCCD-03", text: "Vận dụng phép chia đa thức cho đơn thức vào tìm x, rút gọn biểu thức và giải bài toán thực tế.", level: "VAN_DUNG" }
+    ],
+    digital_competency_indicators: [
+      {
+        id: "NLS-01",
+        indicator: "Sử dụng công cụ số hoặc máy tính cầm tay để tra cứu, kiểm chứng kết quả phép chia đa thức cho đơn thức với SGK trang 18",
+        target_activity: "act_b2",
+        tool: "AI Chatbot / WebApp Math Assistant",
+        student_action: "Học sinh nhập biểu thức chia đa thức vào công cụ số, kiểm tra kết quả, đối chiếu quy tắc trang 18 SGK để phát hiện lỗi tính toán về dấu",
+        product: "Bảng đối chiếu kết quả chia đa thức giữa máy tính và cách giải bằng tay",
+        evidence: "Phiếu học tập có chữ ký xác nhận các bước kiểm chứng lỗi sai"
+      },
+      {
+        id: "NLS-02",
+        indicator: "Tạo sản phẩm học tập số (sơ đồ tư duy / mini game) thể hiện quy tắc chia đa thức cho đơn thức",
+        target_activity: "act_c1",
+        tool: "Native WebApp Game / Sơ đồ tương tác",
+        student_action: "Học sinh tham gia trò chơi kéo thả nối phép tính chia đa thức với kết quả tương ứng trên WebApp",
+        product: "Ảnh chụp màn hình điểm số đạt trên 80% trong game native",
+        evidence: "Log điểm số ghi nhận trên hệ thống WebApp"
+      }
+    ],
+    subject_profile: "MATH (Toán học) — Quy tắc đại số, tư duy biến đổi biểu thức, kiểm chứng logic từ SGK.",
+    lesson_type: "NEW_KNOWLEDGE (Hình thành kiến thức mới)",
+    textbook: {
+      book: "SGK Toán 8 Tập 1 (Kết nối tri thức)",
+      pages: "18–20",
+      assets: [
+        { id: "IMG-01", page: 18, caption: "Hình 1.3: Mô hình hình chữ nhật biểu thị phép chia diện tích cho chiều dài", status: "VERIFIED" }
+      ]
+    },
+    activities: [
+      {
+        id: "act_a",
+        code: "A",
+        period: 1,
+        title: "Hoạt động khởi động: Ôn tập phép chia hai đơn thức",
+        time: 7,
+        yccd_refs: ["YCCD-01"],
+        nls_refs: [],
+        student_task: "Nhắc lại quy tắc chia hai lũy thừa cùng cơ số $x^m : x^n = x^{m-n}$ ($m \\ge n, x \\ne 0$). Thực hiện tính nhanh: $(6x^3y^2) : (3xy)$.",
+        teacher_actions: "Giao nhiệm vụ khởi động nhanh, gọi 2 học sinh trả lời miệng, dẫn dắt vào bài toán chia đa thức cho đơn thức.",
+        product: "Câu trả lời đúng: $x^m : x^n = x^{m-n}$ và $(6x^3y^2) : (3xy) = 2x^2y$.",
+        evidence: "Câu trả lời của học sinh trên bảng phụ hoặc vở nháp.",
+        digital_tool: "Slide 01",
+        source_refs: ["SGK Toán 8 tr. 18"],
+        locked: false
+      },
+      {
+        id: "act_b1",
+        code: "B1",
+        period: 1,
+        title: "Hoạt động hình thành kiến thức: Khám phá quy tắc chia đa thức cho đơn thức",
+        time: 15,
+        yccd_refs: ["YCCD-01", "YCCD-02"],
+        nls_refs: [],
+        student_task: "Thực hiện HĐ1 và HĐ2 SGK trang 18: Cho đa thức $A = 4x^3 - 6x^2 + 2x$ và đơn thức $B = 2x$. Hãy chia từng hạng tử của $A$ cho $B$ rồi cộng các kết quả tìm được lại với nhau. Phát biểu quy tắc tổng quát.",
+        teacher_actions: "Tổ chức cho học sinh làm việc nhóm đôi, hướng dẫn chia từng hạng tử rồi lấy tổng. Nhận xét và chốt quy tắc đóng khung SGK tr. 18.",
+        product: "Kết quả: $4x^3 : 2x + (-6x^2) : 2x + 2x : 2x = 2x^2 - 3x + 1$. Phát biểu đúng quy tắc chia đa thức cho đơn thức.",
+        evidence: "Phiếu học tập nhóm và lời phát biểu chuẩn hóa của học sinh.",
+        digital_tool: "Slide 02",
+        source_refs: ["SGK Toán 8 tr. 18"],
+        locked: false
+      },
+      {
+        id: "act_b2",
+        code: "B2",
+        period: 1,
+        title: "Hoạt động thực hành và Năng lực số: Luyện tập ví dụ và kiểm chứng",
+        time: 10,
+        yccd_refs: ["YCCD-02"],
+        nls_refs: ["NLS-01"],
+        student_task: "Thực hiện Ví dụ 1 và Luyện tập 1 SGK trang 19: Làm tính chia $(15x^2y^3 - 10x^3y^2 + 5xy) : (5xy)$. Sử dụng công cụ số hoặc máy tính cầm tay để kiểm tra lại kết quả đối chiếu quy tắc dấu.",
+        teacher_actions: "Theo dõi học sinh thực hiện, lưu ý lỗi hay gặp: quên chia hệ số hoặc nhầm dấu âm (-).",
+        product: "Kết quả chính xác: $3xy^2 - 2x^2y + 1$. Bản đối chiếu kiểm chứng không sai sót.",
+        evidence: "Vở ghi bài học sinh và phiếu đối chiếu kiểm tra công cụ số.",
+        digital_tool: "AI Chatbot / WebApp Math Assistant",
+        source_refs: ["SGK Toán 8 tr. 19"],
+        locked: false
+      },
+      {
+        id: "act_c1",
+        code: "C1",
+        period: 1,
+        title: "Hoạt động luyện tập: Rèn luyện kĩ năng tính toán và mini game",
+        time: 8,
+        yccd_refs: ["YCCD-02"],
+        nls_refs: ["NLS-02"],
+        student_task: "Làm Bài tập 1.30 và 1.31 SGK trang 20: Thực hiện tính chia và tìm x biết $(12x^4y^2 - 8x^3y^2) : (4x^2y^2) = 0$. Tham gia trò chơi trắc nghiệm nhanh trên WebApp.",
+        teacher_actions: "Chiếu đề bài lên màn hình, tổ chức mini game 4 câu hỏi trắc nghiệm củng cố nhanh quy tắc.",
+        product: "Bài giải: $3x^2 - 2x = 0 \\Leftrightarrow x(3x - 2) = 0 \\Leftrightarrow x = 0$ hoặc $x = 2/3$. Điểm mini game đạt chuẩn.",
+        evidence: "Bảng điểm mini game trên hệ thống WebApp.",
+        digital_tool: "Native WebApp Game",
+        source_refs: ["SGK Toán 8 tr. 20"],
+        locked: false
+      },
+      {
+        id: "act_d1",
+        code: "D1",
+        period: 1,
+        title: "Hoạt động vận dụng: Bài toán thực tế hình chữ nhật",
+        time: 5,
+        yccd_refs: ["YCCD-03"],
+        nls_refs: [],
+        student_task: "Giải Bài tập 1.32 SGK trang 20: Một hình chữ nhật có diện tích $S = 6x^3y + 4x^2y^2$ và chiều dài $a = 2xy$. Tìm chiều rộng $b$ của hình chữ nhật.",
+        teacher_actions: "Gợi ý áp dụng công thức $b = S : a$. Chốt lại mối liên hệ giữa đại số và hình học thực tế.",
+        product: "Chiều rộng $b = (6x^3y + 4x^2y^2) : (2xy) = 3x^2 + 2xy$.",
+        evidence: "Bài giải hoàn chỉnh ghi trong vở bài tập.",
+        digital_tool: "Slide 03",
+        source_refs: ["SGK Toán 8 tr. 20"],
+        locked: false
+      }
+    ]
+  },
   science7: {
     lesson_id: "SCI7_TOCDO",
     subject: "Khoa học tự nhiên",
@@ -1627,6 +1753,13 @@ const AppState = {
 
   // Teacher Saved Preferences
   teacherPreferences: [],
+
+  // Teacher Header Profile (Theo mẫu: Trường, Tổ, Họ tên GV)
+  teacherInfo: {
+    school: (function() { try { return localStorage.getItem('khdh_teacher_school') || "TRƯỜNG THCS QUANG TRUNG"; } catch(e) { return "TRƯỜNG THCS QUANG TRUNG"; } })(),
+    department: (function() { try { return localStorage.getItem('khdh_teacher_department') || "TỔ: TOÁN - TIN HỌC"; } catch(e) { return "TỔ: TOÁN - TIN HỌC"; } })(),
+    teacherName: (function() { try { return localStorage.getItem('khdh_teacher_teacherName') || "LÊ TÂM"; } catch(e) { return "LÊ TÂM"; } })()
+  },
 
   // Cache
   cache: {
@@ -2170,12 +2303,27 @@ function getStandardCatalogItems(subject, grade) {
         grade: 8,
         chapter: 'Chương II. Phân thức đại số',
         total_periods: 2,
-        ppct: [10, 11],
-        weeks: [5],
+        ppct: [12, 13],
+        weeks: [7],
         yccd: [
           { id: 'YCCD-01', text: 'Nhận biết được định nghĩa phân thức đại số và điều kiện xác định.', level: 'NHAN_BIET' },
           { id: 'YCCD-02', text: 'Giải thích và áp dụng tính chất cơ bản của phân thức để rút gọn.', level: 'THONG_HIEU' },
           { id: 'YCCD-03', text: 'Tìm giá trị của biến để phân thức nhận giá trị nguyên hoặc xác định.', level: 'VAN_DUNG' }
+        ]
+      },
+      {
+        id: 'std_toan8_05',
+        lesson_title: 'Bài 5. Phép chia đa thức cho đơn thức',
+        subject: 'Toán',
+        grade: 8,
+        chapter: 'Chương I: Đa thức',
+        total_periods: 1,
+        ppct: [11],
+        weeks: [6],
+        yccd: [
+          { id: 'YCCD-01', text: 'Nhận biết được quy tắc chia đa thức cho đơn thức trong trường hợp chia hết.', level: 'NHAN_BIET' },
+          { id: 'YCCD-02', text: 'Thực hiện thành thạo phép chia từng hạng tử của đa thức cho đơn thức rồi cộng kết quả lại.', level: 'THONG_HIEU' },
+          { id: 'YCCD-03', text: 'Vận dụng phép chia đa thức cho đơn thức vào bài toán tìm x và rút gọn biểu thức.', level: 'VAN_DUNG' }
         ]
       }
     ];
@@ -3041,6 +3189,100 @@ function renderContinuous4SectionActivities(L) {
   return html;
 }
 
+function updateTeacherHeaderInfo(field, value) {
+  if (!AppState.teacherInfo) AppState.teacherInfo = {};
+  AppState.teacherInfo[field] = value.trim();
+  try {
+    localStorage.setItem('khdh_teacher_' + field, value.trim());
+  } catch(e) {}
+}
+
+function updateLessonTitleHeader(value) {
+  if (AppState.currentLesson) {
+    AppState.currentLesson.lesson_title = value.trim();
+  }
+}
+
+function renderKhdhHeader(L) {
+  const school = AppState.teacherInfo?.school || "TRƯỜNG THCS QUANG TRUNG";
+  const department = AppState.teacherInfo?.department || "TỔ: TOÁN - TIN HỌC";
+  const teacherName = AppState.teacherInfo?.teacherName || "LÊ TÂM";
+
+  // Title formatting: e.g. "BÀI 5. PHÉP CHIA ĐA THỨC CHO ĐƠN THỨC"
+  let rawTitle = (L.lesson_title || "BÀI HỌC").trim();
+  let formattedTitle = rawTitle;
+  if (!/^bài\b/i.test(formattedTitle)) {
+    formattedTitle = `BÀI: ${formattedTitle}`;
+  }
+  formattedTitle = formattedTitle.toUpperCase();
+
+  // Subtitle 1: "Môn học: Toán - Lớp: 8 (Chương I: Đa thức)"
+  let chap = (L.chapter || "").trim();
+  if (!chap) chap = `Chương I: ${rawTitle}`;
+  chap = chap.replace(/^(Chương\s+[0-9IVXLCDM]+)[\.\-–—\s:]+\s*/i, '$1: ');
+  chap = chap.replace(/^(Chủ đề\s+[0-9IVXLCDM\w]+)[\.\-–—\s:]+\s*/i, '$1: ');
+  chap = chap.replace(/^\(|\)$/g, '').trim();
+  const subtitle1 = `Môn học: ${L.subject} - Lớp: ${L.grade} (${chap})`;
+
+  // Subtitle 2: "(Thời gian thực hiện: 01 tiết - Tiết PPCT: 11)"
+  const periods = L.total_periods || 1;
+  const periodStr = periods < 10 ? `0${periods} tiết` : `${periods} tiết`;
+  const ppctStr = (L.ppct && L.ppct.length > 0) ? L.ppct.join(', ') : '11';
+  const subtitle2 = `(Thời gian thực hiện: ${periodStr} - Tiết PPCT: ${ppctStr})`;
+
+  return `
+    <!-- Bảng Header 2 ô viền nét đứt chuẩn mẫu giáo viên -->
+    <table class="khdh-header-box" style="width:100%; border-collapse:collapse; border:1px dashed #64748b; margin-bottom:20px; font-family:'Times New Roman', serif;">
+      <tbody>
+        <tr>
+          <td style="width:50%; border:1px dashed #64748b; text-align:center; vertical-align:middle; padding:8px 12px;">
+            <div contenteditable="true" 
+                 title="Nhấp để sửa tên Trường"
+                 onblur="updateTeacherHeaderInfo('school', this.innerText)"
+                 style="font-size:13.5pt; font-weight:bold; text-transform:uppercase; line-height:1.35; color:#000; font-family:'Times New Roman', serif;">
+              ${school}
+            </div>
+            <div contenteditable="true" 
+                 title="Nhấp để sửa tên Tổ chuyên môn"
+                 onblur="updateTeacherHeaderInfo('department', this.innerText)"
+                 style="font-size:13.5pt; font-weight:bold; text-transform:uppercase; line-height:1.35; color:#000; font-family:'Times New Roman', serif;">
+              ${department}
+            </div>
+          </td>
+          <td style="width:50%; border:1px dashed #64748b; text-align:center; vertical-align:middle; padding:8px 12px;">
+            <div style="font-size:12.5pt; font-style:italic; line-height:1.35; color:#000; font-family:'Times New Roman', serif;">
+              Họ và tên giáo viên:
+            </div>
+            <div contenteditable="true" 
+                 title="Nhấp để sửa Họ và tên giáo viên"
+                 onblur="updateTeacherHeaderInfo('teacherName', this.innerText)"
+                 style="font-size:13.5pt; font-weight:bold; text-transform:uppercase; line-height:1.35; color:#000; font-family:'Times New Roman', serif;">
+              ${teacherName}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Tiêu đề bài dạy và thời gian thực hiện chuẩn mẫu -->
+    <div style="text-align:center; margin-bottom:22px; font-family:'Times New Roman', serif;">
+      <div contenteditable="true" 
+           id="khdhMainLessonTitle"
+           title="Nhấp để sửa tiêu đề bài học"
+           onblur="updateLessonTitleHeader(this.innerText)"
+           style="font-size:15pt; font-weight:bold; color:#1e40af; text-transform:uppercase; margin-bottom:6px; letter-spacing:0.02em; line-height:1.35; font-family:'Times New Roman', serif;">
+        ${formattedTitle}
+      </div>
+      <div style="font-size:13pt; font-style:italic; color:#000; line-height:1.4; margin-bottom:3px; font-family:'Times New Roman', serif;">
+        ${subtitle1}
+      </div>
+      <div style="font-size:13pt; font-style:italic; color:#000; line-height:1.4; font-family:'Times New Roman', serif;">
+        ${subtitle2}
+      </div>
+    </div>
+  `;
+}
+
 function renderKhdhView() {
   const L = AppState.currentLesson;
   const container = document.getElementById('khdhContainer');
@@ -3082,33 +3324,7 @@ function renderKhdhView() {
     const continuousActsHtml = renderContinuous4SectionActivities(L);
 
     container.innerHTML = `
-      <!-- Header chuẩn hành chính sư phạm Form V12 -->
-      <div style="border-bottom:2px solid #0f172a;padding-bottom:16px;margin-bottom:20px">
-        <div style="display:flex;justify-content:space-between;text-align:left;font-size:12px;margin-bottom:14px;color:#334155">
-          <div style="width:48%">
-            <b>TRƯỜNG: .......................................</b><br>
-            <b>TỔ: .......................................</b><br>
-            Họ tên giáo viên: .......................
-          </div>
-          <div style="width:48%;text-align:center">
-            <b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br>
-            <b><u>Độc lập - Tự do - Hạnh phúc</u></b>
-          </div>
-        </div>
-        <div style="text-align:center">
-          <div style="font-size:11px;font-weight:700;color:#2563eb;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px">
-            KẾ HOẠCH BÀI DẠY (FORM V12 — 4 PHẦN LIÊN TỤC, KHÔNG TÁCH TIẾT)
-          </div>
-          <h2 style="font-size:22px;color:#0f172a;margin:6px 0;font-weight:800;letter-spacing:-.01em">
-            ${L.lesson_title.toUpperCase()}
-          </h2>
-          <div style="font-size:13px;color:#475569">
-            Môn học: <b>${L.subject}</b> – Lớp: <b>${L.grade}</b><br>
-            Thời lượng: <b>${L.total_periods} tiết</b> (Tổng: <b>${L.total_periods * 45} phút</b>)<br>
-            PPCT: <b>${L.ppct.join(', ')}</b> | Tuần: <b>${L.weeks.join(', ')}</b>
-          </div>
-        </div>
-      </div>
+      ${renderKhdhHeader(L)}
 
       <!-- I. MỤC TIÊU -->
       <div class="khdh-block" style="margin-bottom:20px">
@@ -3230,30 +3446,7 @@ function renderKhdhView() {
   }).join('');
 
   container.innerHTML = `
-    <div style="border-bottom:2px solid #0f172a;padding-bottom:16px;margin-bottom:20px">
-      <div style="display:flex;justify-content:space-between;text-align:center;font-size:12px;margin-bottom:14px;color:#334155">
-        <div style="width:45%;text-align:left">
-          <b>TRƯỜNG: .......................................</b><br>
-          TỔ CHUYÊN MÔN: .......................
-        </div>
-        <div style="width:50%">
-          <b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br>
-          <b><u>Độc lập - Tự do - Hạnh phúc</u></b>
-        </div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-size:12px;font-weight:700;color:#2563eb;letter-spacing:.05em;text-transform:uppercase">
-          ${isMauga ? 'MẪU KẾ HOẠCH BÀI DẠY TỔ BỘ MÔN (MAUGA.DOCX)' : 'KẾ HOẠCH BÀI DẠY THEO CÔNG VĂN 5512/BGDĐT-GDTrH'}
-        </div>
-        <h2 style="font-size:22px;color:#0f172a;margin:8px 0;font-weight:800;letter-spacing:-.01em">
-          BÀI DẠY: ${L.lesson_title.toUpperCase()}
-        </h2>
-        <div style="font-size:13px;color:#475569">
-          Môn học: <b>${L.subject}</b> | Khối lớp: <b>Lớp ${L.grade}</b> | Bộ sách: <b>${L.textbook.book}</b><br>
-          Thời lượng: <b>${L.total_periods} tiết</b> (PPCT: <b>${L.ppct.join(', ')}</b> | Tuần: <b>${L.weeks.join(', ')}</b>)
-        </div>
-      </div>
-    </div>
+    ${renderKhdhHeader(L)}
 
     <div class="khdh-block" style="margin-bottom:20px">
       <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
@@ -4227,6 +4420,8 @@ function exportDocx() {
       table { border-collapse: collapse; width: 100%; border: 1pt solid windowtext; margin: 6pt 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
       th, td { border: 1pt solid windowtext; padding: 5pt 7pt; font-family: 'Times New Roman', serif; font-size: 12.5pt; vertical-align: top; }
       th { font-weight: bold; text-align: center; background-color: #f2f2f2; }
+      table.khdh-header-box { border-collapse: collapse; width: 100%; border: 1pt dashed #000 !important; margin-bottom: 14pt; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+      table.khdh-header-box td { border: 1pt dashed #000 !important; padding: 6pt 8pt; font-family: 'Times New Roman', serif; text-align: center; vertical-align: middle; }
       .badge { display: none; }
       .khdh-act { margin-bottom: 12pt; page-break-inside: avoid; }
       ul { margin: 4pt 0 8pt 24pt; padding: 0; }

@@ -60,25 +60,27 @@ LESSON_RUNTIME:
 
 ---
 
-# 1. PHẦN ĐẦU KHDH
+# 1. PHẦN ĐẦU KHDH (HEADER CHUẨN MẪU)
 
 ```text
-TRƯỜNG: [TÊN TRƯỜNG]
-TỔ: [TÊN TỔ CHUYÊN MÔN]
++-------------------------------------------------------------+-------------------------------------------------------------+
+|                  TRƯỜNG THCS QUANG TRUNG                    |                    Họ và tên giáo viên:                     |
+|                    TỔ: TOÁN - TIN HỌC                       |                           LÊ TÂM                            |
++-------------------------------------------------------------+-------------------------------------------------------------+
 
-Họ tên giáo viên: [HỌ VÀ TÊN]
-
-[TÊN BÀI / CHỦ ĐỀ]
-
-Môn học: [MÔN] – Lớp: [LỚP]
-Thời lượng: [SỐ TIẾT] tiết
-PPCT: [DANH SÁCH PPCT]
-Tuần: [TUẦN]
+                            BÀI 5. PHÉP CHIA ĐA THỨC CHO ĐƠN THỨC
+                           Môn học: Toán - Lớp: 8 (Chương I: Đa thức)
+                          (Thời gian thực hiện: 01 tiết - Tiết PPCT: 11)
 ```
 
-> **SYSTEM RULE:**  
-> - Dữ liệu trên phải lấy từ nguồn tương ứng; không tự gõ lại nếu hệ thống đã xác định được.  
-> - Nếu PPCT/tuần chưa xác minh: không xuất trạng thái FINAL.
+> **QUY CHUẨN THỂ THỨC HEADER:**
+> 1. **Bảng Header 2 ô viền nét đứt:**
+>    - Ô trái: Tên trường (in hoa, đậm) & Tên tổ chuyên môn (in hoa, đậm).
+>    - Ô phải: `Họ và tên giáo viên:` (in nghiêng) & Tên giáo viên (in hoa, đậm).
+> 2. **Tiêu đề bài học:** In hoa, đậm, màu xanh sẫm (`#1e40af` / `#1f4e79`), căn giữa (`BÀI [X]. [TÊN BÀI]`).
+> 3. **Dòng môn học & chương:** In nghiêng, căn giữa (`Môn học: [Môn] - Lớp: [Lớp] ([Chương])`).
+> 4. **Dòng thời lượng & PPCT:** In nghiêng, căn giữa (`(Thời gian thực hiện: [Số tiết] tiết - Tiết PPCT: [PPCT])`).
+> 5. **Không có tiêu ngữ Quốc hiệu:** Mẫu bài dạy tinh gọn, trực diện, chuyên nghiệp.
 
 ---
 
