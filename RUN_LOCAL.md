@@ -34,9 +34,9 @@ npm start
 ---
 
 ## 3. Truy cập ứng dụng
-* **Giao diện Web:** [http://localhost:3000](http://localhost:3000)
-* **Kiểm tra Health-check các kết nối thực tế:** [http://localhost:3000/api/health/connections](http://localhost:3000/api/health/connections)
-* **Kiểm tra trạng thái xác thực:** [http://localhost:3000/api/auth/status](http://localhost:3000/api/auth/status)
+* **Giao diện Web:** Mở tệp `index.html` trực tiếp trên trình duyệt hoặc chạy qua máy chủ ứng dụng (`npm start`).
+* **Kiểm tra Health-check các kết nối thực tế:** `/api/health/connections`
+* **Kiểm tra trạng thái xác thực:** `/api/auth/status`
 
 ---
 

@@ -18,10 +18,10 @@ Tài liệu này hướng dẫn chi tiết quy trình thiết lập, kết nối
 npm install
 npm run dev # hoặc npm start
 ```
-Máy chủ sẽ chạy tại: `http://localhost:3000`.
+Máy chủ sẽ chạy trên cổng được cấu hình (mặc định PORT 3000).
 
 ### Bước 2: Xác thực tài khoản Google
-1. Mở giao diện `http://localhost:3000`.
+1. Mở giao diện ứng dụng trên trình duyệt web.
 2. Bấm vào nút **"🔴 Google: Chưa đăng nhập"** trên thanh Topbar hoặc vào tab **"🔐 Google & API Key"**.
 3. Chọn tài khoản giáo viên để hoàn tất xác thực OAuth session.
 
@@ -42,6 +42,6 @@ Máy chủ sẽ chạy tại: `http://localhost:3000`.
 
 ## 3. Kiểm tra sức khỏe kết nối (Health-check)
 Truy cập endpoint:
-`http://localhost:3000/api/health/connections`
+`/api/health/connections`
 
 Hệ thống sẽ trả về JSON chi tiết tình trạng của từng phân hệ: Database, File Storage, Auth, Gemini API Key và Parsers.

@@ -52,7 +52,7 @@ Tài liệu mô tả chi tiết cách thiết lập và xác thực các mắt x
 ---
 
 ## 3. Xác thực kết nối qua Health-Check
-Truy cập: `GET http://localhost:3000/api/health/connections`
+Truy cập: `GET /api/health/connections`
 
 Ví dụ phản hồi JSON:
 ```json

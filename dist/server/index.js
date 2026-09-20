@@ -33,7 +33,7 @@ exports.app.use((err, req, res, next) => {
 });
 if (require.main === module) {
     exports.app.listen(config_1.CONFIG.PORT, () => {
-        console.log(`[SERVER] 🚀 ${config_1.CONFIG.APP_NAME} đang chạy tại: http://localhost:${config_1.CONFIG.PORT}`);
-        console.log(`[SERVER] 🔍 Health-check endpoints: http://localhost:${config_1.CONFIG.PORT}/api/health/connections`);
+        console.log(`[SERVER] 🚀 ${config_1.CONFIG.APP_NAME} đang chạy trên cổng ${config_1.CONFIG.PORT}`);
+        console.log(`[SERVER] 🔍 Health-check endpoint: /api/health/connections`);
     });
 }

@@ -33,7 +33,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 
 if (require.main === module) {
   app.listen(CONFIG.PORT, () => {
-    console.log(`[SERVER] 🚀 ${CONFIG.APP_NAME} đang chạy tại: http://localhost:${CONFIG.PORT}`);
-    console.log(`[SERVER] 🔍 Health-check endpoints: http://localhost:${CONFIG.PORT}/api/health/connections`);
+    console.log(`[SERVER] 🚀 ${CONFIG.APP_NAME} đang chạy trên cổng ${CONFIG.PORT}`);
+    console.log(`[SERVER] 🔍 Health-check endpoint: /api/health/connections`);
   });
 }

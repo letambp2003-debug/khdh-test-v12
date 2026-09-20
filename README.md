@@ -47,8 +47,8 @@ npm run dev
 npm test
 ```
 
-Truy cập ứng dụng: **[http://localhost:3000](http://localhost:3000)**  
-Kiểm tra Health-check: **[http://localhost:3000/api/health/connections](http://localhost:3000/api/health/connections)**
+Truy cập ứng dụng: Mở giao diện `index.html` trên trình duyệt web hoặc qua máy chủ Express.  
+Kiểm tra Health-check: `/api/health/connections`
 
 ---
 
