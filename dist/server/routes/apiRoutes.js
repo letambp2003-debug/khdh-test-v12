@@ -30,11 +30,56 @@ exports.apiRouter.get('/health/connections', (req, res) => {
 });
 // 2. Auth & Gemini Key
 exports.apiRouter.post('/auth/login', (req, res) => {
-    const { name, email } = req.body;
+    const { name, email, role, picture } = req.body;
     if (!email)
         return res.status(400).json({ error: 'Email is required' });
-    const user = authService_1.AuthService.loginGoogle(name || 'Giáo viên', email);
+    const user = authService_1.AuthService.loginGoogle(name || 'Giáo viên', email, role, picture);
     res.json({ ok: true, user });
+});
+exports.apiRouter.post('/auth/login-google', (req, res) => {
+    const { name, email, role, picture } = req.body;
+    if (!email)
+        return res.status(400).json({ error: 'Email is required' });
+    const user = authService_1.AuthService.loginGoogle(name || 'Giáo viên', email, role, picture);
+    res.json({ ok: true, user });
+});
+exports.apiRouter.post('/auth/register', (req, res) => {
+    const { name, email, password, school, subject } = req.body;
+    const result = authService_1.AuthService.registerEmail(name, email, password, school, subject);
+    if (!result.ok) {
+        return res.status(400).json(result);
+    }
+    res.json(result);
+});
+exports.apiRouter.post('/auth/verify-email', (req, res) => {
+    const { email, code } = req.body;
+    if (!email || !code) {
+        return res.status(400).json({ ok: false, error: 'Email và mã xác minh OTP là bắt buộc.' });
+    }
+    const result = authService_1.AuthService.verifyEmail(email, code);
+    if (!result.ok) {
+        return res.status(400).json(result);
+    }
+    res.json(result);
+});
+exports.apiRouter.post('/auth/resend-otp', (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ ok: false, error: 'Email là bắt buộc.' });
+    }
+    const result = authService_1.AuthService.resendOtp(email);
+    res.json(result);
+});
+exports.apiRouter.post('/auth/login-email', (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ ok: false, error: 'Vui lòng nhập đầy đủ email và mật khẩu.' });
+    }
+    const result = authService_1.AuthService.loginEmail(email, password);
+    if (!result.ok) {
+        return res.status(400).json(result);
+    }
+    res.json(result);
 });
 exports.apiRouter.post('/auth/logout', (req, res) => {
     authService_1.AuthService.logout();

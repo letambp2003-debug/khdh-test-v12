@@ -104,6 +104,37 @@ it('QualityQaService: Chấm điểm KHDH thang 100 và phát hiện lỗi chặ
     assert_1.default.strictEqual(audit.blockingErrors.length, 0, 'Không được có lỗi chặn');
     assert_1.default.strictEqual(audit.passed, true);
 });
+// 5. Test AuthService
+const authService_1 = require("../../server/services/authService");
+it('AuthService: Đăng ký email cá nhân, sinh mã OTP 6 số và xác minh email thành công', () => {
+    const testEmail = `teacher_${Date.now()}@school.edu.vn`;
+    const regResult = authService_1.AuthService.registerEmail('Cô Nguyễn Thu Hằng', testEmail, 'SecurePass123!', 'THCS Lê Lợi', 'Khoa học tự nhiên');
+    assert_1.default.strictEqual(regResult.ok, true);
+    assert_1.default.ok(regResult.simulated_otp, 'Phải sinh mã OTP');
+    assert_1.default.strictEqual(regResult.simulated_otp?.length, 6, 'Mã OTP phải có độ dài 6 chữ số');
+    // Thử đăng nhập khi chưa xác minh OTP -> Phải báo lỗi unverified
+    const unverifiedLogin = authService_1.AuthService.loginEmail(testEmail, 'SecurePass123!');
+    assert_1.default.strictEqual(unverifiedLogin.ok, false);
+    // Xác minh OTP sai
+    const wrongOtpResult = authService_1.AuthService.verifyEmail(testEmail, '999999');
+    assert_1.default.strictEqual(wrongOtpResult.ok, false);
+    // Xác minh OTP đúng
+    const verifyResult = authService_1.AuthService.verifyEmail(testEmail, regResult.simulated_otp);
+    assert_1.default.strictEqual(verifyResult.ok, true);
+    assert_1.default.strictEqual(verifyResult.user?.email_verified, true);
+    // Đăng nhập lại sau khi đã xác minh -> Thành công
+    const verifiedLogin = authService_1.AuthService.loginEmail(testEmail, 'SecurePass123!');
+    assert_1.default.strictEqual(verifiedLogin.ok, true);
+    assert_1.default.strictEqual(verifiedLogin.user?.email, testEmail);
+    assert_1.default.strictEqual(verifiedLogin.user?.school, 'THCS Lê Lợi');
+});
+it('AuthService: Đăng nhập liên kết Google ID nhanh chóng', () => {
+    const googleUser = authService_1.AuthService.loginGoogle('Thầy Lê Tâm', 'thaytam.toan@gmail.com', 'TEACHER');
+    assert_1.default.strictEqual(googleUser.auth_provider, 'google');
+    assert_1.default.strictEqual(googleUser.email_verified, true);
+    assert_1.default.strictEqual(googleUser.email, 'thaytam.toan@gmail.com');
+    assert_1.default.strictEqual(googleUser.name, 'Thầy Lê Tâm');
+});
 console.log(`\nTổng kết Unit Tests: ${passedTests}/${totalTests} tests hoàn thành thành công.`);
 if (passedTests === totalTests) {
     process.exit(0);

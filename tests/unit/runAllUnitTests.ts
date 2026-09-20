@@ -110,6 +110,56 @@ it('QualityQaService: Chấm điểm KHDH thang 100 và phát hiện lỗi chặ
   assert.strictEqual(audit.passed, true);
 });
 
+// 5. Test AuthService
+import { AuthService } from '../../server/services/authService';
+
+it('AuthService: Đăng ký email cá nhân, sinh mã OTP 6 số và xác minh email thành công', () => {
+  const testEmail = `teacher_${Date.now()}@school.edu.vn`;
+  const regResult = AuthService.registerEmail(
+    'Cô Nguyễn Thu Hằng',
+    testEmail,
+    'SecurePass123!',
+    'THCS Lê Lợi',
+    'Khoa học tự nhiên'
+  );
+  assert.strictEqual(regResult.ok, true);
+  assert.ok(regResult.simulated_otp, 'Phải sinh mã OTP');
+  assert.strictEqual(regResult.simulated_otp?.length, 6, 'Mã OTP phải có độ dài 6 chữ số');
+
+  // Thử đăng nhập khi chưa xác minh OTP -> Phải báo lỗi unverified
+  const unverifiedLogin = AuthService.loginEmail(testEmail, 'SecurePass123!');
+  assert.strictEqual(unverifiedLogin.ok, false);
+
+  // Xác minh OTP sai
+  const wrongOtpResult = AuthService.verifyEmail(testEmail, '999999');
+  assert.strictEqual(wrongOtpResult.ok, false);
+
+  // Xác minh OTP đúng
+  const verifyResult = AuthService.verifyEmail(testEmail, regResult.simulated_otp!);
+  assert.strictEqual(verifyResult.ok, true);
+  assert.strictEqual(verifyResult.user?.email_verified, true);
+
+  // Đăng nhập lại sau khi đã xác minh -> Thành công
+  const verifiedLogin = AuthService.loginEmail(testEmail, 'SecurePass123!');
+  assert.strictEqual(verifiedLogin.ok, true);
+  assert.strictEqual(verifiedLogin.user?.email, testEmail);
+  assert.strictEqual(verifiedLogin.user?.school, 'THCS Lê Lợi');
+});
+
+it('AuthService: Đăng nhập liên kết Google ID nhanh chóng', () => {
+  const googleUser = AuthService.loginGoogle(
+    'Thầy Lê Tâm',
+    'thaytam.toan@gmail.com',
+    'TEACHER'
+  );
+  assert.strictEqual(googleUser.auth_provider, 'google');
+  assert.strictEqual(googleUser.email_verified, true);
+  assert.strictEqual(googleUser.email, 'thaytam.toan@gmail.com');
+  assert.strictEqual(googleUser.name, 'Thầy Lê Tâm');
+});
+
+
+
 console.log(`\nTổng kết Unit Tests: ${passedTests}/${totalTests} tests hoàn thành thành công.`);
 if (passedTests === totalTests) {
   process.exit(0);

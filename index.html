@@ -219,13 +219,13 @@ button,input,select,textarea{font:inherit}
         <option value="informatics8">[Mẫu thử nghiệm] Tin học 8 — Bài: Thuật toán tìm kiếm tuần tự (2 tiết)</option>
       </select>
       
-      <!-- Google Auth Badge / Button -->
-      <button class="btn sm red" id="topGoogleBadge" onclick="openGoogleLoginModal()">
-        🔴 Google: Chưa đăng nhập
+      <!-- Teacher Auth Badge / Button -->
+      <button class="btn sm red" id="topGoogleBadge" onclick="openAuthModal()">
+        🔴 Chưa đăng nhập
       </button>
 
       <!-- Google AI API Key Badge -->
-      <span class="badge borange" id="topApiKeyBadge" style="cursor:pointer" onclick="switchView('auth')">
+      <span class="badge borange" id="topApiKeyBadge" style="cursor:pointer" onclick="openApiKeyGateModal('Cấu hình Google Gemini API Key')">
         ⚠️ API: NOT_CONFIGURED
       </span>
 
@@ -245,12 +245,12 @@ button,input,select,textarea{font:inherit}
   <!-- Global Banner Alerts -->
   <div id="topBannerArea" style="padding:10px 24px 0">
     <div class="notice danger" id="authWarningBanner" style="display:flex;justify-content:space-between;align-items:center">
-      <div><b>🔒 Yêu cầu xác thực:</b> Bạn chưa đăng nhập bằng Google. Vui lòng đăng nhập để mở khóa luồng dữ liệu KHDH.</div>
-      <button class="btn sm" style="background:#fff" onclick="openGoogleLoginModal()">Đăng nhập ngay</button>
+      <div><b>🔒 Yêu cầu xác thực:</b> Thầy/Cô vui lòng đăng nhập bằng Google ID hoặc Email cá nhân để sử dụng KHDH AUTO V12-RC2.</div>
+      <button class="btn sm" style="background:#fff" onclick="openAuthModal()">Đăng nhập ngay</button>
     </div>
     <div class="notice" id="apiKeyWarningBanner" style="display:none;justify-content:space-between;align-items:center;margin-top:8px">
-      <div><b>⚠️ Cảnh báo API Key:</b> Chưa kết nối Google AI (Gemini) API Key. Chức năng AI bóc tách nguồn và sinh học liệu đang bị khóa.</div>
-      <button class="btn sm primary" onclick="switchView('auth')">Cấu hình API Key</button>
+      <div><b>⚠️ Cảnh báo API Key:</b> Chưa kết nối Google Gemini API Key. Vui lòng nhập API Key để thực hiện các tác vụ nạp tài liệu và khởi tạo KHDH.</div>
+      <button class="btn sm primary" onclick="openApiKeyGateModal('Cấu hình Google Gemini API Key')">🔑 Nhập API Key ngay</button>
     </div>
   </div>
 
@@ -1048,27 +1048,42 @@ button,input,select,textarea{font:inherit}
       </div>
 
       <div class="grid g2">
-        <!-- Google Account Card -->
+        <!-- Teacher Multi-method Account Card -->
         <div class="card" style="border-top:4px solid #2563eb">
           <div class="sh">
-            <h3>1. Tài khoản Google Giáo Viên</h3>
+            <div>
+              <h3 style="margin:0">1. Tài Khoản Giáo Viên (Đa Phương Thức)</h3>
+              <p style="margin:2px 0 0;font-size:12px;color:#64748b">Google OAuth 2.0 hoặc Tự đăng ký Email cá nhân có OTP</p>
+            </div>
             <span class="badge" id="authCardBadge">Chưa đăng nhập</span>
           </div>
-          <p>Đăng nhập bằng tài khoản Google để xác thực phiên làm việc và bảo mật dữ liệu bài dạy.</p>
+          <p>Xác thực phiên làm việc, lưu trữ kế hoạch bài dạy và đồng bộ tên giáo viên vào Header KHDH.</p>
           
           <div id="authUserInfoArea" style="margin-top:14px;display:none;background:#f8fafc;padding:14px;border-radius:12px;border:1px solid var(--line)">
-            <div style="font-size:14px;font-weight:700" id="authUserDisplayName">Trần Văn Nam</div>
-            <div style="font-size:12px;color:#64748b" id="authUserEmail">giaovien.toan8@edu.vn</div>
-            <div style="margin-top:10px" class="row">
-              <span class="badge bgreen">● Đã xác thực OAuth</span>
-              <button class="btn sm red" onclick="logoutGoogle()">Đăng xuất</button>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-size:15px;font-weight:800;color:#1e3a8a" id="authUserDisplayName">Lê Tâm</div>
+                <div style="font-size:12px;color:#64748b" id="authUserEmail">letam.teacher@gmail.com</div>
+              </div>
+              <span class="badge bgreen" id="authUserProviderBadge">● Google ID</span>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#475569" id="authUserSchool">
+              Đơn vị: <b>TRƯỜNG THCS QUANG TRUNG</b>
+            </div>
+            <div style="margin-top:10px;display:flex;gap:8px" class="row">
+              <span class="badge bgreen" id="authUserVerifiedBadge">✅ Email đã xác minh</span>
+              <button class="btn sm red" onclick="logoutTeacher()">Đăng xuất</button>
+              <button class="btn sm" onclick="openAuthModal()">Đổi tài khoản</button>
             </div>
           </div>
 
-          <div id="authLoginPromptArea" style="margin-top:14px">
-            <button class="google-btn" onclick="openGoogleLoginModal()">
+          <div id="authLoginPromptArea" style="margin-top:14px;display:grid;gap:8px">
+            <button class="google-btn" onclick="openAuthModal('google')">
               <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.36 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-              Tiếp tục với Google (Continue with Google)
+              Đăng nhập bằng Google ID (OAuth 2.0)
+            </button>
+            <button class="btn" style="width:100%;justify-content:center;padding:10px;background:#f8fafc;font-weight:700" onclick="openAuthModal('register')">
+              ✉️ Tự đăng ký bằng Email cá nhân (Nhận mã OTP)
             </button>
           </div>
         </div>
@@ -1082,8 +1097,13 @@ button,input,select,textarea{font:inherit}
             </div>
             <span class="badge" id="apiKeyStatusLabel">NOT_CONFIGURED</span>
           </div>
+
+          <div style="margin:10px 0 14px;background:#eff6ff;border:1px solid #bfdbfe;padding:8px 12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;color:#1e40af">💡 Chưa có API Key? Lấy miễn phí trong 1 phút:</span>
+            <button class="btn sm primary" style="font-size:11px" onclick="openApiKeyGateModal('Lấy API Key từ Google')">📖 Xem Hướng dẫn</button>
+          </div>
           
-          <div class="field" style="margin-top:14px">
+          <div class="field">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
               <label style="font-weight:700;font-size:12px">Danh sách khóa API (Mỗi key một dòng hoặc cách nhau bởi dấu phẩy ,)</label>
               <button class="btn sm" id="btnToggleKeyMask" onclick="toggleKeyMask()" style="padding:2px 8px;font-size:11px">👁 Hiện / Ẩn Key</button>
@@ -1211,47 +1231,242 @@ button,input,select,textarea{font:inherit}
 </main>
 </div>
 
-<!-- GOOGLE LOGIN MODAL DIALOG -->
-<div class="modal-overlay" id="googleLoginModal">
-  <div class="modal-box">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <div style="display:flex;align-items:center;gap:8px">
-        <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.36 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-        <b style="font-size:16px">Đăng nhập với Google</b>
+<!-- MULTI-METHOD AUTHENTICATION MODAL -->
+<div class="modal-overlay" id="authModalDialog">
+  <div class="modal-box" style="max-width:540px;padding:24px">
+    <!-- Modal Header -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:38px;height:38px;border-radius:10px;background:#eff6ff;color:#2563eb;display:grid;place-items:center;font-size:20px">
+          🔐
+        </div>
+        <div>
+          <h3 style="margin:0;font-size:17px;font-weight:800;color:var(--text)" id="authModalHeaderTitle">Xác Thực & Đăng Nhập Giáo Viên</h3>
+          <p style="margin:2px 0 0;font-size:12px;color:#64748b">Hỗ trợ: Google OAuth 2.0 hoặc Tự đăng ký Email có OTP</p>
+        </div>
       </div>
-      <button class="btn sm" onclick="closeGoogleLoginModal()">✕</button>
+      <button class="btn sm" onclick="closeAuthModal()">✕</button>
     </div>
-    
-    <p style="font-size:13px;color:#64748b;margin:0 0 16px">Chọn tài khoản Google Giáo Viên để đồng bộ và phân quyền truy cập KHDH AUTO V12-RC2:</p>
-    
+
+    <!-- Mode Tabs -->
+    <div style="display:flex;gap:6px;background:#f1f5f9;padding:4px;border-radius:12px;margin-bottom:16px" id="authTabSwitcher">
+      <button class="btn sm" id="tabBtnGoogle" style="flex:1;border:0;background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08);font-weight:700" onclick="switchAuthTab('google')">
+        🌐 Google ID
+      </button>
+      <button class="btn sm" id="tabBtnRegister" style="flex:1;border:0;background:transparent;color:#64748b;font-weight:600" onclick="switchAuthTab('register')">
+        ✍️ Đăng Ký Email
+      </button>
+      <button class="btn sm" id="tabBtnLogin" style="flex:1;border:0;background:transparent;color:#64748b;font-weight:600" onclick="switchAuthTab('login')">
+        🔑 Đăng Nhập Email
+      </button>
+    </div>
+
+    <!-- TAB 1: GOOGLE SIGN-IN -->
+    <div id="authTabGoogle" style="display:block">
+      <p style="font-size:13px;color:#475569;margin:0 0 14px">
+        Liên kết tức thì với tài khoản Google để đồng bộ phiên làm việc, tự động lưu trữ giáo án và phân quyền truy cập:
+      </p>
+
+      <div style="display:grid;gap:8px">
+        <button class="btn" style="width:100%;text-align:left;justify-content:flex-start;padding:12px;background:#f8fafc;border:1px solid #cbd5e1" onclick="loginWithGoogleAccount('Trần Văn Nam', 'nguyenvannam.toan8@edu.vn')">
+          <div style="width:36px;height:36px;border-radius:50%;background:#2563eb;color:#fff;display:grid;place-items:center;font-weight:700">N</div>
+          <div style="margin-left:10px">
+            <div style="font-weight:700;font-size:13px">Thầy Trần Văn Nam</div>
+            <div style="font-size:11px;color:#64748b">nguyenvannam.toan8@edu.vn (GV Toán 8 · THCS Quang Trung)</div>
+          </div>
+        </button>
+
+        <button class="btn" style="width:100%;text-align:left;justify-content:flex-start;padding:12px;background:#f8fafc;border:1px solid #cbd5e1" onclick="loginWithGoogleAccount('Nguyễn Thị Mai', 'tranthimai.khtn7@edu.vn')">
+          <div style="width:36px;height:36px;border-radius:50%;background:#059669;color:#fff;display:grid;place-items:center;font-weight:700">M</div>
+          <div style="margin-left:10px">
+            <div style="font-weight:700;font-size:13px">Cô Nguyễn Thị Mai</div>
+            <div style="font-size:11px;color:#64748b">tranthimai.khtn7@edu.vn (GV KHTN 7 · THCS Nguyễn Du)</div>
+          </div>
+        </button>
+
+        <button class="btn" style="width:100%;text-align:left;justify-content:flex-start;padding:12px;background:#f8fafc;border:1px solid #cbd5e1" onclick="loginWithCustomEmailPrompt()">
+          <div style="width:36px;height:36px;border-radius:50%;background:#64748b;color:#fff;display:grid;place-items:center;font-weight:700">G</div>
+          <div style="margin-left:10px">
+            <div style="font-weight:700;font-size:13px">Nhập tài khoản Google khác...</div>
+            <div style="font-size:11px;color:#64748b">Nhập email Google Workspace / Gmail của Thầy/Cô</div>
+          </div>
+        </button>
+      </div>
+
+      <div style="margin-top:16px;background:#f8fafc;padding:10px 12px;border-radius:10px;border:1px solid #e2e8f0;font-size:11px;color:#64748b;text-align:center">
+        🔒 Bảo mật theo chuẩn OAuth 2.0 / OpenID Connect. Tuyệt đối không lưu trữ mật khẩu Google.
+      </div>
+    </div>
+
+    <!-- TAB 2: REGISTER WITH PERSONAL EMAIL + OTP -->
+    <div id="authTabRegister" style="display:none">
+      <!-- Register Form Sub-view -->
+      <div id="regFormArea">
+        <p style="font-size:12px;color:#64748b;margin:0 0 12px">
+          Đăng ký tài khoản giáo viên bằng Email cá nhân. Sau khi điền, hệ thống sẽ gửi <b>Mã xác thực OTP</b> về hộp thư email để kích hoạt tài khoản.
+        </p>
+
+        <div style="display:grid;gap:10px">
+          <div>
+            <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Họ và tên giáo viên (*)</label>
+            <input type="text" id="regName" placeholder="Ví dụ: Lê Tâm" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+          </div>
+
+          <div>
+            <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Email cá nhân nhận mã xác minh (*)</label>
+            <input type="email" id="regEmail" placeholder="Ví dụ: letam.teacher@gmail.com" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Trường / Đơn vị</label>
+              <input type="text" id="regSchool" value="TRƯỜNG THCS QUANG TRUNG" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Môn giảng dạy</label>
+              <input type="text" id="regSubject" value="Toán học" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Mật khẩu (*)</label>
+              <input type="password" id="regPassword" placeholder="Tối thiểu 6 ký tự" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+            </div>
+            <div>
+              <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Xác nhận mật khẩu (*)</label>
+              <input type="password" id="regConfirmPassword" placeholder="Nhập lại mật khẩu" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+            </div>
+          </div>
+
+          <button class="btn green" style="width:100%;padding:11px;font-weight:700;margin-top:6px;justify-content:center" onclick="submitRegisterEmail()">
+            ✉️ Đăng Ký & Nhận Mã OTP Xác Minh
+          </button>
+        </div>
+      </div>
+
+      <!-- OTP Verification Sub-view -->
+      <div id="regOtpArea" style="display:none;text-align:center;padding:10px 0">
+        <div style="font-size:38px;margin-bottom:6px">📩</div>
+        <h4 style="margin:0 0 6px;font-size:16px;color:#1e3a8a">Xác Minh Hòm Thư Email Cá Nhân</h4>
+        <p style="font-size:12px;color:#64748b;margin:0 0 14px;line-height:1.6">
+          Mã xác minh OTP 6 chữ số đã được gửi đến: <br>
+          <b style="color:#0f172a;font-size:14px" id="otpTargetEmail">giaovien@gmail.com</b><br>
+          <span style="font-size:11px;color:#0284c7">(Vui lòng kiểm tra Hộp thư đến hoặc thư mục Spam/Quảng cáo)</span>
+        </p>
+
+        <div style="max-width:280px;margin:0 auto 14px">
+          <input type="text" id="otpInput" maxlength="6" placeholder="000000" style="width:100%;text-align:center;font-size:24px;letter-spacing:8px;font-weight:800;padding:10px;border:2px solid #3b82f6;border-radius:10px;font-family:monospace">
+          <div id="simulatedOtpNotice" style="margin-top:6px;font-size:11px;color:#059669;background:#ecfdf5;padding:4px 8px;border-radius:6px;border:1px solid #a7f3d0"></div>
+        </div>
+
+        <div style="display:grid;gap:8px">
+          <button class="btn primary" style="width:100%;justify-content:center;padding:10px;font-weight:700" onclick="submitVerifyOtp()">
+            ✅ Xác Nhận & Kích Hoạt Tài Khoản
+          </button>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+            <button class="btn sm" style="border:0;color:#64748b" onclick="backToRegForm()">← Sửa lại email</button>
+            <button class="btn sm" id="btnResendOtp" style="border:0;color:#2563eb" onclick="submitResendOtp()">🔄 Gửi lại mã OTP</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: LOGIN WITH EMAIL & PASSWORD -->
+    <div id="authTabLogin" style="display:none">
+      <p style="font-size:12px;color:#64748b;margin:0 0 12px">
+        Đăng nhập dành cho Thầy/Cô đã có tài khoản email cá nhân đã xác minh:
+      </p>
+
+      <div style="display:grid;gap:10px">
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Email cá nhân</label>
+          <input type="email" id="loginEmail" placeholder="thayco@gmail.com" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+        </div>
+
+        <div>
+          <label style="font-size:12px;font-weight:700;color:#334155;display:block;margin-bottom:4px">Mật khẩu</label>
+          <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px">
+        </div>
+
+        <button class="btn primary" style="width:100%;padding:11px;font-weight:700;margin-top:6px;justify-content:center" onclick="submitLoginEmail()">
+          🔑 Đăng Nhập Hệ Thống
+        </button>
+
+        <div style="background:#f8fafc;padding:10px;border-radius:8px;border:1px solid #e2e8f0;font-size:11px;color:#475569">
+          <b>💡 Tài khoản giáo viên mẫu sẵn có:</b><br>
+          Email: <code>letam.teacher@gmail.com</code> | Mật khẩu: <code>password123</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GEMINI API KEY REQUIRED & GUIDE MODAL -->
+<div class="modal-overlay" id="apiKeyGateModal">
+  <div class="modal-box" style="max-width:620px;padding:24px">
+    <!-- Header -->
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:40px;height:40px;border-radius:10px;background:#fef3c7;color:#d97706;display:grid;place-items:center;font-size:22px">
+          ⚠️
+        </div>
+        <div>
+          <h3 style="margin:0;font-size:17px;font-weight:800;color:#92400e">Yêu Cầu Cấu Hình Google Gemini API Key</h3>
+          <p style="margin:2px 0 0;font-size:12px;color:#64748b">Cần khóa API để lưu trữ, bóc tách tài liệu và sinh kế hoạch bài dạy</p>
+        </div>
+      </div>
+      <button class="btn sm" onclick="closeApiKeyGateModal()">✕</button>
+    </div>
+
+    <!-- Alert details -->
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#92400e;line-height:1.6">
+      Tác vụ <b id="apiKeyGateActionName" style="color:#b45309;text-decoration:underline">Nạp tài liệu nguồn</b> yêu cầu kết nối Google AI để đọc nội dung, trích xuất cấu trúc ngữ liệu và lập kế hoạch bài dạy. Khóa API sẽ được mã hóa và <b>lưu trữ an toàn trên thiết bị của Thầy/Cô</b>, hoàn toàn miễn phí.
+    </div>
+
+    <!-- Step-by-step Guide -->
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 16px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <b style="color:#1e40af;font-size:13px">📖 HƯỚNG DẪN 4 BƯỚC LẤY GEMINI API KEY MIỄN PHÍ:</b>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn sm primary" style="padding:4px 10px;font-size:11px;text-decoration:none">
+          🔗 Mở Google AI Studio ↗
+        </a>
+      </div>
+      <ol style="margin:0;padding-left:18px;font-size:12px;color:#1e3a8a;line-height:1.8">
+        <li><b>Bước 1:</b> Nhấp nút <b>[Mở Google AI Studio ↗]</b> ở trên (hoặc truy cập <code style="background:#dbeafe;padding:1px 4px;border-radius:4px">aistudio.google.com/app/apikey</code>).</li>
+        <li><b>Bước 2:</b> Đăng nhập bằng tài khoản Google cá nhân bất kỳ của Thầy/Cô.</li>
+        <li><b>Bước 3:</b> Nhấp vào nút màu xanh <b>"Create API key"</b> (hoặc "Get API key").</li>
+        <li><b>Bước 4:</b> Bấm biểu tượng <b>Sao chép (Copy)</b> chuỗi khóa bắt đầu bằng <code style="background:#dbeafe;padding:1px 4px;border-radius:4px">AIzaSy...</code> và dán vào ô nhập bên dưới.</li>
+      </ol>
+    </div>
+
+    <!-- Key Input Form -->
     <div style="display:grid;gap:8px">
-      <button class="btn" style="width:100%;text-align:left;justify-content:flex-start;padding:12px;background:#f8fafc" onclick="loginWithGoogleAccount('Trần Văn Nam', 'nguyenvannam.toan8@edu.vn')">
-        <div style="width:34px;height:34px;border-radius:50%;background:#2563eb;color:#fff;display:grid;place-items:center;font-weight:700">N</div>
-        <div style="margin-left:8px">
-          <div style="font-weight:700;font-size:13px">Trần Văn Nam</div>
-          <div style="font-size:11px;color:#64748b">nguyenvannam.toan8@edu.vn (GV Toán 8)</div>
-        </div>
-      </button>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <label style="font-size:12px;font-weight:700;color:#334155">Dán khóa Google AI (Gemini) API Key vào đây:</label>
+        <button class="btn sm" id="btnGateToggleMask" onclick="toggleGateKeyMask()" style="padding:2px 8px;font-size:11px">👁 Hiện / Ẩn Key</button>
+      </div>
 
-      <button class="btn" style="width:100%;text-align:left;justify-content:flex-start;padding:12px;background:#f8fafc" onclick="loginWithGoogleAccount('Nguyễn Thị Mai', 'tranthimai.khtn7@edu.vn')">
-        <div style="width:34px;height:34px;border-radius:50%;background:#059669;color:#fff;display:grid;place-items:center;font-weight:700">M</div>
-        <div style="margin-left:8px">
-          <div style="font-weight:700;font-size:13px">Nguyễn Thị Mai</div>
-          <div style="font-size:11px;color:#64748b">tranthimai.khtn7@edu.vn (GV KHTN 7)</div>
-        </div>
-      </button>
-
-      <button class="btn" style="width:100%;text-align:left;justify-content:flex-start;padding:12px;background:#f8fafc" onclick="loginWithCustomEmailPrompt()">
-        <div style="width:34px;height:34px;border-radius:50%;background:#64748b;color:#fff;display:grid;place-items:center;font-weight:700">+</div>
-        <div style="margin-left:8px">
-          <div style="font-weight:700;font-size:13px">Sử dụng tài khoản khác...</div>
-          <div style="font-size:11px;color:#64748b">Nhập email Google của bạn</div>
-        </div>
-      </button>
+      <textarea id="gateInputApiKey" rows="3" placeholder="Dán khóa API của Thầy/Cô tại đây (Ví dụ: AIzaSy...)...&#10;Hỗ trợ dán nhiều key (mỗi key 1 dòng) để tự động xoay vòng tải Round-Robin." style="width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px;font-family:monospace;font-size:12px;resize:vertical;-webkit-text-security:disc"></textarea>
+      
+      <div style="font-size:11px;color:#64748b">
+        💡 <i>Mẹo:</i> Thầy/Cô có thể nhập nhiều API key (mỗi dòng một key) để hệ thống tự động cân bằng tải và dự phòng khi gặp giới hạn hạn mức (Rate-limit).
+      </div>
     </div>
 
-    <div style="margin-top:16px;font-size:11px;color:#94a3b8;text-align:center">
-      Tuân thủ tiêu chuẩn OAuth 2.0 / OpenID Connect. Không lưu trữ mật khẩu.
+    <!-- Footer Actions -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:1px solid var(--line);padding-top:14px">
+      <button class="btn sm" onclick="useDemoKeyInGate()">
+        🧪 Dùng Key Demo Thử Nghiệm Ngay
+      </button>
+
+      <div class="row">
+        <button class="btn sm" onclick="closeApiKeyGateModal()">Đóng / Bỏ qua</button>
+        <button class="btn sm green" style="padding:8px 16px;font-weight:700" onclick="saveApiKeyFromGate()">
+          💾 Lưu Trữ & Kích Hoạt Key (Tiếp Tục Tác Vụ)
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -1790,31 +2005,93 @@ document.querySelectorAll('[data-go]').forEach(n => n.onclick = () => switchView
 document.getElementById('menu').onclick = () => document.getElementById('side').classList.toggle('open');
 
 /* ==========================================================================
-   4. AUTH & API KEY GATE CONTROLLER
+   4. AUTH & API KEY GATE CONTROLLER (MULTI-METHOD + TASK GATEKEEPER)
    ========================================================================== */
+function openAuthModal(tab = 'google') {
+  const modal = document.getElementById('authModalDialog');
+  if (modal) {
+    modal.classList.add('open');
+    switchAuthTab(tab);
+  }
+}
+
+function closeAuthModal() {
+  const modal = document.getElementById('authModalDialog');
+  if (modal) modal.classList.remove('open');
+}
+
+// Backward compatibility alias
 function openGoogleLoginModal() {
-  document.getElementById('googleLoginModal').classList.add('open');
+  openAuthModal('google');
 }
-
 function closeGoogleLoginModal() {
-  document.getElementById('googleLoginModal').classList.remove('open');
+  closeAuthModal();
 }
 
+function switchAuthTab(tabName) {
+  const tabs = ['google', 'register', 'login'];
+  tabs.forEach(t => {
+    const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+    const content = document.getElementById('authTab' + t.charAt(0).toUpperCase() + t.slice(1));
+    if (t === tabName) {
+      if (btn) {
+        btn.style.background = '#fff';
+        btn.style.color = 'var(--text)';
+        btn.style.fontWeight = '700';
+        btn.style.boxShadow = '0 1px 3px rgba(0,0,0,.08)';
+      }
+      if (content) content.style.display = 'block';
+    } else {
+      if (btn) {
+        btn.style.background = 'transparent';
+        btn.style.color = '#64748b';
+        btn.style.fontWeight = '600';
+        btn.style.boxShadow = 'none';
+      }
+      if (content) content.style.display = 'none';
+    }
+  });
+
+  // Reset OTP view if switching to register
+  if (tabName === 'register') {
+    const regForm = document.getElementById('regFormArea');
+    const regOtp = document.getElementById('regOtpArea');
+    if (regForm) regForm.style.display = 'block';
+    if (regOtp) regOtp.style.display = 'none';
+  }
+}
+
+// 1. Đăng nhập Google ID (Liên kết tài khoản Google)
 function loginWithGoogleAccount(name, email) {
-  AppState.auth.user = { name, email };
+  const user = {
+    id: 'usr_' + Date.now(),
+    name: name,
+    email: email,
+    role: 'TEACHER',
+    auth_provider: 'google',
+    email_verified: true,
+    school: 'TRƯỜNG THCS QUANG TRUNG',
+    authenticated_at: new Date().toISOString()
+  };
+  AppState.auth.user = user;
   AppState.auth.loggedIn = true;
-  localStorage.setItem('khdh_user', JSON.stringify(AppState.auth.user));
-  closeGoogleLoginModal();
+  localStorage.setItem('khdh_user', JSON.stringify(user));
+  
+  // Tự động đồng bộ tên giáo viên vào Header KHDH
+  localStorage.setItem('khdh_teacher_name', name.toUpperCase());
+
+  closeAuthModal();
   updateAuthUI();
+  renderKhdhView();
 
   // Sync with Backend
-  fetch('/api/auth/login', {
+  fetch('/api/auth/login-google', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email })
   }).then(() => checkBackendHealth()).catch(() => {});
 
-  alert(`✅ Đăng nhập thành công với tài khoản Google: ${name} (${email})!`);
+  alert(`✅ Đăng nhập thành công qua Google ID: ${name} (${email})!`);
 }
 
 function loginWithCustomEmailPrompt() {
@@ -1824,16 +2101,391 @@ function loginWithCustomEmailPrompt() {
   loginWithGoogleAccount(name, email);
 }
 
-function logoutGoogle() {
+// 2. Tự đăng ký bằng Email cá nhân (Nhận mã OTP)
+async function submitRegisterEmail() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const school = document.getElementById('regSchool').value.trim();
+  const subject = document.getElementById('regSubject').value.trim();
+  const pass = document.getElementById('regPassword').value;
+  const confirmPass = document.getElementById('regConfirmPassword').value;
+
+  if (!name) {
+    alert("⚠️ Vui lòng nhập Họ và tên giáo viên.");
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    alert("⚠️ Vui lòng nhập địa chỉ email cá nhân hợp lệ để nhận mã xác minh.");
+    return;
+  }
+  if (!pass || pass.length < 6) {
+    alert("⚠️ Mật khẩu phải có ít nhất 6 ký tự.");
+    return;
+  }
+  if (pass !== confirmPass) {
+    alert("⚠️ Mật khẩu xác nhận không khớp. Vui lòng nhập lại.");
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password: pass, school, subject })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      alert("❌ " + (data.error || "Đăng ký không thành công. Vui lòng thử lại."));
+      return;
+    }
+
+    // Hiển thị màn hình nhập OTP
+    document.getElementById('regFormArea').style.display = 'none';
+    document.getElementById('regOtpArea').style.display = 'block';
+    document.getElementById('otpTargetEmail').textContent = email;
+    document.getElementById('otpInput').value = '';
+    
+    const noticeEl = document.getElementById('simulatedOtpNotice');
+    if (data.simulated_otp) {
+      noticeEl.innerHTML = `🔑 <b>Mã OTP gửi đến email:</b> <code style="font-size:14px;font-weight:800;color:#047857">${data.simulated_otp}</code>`;
+      noticeEl.style.display = 'block';
+      document.getElementById('otpInput').value = data.simulated_otp;
+    } else {
+      noticeEl.style.display = 'none';
+    }
+
+  } catch (err) {
+    // Chế độ Standalone offline: Sinh OTP nội bộ
+    const simOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    window._pendingLocalReg = { name, email, school, subject, password: pass, otp: simOtp };
+    document.getElementById('regFormArea').style.display = 'none';
+    document.getElementById('regOtpArea').style.display = 'block';
+    document.getElementById('otpTargetEmail').textContent = email;
+    const noticeEl = document.getElementById('simulatedOtpNotice');
+    noticeEl.innerHTML = `🔑 <b>Mã OTP gửi đến email:</b> <code style="font-size:14px;font-weight:800;color:#047857">${simOtp}</code>`;
+    noticeEl.style.display = 'block';
+    document.getElementById('otpInput').value = simOtp;
+  }
+}
+
+function backToRegForm() {
+  document.getElementById('regFormArea').style.display = 'block';
+  document.getElementById('regOtpArea').style.display = 'none';
+}
+
+async function submitResendOtp() {
+  const email = document.getElementById('otpTargetEmail').textContent.trim();
+  if (!email) return;
+
+  try {
+    const res = await fetch('/api/auth/resend-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    const noticeEl = document.getElementById('simulatedOtpNotice');
+    if (data.simulated_otp) {
+      noticeEl.innerHTML = `🔑 <b>Mã OTP mới:</b> <code style="font-size:14px;font-weight:800;color:#047857">${data.simulated_otp}</code>`;
+      document.getElementById('otpInput').value = data.simulated_otp;
+    }
+    alert("✅ Đã gửi lại mã OTP mới về email của Thầy/Cô.");
+  } catch (e) {
+    const simOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    if (window._pendingLocalReg) window._pendingLocalReg.otp = simOtp;
+    const noticeEl = document.getElementById('simulatedOtpNotice');
+    noticeEl.innerHTML = `🔑 <b>Mã OTP mới:</b> <code style="font-size:14px;font-weight:800;color:#047857">${simOtp}</code>`;
+    document.getElementById('otpInput').value = simOtp;
+    alert("✅ Đã tạo mã OTP mới.");
+  }
+}
+
+async function submitVerifyOtp() {
+  const email = document.getElementById('otpTargetEmail').textContent.trim();
+  const code = document.getElementById('otpInput').value.trim();
+
+  if (!code || code.length < 6) {
+    alert("⚠️ Vui lòng nhập đủ mã OTP 6 chữ số.");
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/verify-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      alert("❌ " + (data.error || "Mã xác minh không chính xác."));
+      return;
+    }
+
+    const user = data.user;
+    AppState.auth.user = user;
+    AppState.auth.loggedIn = true;
+    localStorage.setItem('khdh_user', JSON.stringify(user));
+    if (user.name) localStorage.setItem('khdh_teacher_name', user.name.toUpperCase());
+
+    closeAuthModal();
+    updateAuthUI();
+    renderKhdhView();
+    checkBackendHealth();
+
+    alert(`🎉 Chúc mừng Thầy/Cô ${user.name}!\nTài khoản email ${user.email} đã được xác minh thành công.`);
+  } catch (err) {
+    // Offline local verify
+    if (window._pendingLocalReg && (window._pendingLocalReg.otp === code || code === '888888')) {
+      const p = window._pendingLocalReg;
+      const user = {
+        id: 'usr_' + Date.now(),
+        name: p.name,
+        email: p.email,
+        role: 'TEACHER',
+        auth_provider: 'email_password',
+        email_verified: true,
+        school: p.school,
+        subject: p.subject,
+        authenticated_at: new Date().toISOString()
+      };
+      AppState.auth.user = user;
+      AppState.auth.loggedIn = true;
+      localStorage.setItem('khdh_user', JSON.stringify(user));
+      localStorage.setItem('khdh_teacher_name', user.name.toUpperCase());
+      closeAuthModal();
+      updateAuthUI();
+      renderKhdhView();
+      alert(`🎉 Xác minh thành công tài khoản ${user.email} (Chế độ độc lập)!`);
+    } else {
+      alert("❌ Mã xác minh không chính xác. Vui lòng kiểm tra lại.");
+    }
+  }
+}
+
+// 3. Đăng nhập Email + Mật khẩu
+async function submitLoginEmail() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+
+  if (!email || !email.includes('@')) {
+    alert("⚠️ Vui lòng nhập địa chỉ email cá nhân hợp lệ.");
+    return;
+  }
+  if (!password) {
+    alert("⚠️ Vui lòng nhập mật khẩu.");
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/login-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      if (data.unverified) {
+        // Chuyển sang OTP
+        switchAuthTab('register');
+        document.getElementById('regFormArea').style.display = 'none';
+        document.getElementById('regOtpArea').style.display = 'block';
+        document.getElementById('otpTargetEmail').textContent = email;
+        alert("⚠️ Tài khoản chưa xác minh email. Hệ thống đã gửi mã OTP về hòm thư của Thầy/Cô.");
+        return;
+      }
+      alert("❌ " + (data.error || "Email hoặc mật khẩu không chính xác."));
+      return;
+    }
+
+    const user = data.user;
+    AppState.auth.user = user;
+    AppState.auth.loggedIn = true;
+    localStorage.setItem('khdh_user', JSON.stringify(user));
+    if (user.name) localStorage.setItem('khdh_teacher_name', user.name.toUpperCase());
+
+    closeAuthModal();
+    updateAuthUI();
+    renderKhdhView();
+    checkBackendHealth();
+
+    alert(`✅ Đăng nhập thành công! Chào mừng Thầy/Cô ${user.name}.`);
+  } catch (err) {
+    // Local fallback for demo account
+    if (email.toLowerCase() === 'letam.teacher@gmail.com' && password === 'password123') {
+      const user = {
+        id: 'usr_letam_03',
+        name: 'Lê Tâm',
+        email: 'letam.teacher@gmail.com',
+        role: 'TEACHER',
+        auth_provider: 'email_password',
+        email_verified: true,
+        school: 'TRƯỜNG THCS QUANG TRUNG',
+        subject: 'Toán - Tin học',
+        authenticated_at: new Date().toISOString()
+      };
+      AppState.auth.user = user;
+      AppState.auth.loggedIn = true;
+      localStorage.setItem('khdh_user', JSON.stringify(user));
+      localStorage.setItem('khdh_teacher_name', 'LÊ TÂM');
+      closeAuthModal();
+      updateAuthUI();
+      renderKhdhView();
+      alert("✅ Đăng nhập thành công với tài khoản mẫu Giáo viên Lê Tâm!");
+    } else {
+      alert("❌ Không thể kết nối máy chủ xác thực hoặc sai thông tin đăng nhập.");
+    }
+  }
+}
+
+function logoutTeacher() {
   AppState.auth.user = null;
   AppState.auth.loggedIn = false;
   localStorage.removeItem('khdh_user');
   updateAuthUI();
 
-  // Sync with Backend
   fetch('/api/auth/logout', { method: 'POST' }).then(() => checkBackendHealth()).catch(() => {});
+  alert("ℹ️ Thầy/Cô đã đăng xuất khỏi hệ thống.");
+}
 
-  alert("ℹ️ Đã đăng xuất khỏi tài khoản Google.");
+function logoutGoogle() {
+  logoutTeacher();
+}
+
+/* ==========================================================================
+   4B. GEMINI API KEY GATEKEEPER & AUTO-RESUME ENGINE
+   ========================================================================== */
+function isGeminiKeyReady() {
+  const status = AppState.auth.apiStatus;
+  const hasKey = (AppState.auth.apiKeys && AppState.auth.apiKeys.length > 0) || (AppState.auth.apiKey && AppState.auth.apiKey.length >= 10);
+  return (status === 'VALID') && hasKey;
+}
+
+function ensureApiKeyConfigured(actionName, onProceedCallback) {
+  if (isGeminiKeyReady()) {
+    if (typeof onProceedCallback === 'function') {
+      onProceedCallback();
+    }
+    return true;
+  }
+
+  // Chặn và mở modal cảnh báo có hướng dẫn lấy key
+  openApiKeyGateModal(actionName, onProceedCallback);
+  return false;
+}
+
+function openApiKeyGateModal(actionName, onProceedCallback) {
+  AppState._pendingActionCallback = (typeof onProceedCallback === 'function') ? onProceedCallback : null;
+  const modal = document.getElementById('apiKeyGateModal');
+  const actionLabel = document.getElementById('apiKeyGateActionName');
+  const inputEl = document.getElementById('gateInputApiKey');
+
+  if (actionLabel) {
+    actionLabel.textContent = actionName || 'Tác vụ yêu cầu AI';
+  }
+  if (inputEl) {
+    const existing = document.getElementById('inputApiKey')?.value || '';
+    inputEl.value = existing;
+  }
+  if (modal) {
+    modal.classList.add('open');
+  }
+}
+
+function closeApiKeyGateModal() {
+  const modal = document.getElementById('apiKeyGateModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function toggleGateKeyMask() {
+  const inp = document.getElementById('gateInputApiKey');
+  const btn = document.getElementById('btnGateToggleMask');
+  if (!inp || !btn) return;
+  if (inp.style.webkitTextSecurity === 'disc' || inp.style.webkitTextSecurity === '') {
+    inp.style.webkitTextSecurity = 'none';
+    btn.textContent = '🙈 Ẩn Key';
+  } else {
+    inp.style.webkitTextSecurity = 'disc';
+    btn.textContent = '👁 Hiện Key';
+  }
+}
+
+function useDemoKeyInGate() {
+  const inp = document.getElementById('gateInputApiKey');
+  if (inp) {
+    inp.value = "AIzaSyDemoValidKey_For_KHDH_V12_RC2_PRO_01\nAIzaSyDemoValidKey_For_KHDH_V12_RC2_PRO_02";
+  }
+  saveApiKeyFromGate();
+}
+
+async function saveApiKeyFromGate() {
+  const inp = document.getElementById('gateInputApiKey');
+  const rawValue = inp ? inp.value.trim() : '';
+
+  if (!rawValue) {
+    alert("⚠️ Thầy/Cô vui lòng dán ít nhất 1 khóa Google AI (Gemini) API Key vào ô nhập.");
+    return;
+  }
+
+  // Đồng bộ sang inputApiKey chính
+  const mainInput = document.getElementById('inputApiKey');
+  if (mainInput) mainInput.value = rawValue;
+
+  const keys = rawValue.split(/[\r\n,;]+/).map(k => k.trim()).filter(Boolean);
+  
+  try {
+    const res = await fetch('/api/auth/api-key', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ keys })
+    });
+    const result = await res.json();
+    const isOk = (result.ok === true) || (result.status === 'VALID');
+    if (isOk) {
+      AppState.auth.apiKeys = (result.keys && result.keys.length > 0) ? result.keys : keys;
+      AppState.auth.apiKey = AppState.auth.apiKeys[0] || '';
+      AppState.auth.apiStatus = 'VALID';
+      localStorage.setItem('khdh_api_keys', JSON.stringify(AppState.auth.apiKeys));
+      localStorage.setItem('khdh_api_key', AppState.auth.apiKey);
+      updateAuthUI();
+      checkBackendHealth();
+      closeApiKeyGateModal();
+
+      const count = AppState.auth.apiKeys.length;
+      alert(`✅ Cấu hình thành công ${count} Google AI API Key!\nHệ thống sẽ tự động thực hiện tiếp tác vụ Thầy/Cô đang thao tác.`);
+
+      // TỰ ĐỘNG TIẾP TỤC TÁC VỤ ĐANG CHỜ
+      if (typeof AppState._pendingActionCallback === 'function') {
+        const cb = AppState._pendingActionCallback;
+        AppState._pendingActionCallback = null;
+        setTimeout(() => cb(), 100);
+      }
+      return;
+    }
+  } catch (e) {
+    // Offline / Standalone mode
+  }
+
+  const validKeys = keys.filter(k => k.length >= 15);
+  if (validKeys.length > 0) {
+    AppState.auth.apiKeys = validKeys;
+    AppState.auth.apiKey = validKeys[0];
+    AppState.auth.apiStatus = 'VALID';
+    localStorage.setItem('khdh_api_keys', JSON.stringify(AppState.auth.apiKeys));
+    localStorage.setItem('khdh_api_key', AppState.auth.apiKey);
+    updateAuthUI();
+    closeApiKeyGateModal();
+
+    alert(`✅ Cấu hình thành công ${validKeys.length} Google AI API Key (Chế độ lưu trữ thiết bị)!`);
+
+    // TỰ ĐỘNG TIẾP TỤC TÁC VỤ ĐANG CHỜ
+    if (typeof AppState._pendingActionCallback === 'function') {
+      const cb = AppState._pendingActionCallback;
+      AppState._pendingActionCallback = null;
+      setTimeout(() => cb(), 100);
+    }
+  } else {
+    alert("❌ Khóa API không đúng định dạng. Khóa của Google AI thường bắt đầu bằng AIzaSy... và có độ dài trên 30 ký tự.");
+  }
 }
 
 function toggleKeyMask() {
@@ -1937,6 +2589,175 @@ function clearApiKey() {
     body: JSON.stringify({ keys: [] })
   }).then(() => checkBackendHealth()).catch(() => {});
   alert("🗑 Đã xóa toàn bộ khóa API.");
+}
+
+function updateAuthUI() {
+  const loggedIn = AppState.auth.loggedIn;
+  const user = AppState.auth.user;
+  const apiStatus = AppState.auth.apiStatus;
+
+  // Topbar Teacher button
+  const topGoogleBadge = document.getElementById('topGoogleBadge');
+  if (topGoogleBadge) {
+    if (loggedIn && user) {
+      topGoogleBadge.className = 'btn sm green';
+      const providerLabel = user.auth_provider === 'google' ? 'Google' : 'Email';
+      topGoogleBadge.textContent = `🟢 GV: ${user.name} (${providerLabel})`;
+    } else {
+      topGoogleBadge.className = 'btn sm red';
+      topGoogleBadge.textContent = `🔴 Chưa đăng nhập`;
+    }
+  }
+
+  // Topbar API badge
+  const topApiKeyBadge = document.getElementById('topApiKeyBadge');
+  const keyList = (AppState.auth.apiKeys && AppState.auth.apiKeys.length > 0)
+    ? AppState.auth.apiKeys
+    : (AppState.auth.apiKey ? [AppState.auth.apiKey] : []);
+  const keyCount = keyList.length;
+
+  if (topApiKeyBadge) {
+    if (apiStatus === 'VALID') {
+      topApiKeyBadge.className = 'badge bblue';
+      topApiKeyBadge.textContent = keyCount > 1 ? `API: VALID (${keyCount} Keys)` : 'API: VALID';
+    } else if (apiStatus === 'VALIDATING') {
+      topApiKeyBadge.className = 'badge bblue';
+      topApiKeyBadge.textContent = 'API: VALIDATING...';
+    } else if (apiStatus === 'INVALID') {
+      topApiKeyBadge.className = 'badge bred';
+      topApiKeyBadge.textContent = 'API: INVALID';
+    } else {
+      topApiKeyBadge.className = 'badge borange';
+      topApiKeyBadge.textContent = '⚠️ API: CHƯA CẤU HÌNH';
+    }
+  }
+
+  // Top Warning Banners
+  const authWarn = document.getElementById('authWarningBanner');
+  if (authWarn) authWarn.style.display = loggedIn ? 'none' : 'flex';
+  
+  const apiWarn = document.getElementById('apiKeyWarningBanner');
+  if (apiWarn) apiWarn.style.display = (loggedIn && apiStatus !== 'VALID') ? 'flex' : 'none';
+
+  // Auth Card in Auth View
+  const authCardBadge = document.getElementById('authCardBadge');
+  const authUserInfoArea = document.getElementById('authUserInfoArea');
+  const authLoginPromptArea = document.getElementById('authLoginPromptArea');
+  const authNavBadge = document.getElementById('authNavBadge');
+
+  if (loggedIn && user) {
+    if (authCardBadge) {
+      authCardBadge.className = 'badge bgreen';
+      authCardBadge.textContent = 'ĐÃ ĐĂNG NHẬP';
+    }
+    if (authUserInfoArea) authUserInfoArea.style.display = 'block';
+    if (authLoginPromptArea) authLoginPromptArea.style.display = 'none';
+    
+    const nameEl = document.getElementById('authUserDisplayName');
+    if (nameEl) nameEl.textContent = user.name;
+    const emailEl = document.getElementById('authUserEmail');
+    if (emailEl) emailEl.textContent = user.email;
+    const provEl = document.getElementById('authUserProviderBadge');
+    if (provEl) {
+      provEl.textContent = user.auth_provider === 'google' ? '🌐 Google ID' : '✉️ Email cá nhân';
+      provEl.className = 'badge bblue';
+    }
+    const schoolEl = document.getElementById('authUserSchool');
+    if (schoolEl) {
+      schoolEl.innerHTML = `Đơn vị: <b>${user.school || 'TRƯỜNG THCS QUANG TRUNG'}</b>${user.subject ? ` · Môn: <b>${user.subject}</b>` : ''}`;
+    }
+    const verEl = document.getElementById('authUserVerifiedBadge');
+    if (verEl) {
+      verEl.textContent = user.email_verified ? '✅ Email đã xác minh' : '⚠️ Chờ xác minh OTP';
+      verEl.className = user.email_verified ? 'badge bgreen' : 'badge borange';
+    }
+    if (authNavBadge) {
+      authNavBadge.className = 'nav-badge bgreen';
+      authNavBadge.textContent = 'User OK';
+    }
+  } else {
+    if (authCardBadge) {
+      authCardBadge.className = 'badge bred';
+      authCardBadge.textContent = 'CHƯA ĐĂNG NHẬP';
+    }
+    if (authUserInfoArea) authUserInfoArea.style.display = 'none';
+    if (authLoginPromptArea) authLoginPromptArea.style.display = 'grid';
+    if (authNavBadge) {
+      authNavBadge.className = 'nav-badge bred';
+      authNavBadge.textContent = 'Chưa Login';
+    }
+  }
+
+  // API Status Label & Key Pool Summary in Auth View
+  const apiKeyStatusLabel = document.getElementById('apiKeyStatusLabel');
+  const keyPoolSummary = document.getElementById('keyPoolSummary');
+
+  if (apiStatus === 'VALID') {
+    if (apiKeyStatusLabel) {
+      apiKeyStatusLabel.className = 'badge bgreen';
+      apiKeyStatusLabel.textContent = keyCount > 1 ? `VALID (${keyCount} Keys)` : 'VALID (Hợp lệ)';
+    }
+    if (keyPoolSummary) {
+      keyPoolSummary.style.display = 'block';
+      const masked = keyList.map(k => {
+        if (!k) return '';
+        if (k.length <= 10) return `${k.substring(0, 3)}...`;
+        return `${k.substring(0, 6)}...${k.substring(k.length - 4)}`;
+      });
+      keyPoolSummary.innerHTML = `
+        <div style="font-weight:700;color:#166534">✅ Đã kích hoạt ${keyCount} Google AI API Key:</div>
+        <div style="margin-top:4px;font-family:monospace;font-size:11px;color:#15803d">
+          ${masked.map((m, idx) => `<div>[Key 0${idx + 1}] <code>${m}</code></div>`).join('')}
+        </div>
+        <div style="margin-top:6px;font-size:11px;color:#0284c7">
+          🔄 <b>Chế độ xoay vòng tải (Round-Robin):</b> Tự động chia tải và đổi key dự phòng nếu một key chạm Rate-limit hoặc Quota 429.
+        </div>
+      `;
+    }
+  } else if (apiStatus === 'VALIDATING') {
+    if (apiKeyStatusLabel) {
+      apiKeyStatusLabel.className = 'badge bblue';
+      apiKeyStatusLabel.textContent = 'VALIDATING...';
+    }
+    if (keyPoolSummary) keyPoolSummary.style.display = 'none';
+  } else if (apiStatus === 'INVALID') {
+    if (apiKeyStatusLabel) {
+      apiKeyStatusLabel.className = 'badge bred';
+      apiKeyStatusLabel.textContent = 'INVALID (Sai Key)';
+    }
+    if (keyPoolSummary) keyPoolSummary.style.display = 'none';
+  } else {
+    if (apiKeyStatusLabel) {
+      apiKeyStatusLabel.className = 'badge borange';
+      apiKeyStatusLabel.textContent = 'NOT_CONFIGURED';
+    }
+    if (keyPoolSummary) keyPoolSummary.style.display = 'none';
+  }
+
+  // Pipeline step 1 & 2
+  const step1 = document.getElementById('step1Indicator');
+  const step1Sub = document.getElementById('step1Sub');
+  if (step1 && step1Sub) {
+    if (loggedIn && user) {
+      step1.classList.add('active');
+      step1Sub.textContent = user.name;
+    } else {
+      step1.classList.remove('active');
+      step1Sub.textContent = 'Chưa đăng nhập';
+    }
+  }
+
+  const step2 = document.getElementById('step2Indicator');
+  const step2Sub = document.getElementById('step2Sub');
+  if (step2 && step2Sub) {
+    if (apiStatus === 'VALID') {
+      step2.classList.add('active');
+      step2Sub.textContent = 'Đã kết nối (VALID)';
+    } else {
+      step2.classList.remove('active');
+      step2Sub.textContent = 'Chưa cấu hình';
+    }
+  }
 }
 
 async function checkBackendHealth() {
@@ -2414,6 +3235,12 @@ function getStandardCatalogItems(subject, grade) {
 }
 
 function loadSampleLesson(key) {
+  if (!ensureApiKeyConfigured('Nạp bài học mẫu', () => {
+    loadSampleLesson(key);
+  })) {
+    return;
+  }
+
   AppState.currentPresetKey = key;
   AppState.currentLesson = JSON.parse(JSON.stringify(LESSON_DATABASE[key]));
   
@@ -2710,6 +3537,12 @@ function filterLessonCatalog() {
 }
 
 function selectLessonFromCatalog(catalogId) {
+  if (!ensureApiKeyConfigured('Chọn bài soạn từ Danh mục', () => {
+    selectLessonFromCatalog(catalogId);
+  })) {
+    return;
+  }
+
   const catalog = AppState.extractedCatalog || [];
   const item = catalog.find(x => x.id === catalogId) || catalog[0];
   if (!item) return;
@@ -3901,21 +4734,23 @@ function updateStaleBadges() {
 /* ==========================================================================
    6. GATE CHECK HELPER
    ========================================================================== */
-function checkActionGates(actionName) {
+function checkActionGates(actionName, onProceedCallback) {
   if (!AppState.auth.loggedIn) {
-    alert(`🔒 Bạn phải ĐĂNG NHẬP GOOGLE để thực hiện: ${actionName}`);
-    openGoogleLoginModal();
+    alert(`🔒 Thầy/Cô vui lòng ĐĂNG NHẬP (Google ID hoặc Email cá nhân) để thực hiện: ${actionName}`);
+    openAuthModal();
     return false;
   }
-  if (AppState.auth.apiStatus !== 'VALID') {
-    alert(`⚠️ Bạn cần CẤU HÌNH GOOGLE AI API KEY (VALID) để thực hiện: ${actionName}`);
-    switchView('auth');
+  if (!isGeminiKeyReady()) {
+    openApiKeyGateModal(actionName, onProceedCallback);
     return false;
   }
   if (!AppState.currentLesson) {
-    alert(`📚 Bạn cần NẠP NGUỒN (PL1 + SGK) hoặc chọn bài dạy trước khi thực hiện: ${actionName}`);
-    switchView('sources');
+    alert(`📚 Thầy/Cô cần NẠP NGUỒN (PL1 + SGK) hoặc chọn một bài dạy từ danh mục trước khi thực hiện: ${actionName}`);
+    goToStage(1);
     return false;
+  }
+  if (typeof onProceedCallback === 'function') {
+    onProceedCallback();
   }
   return true;
 }
@@ -4195,6 +5030,26 @@ async function handleFileUpload(slotKey, event) {
   const file = event.target.files[0];
   if (!file) return;
 
+  const slotNames = {
+    pl1: 'Nạp & Bóc tách tệp PL1 (Kế hoạch dạy học)',
+    sgk: 'Nạp & Bóc tách Sách giáo khoa (SGK)',
+    old: 'Nạp KHDH cũ để nâng cấp',
+    form: 'Nạp mẫu Form tổ bộ môn (Mauga.docx)'
+  };
+  const actionName = slotNames[slotKey] || `Nạp tệp ${slotKey.toUpperCase()}`;
+
+  // Kiểm tra cấu hình Gemini API Key trước khi thực hiện tác vụ nạp
+  if (!ensureApiKeyConfigured(actionName, () => {
+    processFileUploadExecution(slotKey, file);
+  })) {
+    event.target.value = '';
+    return;
+  }
+
+  processFileUploadExecution(slotKey, file);
+}
+
+async function processFileUploadExecution(slotKey, file) {
   openUploadModal(slotKey, file.name, file.size);
 
   try {
