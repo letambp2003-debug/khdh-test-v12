@@ -81,6 +81,7 @@ LESSON_RUNTIME:
 > 3. **Dòng môn học & chương:** In nghiêng, căn giữa (`Môn học: [Môn] - Lớp: [Lớp] ([Chương])`).
 > 4. **Dòng thời lượng & PPCT:** In nghiêng, căn giữa (`(Thời gian thực hiện: [Số tiết] tiết - Tiết PPCT: [PPCT])`).
 > 5. **Không có tiêu ngữ Quốc hiệu:** Mẫu bài dạy tinh gọn, trực diện, chuyên nghiệp.
+> 6. **TÍNH ĐỘNG CỦA HEADER:** Header trên chỉ là form mẫu cấu trúc. MỌI CHỈ SỐ LIÊN QUAN ĐẾN BÀI HỌC (Tên trường, Tổ chuyên môn, Tên GV, Tên bài, Môn học, Khối lớp, Chương/Chủ đề, Thời gian thực hiện, Tiết PPCT, Tuần) PHẢI THAY ĐỔI LINH HOẠT PHỤ THUỘC 100% VÀO TÀI LIỆU `PL1_`, `PPCT_` ĐÃ NẠP! Tuyệt đối không gắn cứng bất kỳ thông số nào.
 
 ---
 
@@ -88,55 +89,73 @@ LESSON_RUNTIME:
 
 ## 1. Kiến thức
 
-\- [Danh từ/cụm danh từ + từ khóa của bài học.]  
-\- [Danh từ/cụm danh từ + từ khóa của bài học.]  
-\- [Danh từ/cụm danh từ + từ khóa của bài học.]
+\- [Cụm danh từ + từ khóa cốt lõi của bài học]  
+\- [Cụm danh từ + từ khóa cốt lõi của bài học]  
+\- [Cụm danh từ + từ khóa cốt lõi của bài học]
 
 > **QUY TẮC V12 — KIẾN THỨC**
 >
-> - Viết theo cấu trúc **danh từ/cụm danh từ + từ khóa của bài học**.
-> - Chỉ nêu tên nội dung kiến thức cốt lõi.
-> - Không dùng động từ mô tả hành động của học sinh.
-> - Không chép nguyên YCCĐ.
-> - Không giải thích dài, không định nghĩa dài, không đưa công thức hay ví dụ.
-> - Mỗi ý ngắn gọn, đúng thuật ngữ của nguồn.
+> - Được chuẩn hóa dưới dạng **Cụm danh từ + từ khóa cốt lõi**.
+> - **Tuyệt đối không dùng động từ YCCĐ** như "nhận biết được", "thực hiện được", "nêu được", "giải thích được",...
+> - **Không chép nguyên văn YCCĐ** từ chương trình hay tài liệu.
+> - Không giải thích dài dòng, không định nghĩa, không đưa công thức hay bài tập vào đây.
+> - Mỗi ý ngắn gọn, súc tích, phản ánh đúng kiến thức cốt lõi của bài học.
 
 ### Mẫu đúng
 
 ```text
-- Khái niệm đơn thức.
-- Bậc của đơn thức.
-- Đơn thức đồng dạng.
-- Phép cộng và phép trừ đa thức.
+- Khái niệm và nhận dạng đơn thức.
+- Quy tắc xác định bậc của đơn thức.
+- Quy tắc cộng, trừ các đơn thức đồng dạng.
+- Phép chia đa thức cho đơn thức trong trường hợp chia hết.
 ```
 
 ---
 
 ## 2. Năng lực
 
-\- [Học sinh thực hiện được hành động gì với kiến thức của bài].  
-\- [Học sinh phân tích/lựa chọn/giải quyết/trình bày/trao đổi/sử dụng công cụ/vận dụng... trong nhiệm vụ của bài].
+\- [Hành động quan sát được của học sinh khi làm việc với kiến thức bài học].  
+\- [Hành động quan sát được của học sinh trong trao đổi, giải quyết vấn đề, hợp tác].  
+\- [Chỉ báo Năng lực số / AI tích hợp từ PL1 kèm công cụ và sản phẩm minh chứng].
 
 > **QUY TẮC V12 — NĂNG LỰC**
 >
-> - Không chia thành các tiểu mục `Năng lực chung`, `Năng lực đặc thù`, `Năng lực số/AI`.
-> - Viết trực tiếp bằng **hành động quan sát được của học sinh**.
-> - Ưu tiên các động từ: thực hiện, phân tích, lựa chọn, giải quyết, trình bày, trao đổi, sử dụng công cụ, kiểm chứng, vận dụng...
-> - Mỗi năng lực phải có hoạt động hoặc sản phẩm tương ứng trong phần III.
-> - Nếu nguồn có năng lực số/AI, tích hợp vào câu năng lực phù hợp và triển khai trong hoạt động thực tế; không tạo một mục riêng.
+> - **Mô tả trực tiếp bằng hành động quan sát được của học sinh**, không chia tiểu mục rườm rà.
+> - **KHÔNG GHI CÁC NỘI DUNG CÓ LIÊN QUAN ĐẾN "NĂNG LỰC..."** (Cấm tuyệt đối các nhãn/tiểu mục: `Năng lực chung`, `Năng lực đặc thù`, `Năng lực toán học`, `Năng lực tự chủ và tự học`, `Năng lực giao tiếp và hợp tác`...).
+> - **Chỉ ghi các ý đó dưới dạng gạch đầu dòng (`- ...`)**.
+> - Bắt đầu bằng các động từ hành động cụ thể: Học sinh thực hiện, phân tích, lựa chọn, giải quyết, trình bày, trao đổi, sử dụng công cụ, kiểm chứng, vận dụng...
+> - **Tích hợp chỉ báo Năng lực số / AI từ PL1 kèm công cụ và sản phẩm minh chứng**: Ghi rõ công cụ số/AI sử dụng (Geogebra, Desmos, Gemini, Kahoot, Quizizz, Google Form...) và sản phẩm minh chứng (bài giải số, file xuất kết quả, bảng tính, bài trắc nghiệm tương tác...).
+> - Mỗi gạch đầu dòng năng lực phải có hoạt động hoặc sản phẩm tương ứng trong phần III.
+
+### Mẫu đúng
+
+```text
+- Thực hiện chính xác các bước chia từng hạng tử của đa thức cho đơn thức trong các bài toán đại số.
+- Phân tích và giải thích được điều kiện để một đa thức chia hết cho một đơn thức.
+- Chủ động trao đổi, tranh luận và hỗ trợ bạn trong nhóm khi giải quyết bài toán chia đa thức thực tế.
+- Ứng dụng phần mềm số/AI (Geogebra, Gemini) để kiểm chứng kết quả phép chia đa thức và xuất phiếu kết quả minh chứng số.
+```
 
 ---
 
 ## 3. Phẩm chất
 
-\- **[Tên phẩm chất]:** [Hành vi cụ thể được thể hiện trong bài].  
-\- **[Tên phẩm chất]:** [Hành vi cụ thể].
+\- [Hành vi cụ thể, quan sát được của học sinh trong tiết học].  
+\- [Hành vi cụ thể, quan sát được của học sinh trong làm việc nhóm hoặc tự học].
 
 > **QUY TẮC V12 — PHẨM CHẤT**
 >
-> - Chỉ chọn phẩm chất thực sự được thể hiện trong bài.
-> - Sau tên phẩm chất phải là **hành vi cụ thể, quan sát được**.
-> - Không viết mô tả chung chung, không có minh chứng trong tiến trình.
+> - Gắn liền với **hành vi cụ thể trong tiết học**.
+> - **KHÔNG GHI CÁC NỘI DUNG/NHÃN "Chăm chỉ", "Trung thực", "Trách nhiệm"** mà xuống dòng gạch đầu dòng (`- ...`).
+> - Không dùng khẩu hiệu chung chung; mỗi gạch đầu dòng mô tả chính xác thái độ, hành vi cụ thể của học sinh diễn ra trong lớp học.
+
+### Mẫu đúng
+
+```text
+- Tích cực, chủ động hoàn thành các bài tập chia đa thức trên phiếu học tập cá nhân đúng thời gian quy định.
+- Tự giác nhận xét, đối chiếu kết quả bài làm của bạn với thái độ khách quan, trung thực.
+- Lắng nghe, tôn trọng ý kiến các bạn trong nhóm và có trách nhiệm hoàn thành phần việc được phân công.
+```
 
 ---
 

@@ -2964,12 +2964,18 @@ function switchKhdhTemplateMode(mode) {
 function getKnowledgeKeyPhrases(L) {
   const title = (L.lesson_title || '').toLowerCase();
   
-  if (title.includes('đa thức') || title.includes('đơn thức')) {
+  if (title.includes('chia đa thức')) {
     return [
-      "Khái niệm đơn thức và đơn thức thu gọn.",
-      "Bậc của đơn thức và đa thức nhiều biến.",
-      "Đơn thức đồng dạng và quy tắc thu gọn đa thức.",
-      "Quy tắc thực hiện phép cộng, phép trừ và nhân đa thức nhiều biến."
+      "Quy tắc chia đa thức cho đơn thức trong trường hợp chia hết.",
+      "Kĩ năng chia từng hạng tử của đa thức cho đơn thức và cộng các kết quả.",
+      "Ứng dụng phép chia đa thức vào tìm x, rút gọn biểu thức và bài toán thực tế."
+    ];
+  } else if (title.includes('đa thức') || title.includes('đơn thức')) {
+    return [
+      "Khái niệm đơn thức, đa thức nhiều biến và các hạng tử của đa thức.",
+      "Bậc của đơn thức và quy tắc thu gọn đa thức nhiều biến.",
+      "Quy tắc thực hiện phép cộng, phép trừ và nhân đa thức nhiều biến.",
+      "Tính chất đại số của đa thức và ứng dụng tính giá trị biểu thức."
     ];
   } else if (title.includes('hằng đẳng thức')) {
     return [
@@ -2977,11 +2983,17 @@ function getKnowledgeKeyPhrases(L) {
       "Quy tắc khai triển và rút gọn biểu thức đại số.",
       "Phương pháp phân tích đa thức thành nhân tử dùng hằng đẳng thức."
     ];
+  } else if (title.includes('phân thức')) {
+    return [
+      "Định nghĩa phân thức đại số và điều kiện xác định của phân thức.",
+      "Tính chất cơ bản của phân thức đại số và quy tắc rút gọn phân thức.",
+      "Ứng dụng quy đồng mẫu thức và các phép tính cộng, trừ, nhân, chia phân thức."
+    ];
   } else if (title.includes('tốc độ')) {
     return [
       "Ý nghĩa vật lí của tốc độ chuyển động.",
-      "Công thức tính tốc độ $v = s/t$ và các đơn vị đo tốc độ chuẩn.",
-      "Thiết bị và phương pháp đo tốc độ bằng cổng quang điện."
+      "Công thức tính tốc độ $v = s/t$ và các đơn vị đo tốc độ chuẩn ($m/s, km/h$).",
+      "Thiết bị và phương pháp đo tốc độ bằng cổng quang điện trong phòng thực hành."
     ];
   } else if (title.includes('tìm kiếm')) {
     return [
@@ -2997,31 +3009,59 @@ function getKnowledgeKeyPhrases(L) {
     ];
   }
 
-  return (L.yccd || []).map(y => {
+  // Tự động chuyển đổi mọi YCCĐ từ PL1 thành Cụm danh từ + từ khóa cốt lõi (Không dùng động từ YCCĐ)
+  return (L.yccd || []).map((y, idx) => {
     let t = y.text.trim();
-    t = t.replace(/^(học sinh\s+)?(nhận biết|nêu được|chỉ ra|mô tả|phát biểu|thông hiểu|giải thích|phân biệt|vận dụng|tính toán|thực hành|tìm hiểu|sử dụng|thực hiện)(\s+được|\s+các|\s+về)?\s*/i, '');
-    t = t.charAt(0).toUpperCase() + t.slice(1);
+    // Bóc tách toàn bộ động từ hành vi của YCCĐ
+    t = t.replace(/^(học sinh\s+)?(nhận biết|nêu|chỉ ra|mô tả|phát biểu|thông hiểu|giải thích|phân biệt|vận dụng|tính toán|tính|thực hành|thực hiện|tìm hiểu|tìm|sử dụng|áp dụng|nhận dạng|hiểu|trình bày|khám phá|xác định|chứng minh|vẽ|liệt kê)(\s+được|\s+thành thạo|\s+các|\s+về|\s+chính xác|\s+đúng)?\s*/i, '');
+    t = t.replace(/\s+được\b/gi, '');
+    t = t.replace(/\s+thành thạo\b/gi, '');
+
+    // Đảm bảo bắt đầu bằng cụm danh từ cốt lõi
+    const startsWithNoun = /^(khái niệm|định nghĩa|quy tắc|tính chất|công thức|phương pháp|kĩ năng|đặc điểm|ý nghĩa|ứng dụng|dấu hiệu|cấu tạo|nguyên lí|thuật toán|mô hình|bậc của|phép tính)/i.test(t);
+    if (!startsWithNoun) {
+      let prefix = 'Khái niệm và quy tắc ';
+      if (y.level === 'THONG_HIEU' || idx === 1) prefix = 'Phương pháp và kĩ năng ';
+      else if (y.level === 'VAN_DUNG' || idx >= 2) prefix = 'Ứng dụng giải quyết ';
+      t = prefix + t.charAt(0).toLowerCase() + t.slice(1);
+    } else {
+      t = t.charAt(0).toUpperCase() + t.slice(1);
+    }
     if (!t.endsWith('.')) t += '.';
     return t;
   });
 }
 
 function getDirectCompetencies(L) {
-  const nls = L.digital_competency_indicators || [];
-  const nlsTool = nls.length > 0 ? nls[0].tool : 'công cụ số / mô phỏng';
-  return [
-    `Học sinh thực hiện nhận dạng, phát biểu và giải thích chính xác các định nghĩa, quy tắc và tính chất cốt lõi của bài học ${L.lesson_title}.`,
-    `Học sinh phân tích, trình bày và hợp tác nhóm tích cực để hoàn thành các bài tập và nhiệm vụ rèn luyện trên phiếu học tập.`,
-    `Học sinh sử dụng thành thạo công cụ số (${nlsTool}) để tra cứu dữ liệu, kiểm chứng kết quả và mô hình hóa bài học trực quan.`,
-    `Học sinh vận dụng kiến thức bài học ${L.lesson_title} vào giải quyết bài toán và tình huống thực tiễn đời sống.`
+  // Mô tả trực tiếp bằng hành động quan sát được của học sinh, không ghi các nội dung có liên quan đến "Năng lực...", dạng gạch đầu dòng
+  const list = [
+    `Học sinh nhận diện, mô tả và áp dụng chuẩn xác các định nghĩa, quy tắc và công thức cốt lõi của bài học ${L.lesson_title}.`,
+    `Học sinh chủ động thảo luận nhóm, giải thích các bước thực hiện và tích cực hợp tác hoàn thành phiếu học tập.`,
+    `Học sinh tự tin trình bày kết quả, phản biện ý kiến và vận dụng linh hoạt kiến thức bài học vào giải quyết các bài toán, tình huống thực tế.`
   ];
+
+  const nlsList = L.digital_competency_indicators || [];
+  if (nlsList.length > 0) {
+    nlsList.forEach(nls => {
+      const tool = nls.tool || 'công cụ số / phần mềm học tập';
+      const action = nls.student_action || `tra cứu và đối chiếu ngữ liệu bài ${L.lesson_title}`;
+      const prod = nls.product || 'kết quả thực hành số';
+      const ev = nls.evidence || 'phiếu ghi nhận học tập';
+      list.push(`Học sinh sử dụng ${tool} để ${action}, hoàn thành ${prod} (minh chứng: ${ev}).`);
+    });
+  } else {
+    list.push(`Học sinh sử dụng công cụ số hoặc máy tính cầm tay để tra cứu, kiểm chứng kết quả và mô phỏng trực quan kiến thức SGK trang ${L.textbook?.pages || 'SGK'}.`);
+  }
+
+  return list;
 }
 
 function getQualities(L) {
+  // Gắn liền với hành vi cụ thể trong tiết học (không ghi các nhãn Chăm chỉ, Trung thực, Trách nhiệm mà xuống dòng gạch đầu dòng)
   return [
-    `**Chăm chỉ:** Tích cực tìm hiểu nội dung bài học, có tinh thần vượt khó trong giải quyết các nhiệm vụ và bài tập.`,
-    `**Trung thực:** Tôn trọng số liệu thực tế, khách quan và trung thực trong báo cáo kết quả và tự đánh giá bài làm.`,
-    `**Trách nhiệm:** Tự giác hoàn thành phần việc được phân công trong nhóm, có ý thức bảo quản học cụ và thiết bị học tập.`
+    `Tích cực, chủ động tìm tòi kiến thức mới, kiên trì vượt khó trong quá trình giải quyết các nhiệm vụ và bài tập học tập.`,
+    `Khách quan, trung thực trong trao đổi, thảo luận nhóm và tự giác báo cáo đúng kết quả bài làm của bản thân cũng như của nhóm.`,
+    `Có ý thức trách nhiệm cao đối với phần việc được giao trong nhóm, sẵn sàng hỗ trợ bạn học và giữ gìn, bảo quản thiết bị học tập.`
   ];
 }
 
@@ -3205,8 +3245,25 @@ function updateLessonTitleHeader(value) {
 
 function renderKhdhHeader(L) {
   const school = AppState.teacherInfo?.school || "TRƯỜNG THCS QUANG TRUNG";
-  const department = AppState.teacherInfo?.department || "TỔ: TOÁN - TIN HỌC";
   const teacherName = AppState.teacherInfo?.teacherName || "LÊ TÂM";
+
+  // Tổ bộ môn tự động đồng bộ theo Môn học từ PL1 nếu chưa lưu chỉnh sửa
+  let defaultDept = "TỔ: TOÁN - TIN HỌC";
+  if (L.subject) {
+    const s = L.subject.toLowerCase();
+    if (s.includes('khoa học') || s.includes('khtn') || s.includes('lí') || s.includes('hóa') || s.includes('sinh')) {
+      defaultDept = "TỔ: KHOA HỌC TỰ NHIÊN";
+    } else if (s.includes('văn') || s.includes('sử') || s.includes('địa')) {
+      defaultDept = "TỔ: KHOA HỌC XÃ HỘI";
+    } else if (s.includes('anh') || s.includes('tiếng anh')) {
+      defaultDept = "TỔ: NGOẠI NGỮ";
+    } else if (s.includes('tin')) {
+      defaultDept = "TỔ: TIN HỌC";
+    } else if (s.includes('công nghệ')) {
+      defaultDept = "TỔ: CÔNG NGHỆ";
+    }
+  }
+  const department = AppState.teacherInfo?.department || defaultDept;
 
   // Title formatting: e.g. "BÀI 5. PHÉP CHIA ĐA THỨC CHO ĐƠN THỨC"
   let rawTitle = (L.lesson_title || "BÀI HỌC").trim();
@@ -3227,7 +3284,7 @@ function renderKhdhHeader(L) {
   // Subtitle 2: "(Thời gian thực hiện: 01 tiết - Tiết PPCT: 11)"
   const periods = L.total_periods || 1;
   const periodStr = periods < 10 ? `0${periods} tiết` : `${periods} tiết`;
-  const ppctStr = (L.ppct && L.ppct.length > 0) ? L.ppct.join(', ') : '11';
+  const ppctStr = (L.ppct && L.ppct.length > 0) ? L.ppct.join(', ') : '01';
   const subtitle2 = `(Thời gian thực hiện: ${periodStr} - Tiết PPCT: ${ppctStr})`;
 
   return `
@@ -3332,23 +3389,23 @@ function renderKhdhView() {
           I. MỤC TIÊU
         </h4>
         <div style="font-size:13px;line-height:1.8">
-          <div style="margin-bottom:10px">
+          <div style="margin-bottom:12px">
             <b>1. Kiến thức:</b>
-            <ul style="margin:4px 0 8px 20px;padding:0">
-              ${knowledgePhrases.map(k => `<li>${k}</li>`).join('')}
-            </ul>
+            <div style="margin:4px 0 8px 16px;line-height:1.7">
+              ${knowledgePhrases.map(k => `<div>- ${k}</div>`).join('')}
+            </div>
           </div>
-          <div style="margin-bottom:10px">
+          <div style="margin-bottom:12px">
             <b>2. Năng lực:</b>
-            <ul style="margin:4px 0 8px 20px;padding:0">
-              ${directCompetencies.map(c => `<li>${c}</li>`).join('')}
-            </ul>
+            <div style="margin:4px 0 8px 16px;line-height:1.7">
+              ${directCompetencies.map(c => `<div>- ${c}</div>`).join('')}
+            </div>
           </div>
           <div>
             <b>3. Phẩm chất:</b>
-            <ul style="margin:4px 0 8px 20px;padding:0">
-              ${qualities.map(q => `<li>${q}</li>`).join('')}
-            </ul>
+            <div style="margin:4px 0 8px 16px;line-height:1.7">
+              ${qualities.map(q => `<div>- ${q}</div>`).join('')}
+            </div>
           </div>
         </div>
       </div>
@@ -3453,26 +3510,22 @@ function renderKhdhView() {
         I. MỤC TIÊU DẠY HỌC
       </h4>
       <div style="font-size:13px;line-height:1.8">
-        <div>
-          <b>1. Về kiến thức:</b>
-          <ul style="margin:4px 0 8px 20px;padding:0">
-            ${L.yccd.map(y => `<li>${y.text} <i>(Mức độ: ${y.level})</i>.</li>`).join('')}
-          </ul>
-        </div>
-        <div>
-          <b>2. Về năng lực:</b>
-          <div style="margin-left:14px">
-            <div>● <b>Năng lực chung:</b> Tự chủ, tự học; Giao tiếp và hợp tác; Giải quyết vấn đề và sáng tạo.</div>
-            <div>● <b>Năng lực đặc thù:</b> Tư duy logic, mô hình hóa toán học/khoa học, sử dụng công cụ học tập.</div>
-            <div>● <b>Năng lực số (Ứng dụng AI):</b> ${L.digital_competency_indicators.map(n => n.indicator + ' (' + n.tool + ')').join('; ')}.</div>
+        <div style="margin-bottom:12px">
+          <b>1. Kiến thức:</b>
+          <div style="margin:4px 0 8px 16px;line-height:1.7">
+            ${getKnowledgeKeyPhrases(L).map(k => `<div>- ${k}</div>`).join('')}
           </div>
         </div>
-        <div style="margin-top:6px">
-          <b>3. Về phẩm chất:</b>
-          <div style="margin-left:14px">
-            <div>● <b>Chăm chỉ:</b> Tích cực tìm hiểu bài học, có tinh thần vượt khó.</div>
-            <div>● <b>Trung thực:</b> Tôn trọng số liệu thực tế, khách quan.</div>
-            <div>● <b>Trách nhiệm:</b> Hoàn thành phần việc được phân công.</div>
+        <div style="margin-bottom:12px">
+          <b>2. Năng lực:</b>
+          <div style="margin:4px 0 8px 16px;line-height:1.7">
+            ${getDirectCompetencies(L).map(c => `<div>- ${c}</div>`).join('')}
+          </div>
+        </div>
+        <div>
+          <b>3. Phẩm chất:</b>
+          <div style="margin:4px 0 8px 16px;line-height:1.7">
+            ${getQualities(L).map(q => `<div>- ${q}</div>`).join('')}
           </div>
         </div>
       </div>
