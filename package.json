@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node server/index.ts",
     "start": "node dist/server/index.js",
-    "build": "tsc",
+    "build": "tsc && node scripts/prepare-public.js",
     "typecheck": "tsc --noEmit",
     "lint": "node scripts/lint.js",
     "test": "npm run test:unit && npm run test:integration && npm run test:e2e",

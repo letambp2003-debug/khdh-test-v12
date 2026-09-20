@@ -37,3 +37,5 @@ if (require.main === module) {
     console.log(`[SERVER] 🔍 Health-check endpoint: /api/health/connections`);
   });
 }
+
+export default app;

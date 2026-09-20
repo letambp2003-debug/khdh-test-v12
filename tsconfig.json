@@ -13,7 +13,8 @@
   },
   "include": [
     "server/**/*",
-    "tests/**/*"
+    "tests/**/*",
+    "api/**/*"
   ],
   "exclude": [
     "node_modules",

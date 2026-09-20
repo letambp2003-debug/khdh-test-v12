@@ -88,6 +88,13 @@ export class Database {
         const raw = fs.readFileSync(this.dbPath, 'utf8');
         return JSON.parse(raw);
       }
+      const seedPath = path.resolve(process.cwd(), 'storage/database.json');
+      if (fs.existsSync(seedPath)) {
+        const seedRaw = fs.readFileSync(seedPath, 'utf8');
+        const parsed = JSON.parse(seedRaw);
+        this.saveImmediate(parsed);
+        return parsed;
+      }
     } catch (err) {
       console.warn('[DB] Lỗi đọc cơ sở dữ liệu hiện hữu, khởi tạo lại schema mới:', err);
     }
