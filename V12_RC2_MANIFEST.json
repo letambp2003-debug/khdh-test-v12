@@ -1,0 +1,28 @@
+{
+  "name": "KHDH AUTO V12-RC2 WEBAPP PRO",
+  "release": "RC2",
+  "source_slots": [
+    "PL1_DOCX",
+    "SGK_PDF",
+    "OLD_KHDH_OPTIONAL",
+    "DEPARTMENT_FORM_OPTIONAL"
+  ],
+  "artifact_hub": [
+    "SLIDE",
+    "WORKSHEET",
+    "INTERACTIVE_GAME",
+    "AI_VIDEO"
+  ],
+  "forbidden_game_platforms": [
+    "Quizizz",
+    "Kahoot"
+  ],
+  "video_scene_default_seconds": 8,
+  "video_dialogue_max_words": 24,
+  "video_styles_minimum": 15,
+  "google_login_required": true,
+  "google_ai_api_key_required_for_ai_actions": true,
+  "delta_regeneration": true,
+  "persistent_teacher_preferences": true,
+  "nls_activity_mapping_required": true
+}

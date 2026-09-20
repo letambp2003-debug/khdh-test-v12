@@ -1,0 +1,673 @@
+{
+  "projects": {},
+  "lessons": {
+    "TEST_QA_01": {
+      "lesson_id": "TEST_QA_01",
+      "subject": "Toán",
+      "grade": 8,
+      "chapter": "Chương I",
+      "lesson_title": "Bài Test QA",
+      "total_periods": 2,
+      "ppct": [
+        1,
+        2
+      ],
+      "weeks": [
+        1
+      ],
+      "yccd": [
+        {
+          "id": "YCCD-01",
+          "text": "Nhận biết khái niệm",
+          "level": "NHAN_BIET"
+        }
+      ],
+      "digital_competency_indicators": [
+        {
+          "id": "NLS-01",
+          "indicator": "Chỉ báo số 1",
+          "target_activity": "act_01",
+          "tool": "AI",
+          "student_action": "Thực hành",
+          "product": "Bảng đối chiếu",
+          "evidence": "Phiếu học tập"
+        }
+      ],
+      "subject_profile": "MATH",
+      "lesson_type": "NEW_KNOWLEDGE",
+      "form_mode": "DEFAULT_V12_FORM_MODE",
+      "textbook": {
+        "book": "SGK Toán 8",
+        "pages": "1-5",
+        "assets": []
+      },
+      "activities": [
+        {
+          "id": "act_01",
+          "code": "B1",
+          "period": 1,
+          "title": "Khám phá",
+          "time": 20,
+          "yccd_refs": [
+            "YCCD-01"
+          ],
+          "nls_refs": [
+            "NLS-01"
+          ],
+          "student_task": "Nhiệm vụ",
+          "teacher_actions": "Hướng dẫn",
+          "product": "Sản phẩm",
+          "evidence": "Minh chứng",
+          "digital_tool": "AI",
+          "source_refs": [
+            "SGK tr.1"
+          ],
+          "locked": false
+        }
+      ],
+      "created_at": "2026-09-20T10:27:26.203Z",
+      "updated_at": "2026-09-20T10:27:26.203Z",
+      "version": 2
+    },
+    "MATH8_INTEGRATION_01": {
+      "lesson_id": "MATH8_INTEGRATION_01",
+      "subject": "Toán",
+      "grade": 8,
+      "chapter": "Chương I",
+      "lesson_title": "Đa thức",
+      "total_periods": 2,
+      "ppct": [
+        5,
+        6
+      ],
+      "weeks": [
+        3
+      ],
+      "yccd": [
+        {
+          "id": "YCCD-01",
+          "text": "Nhận biết đa thức",
+          "level": "NHAN_BIET"
+        }
+      ],
+      "digital_competency_indicators": [
+        {
+          "id": "NLS-01",
+          "indicator": "Tra cứu đối chiếu SGK",
+          "target_activity": "act_b2",
+          "tool": "AI Assistant",
+          "student_action": "Nhập biểu thức và kiểm chứng",
+          "product": "Phiếu đối chiếu",
+          "evidence": "Biên bản có chữ ký"
+        }
+      ],
+      "subject_profile": "MATH",
+      "lesson_type": "NEW_KNOWLEDGE",
+      "form_mode": "DEFAULT_V12_FORM_MODE",
+      "textbook": {
+        "book": "SGK Toán 8",
+        "pages": "11–14",
+        "assets": []
+      },
+      "activities": [
+        {
+          "id": "act_b2",
+          "code": "B2",
+          "period": 1,
+          "title": "Thu gọn đa thức",
+          "time": 20,
+          "yccd_refs": [
+            "YCCD-01"
+          ],
+          "nls_refs": [
+            "NLS-01"
+          ],
+          "student_task": "Nhiệm vụ mới sau khi tinh chỉnh thảo luận nhóm 4 học sinh",
+          "teacher_actions": "Hướng dẫn",
+          "product": "Bảng đối chiếu",
+          "evidence": "Phiếu học tập",
+          "digital_tool": "AI Assistant",
+          "source_refs": [
+            "SGK tr.12"
+          ],
+          "locked": false
+        }
+      ],
+      "created_at": "2026-09-20T10:27:33.906Z",
+      "updated_at": "2026-09-20T10:27:33.915Z",
+      "version": 3
+    },
+    "MATH8_SMOKE_TEST": {
+      "lesson_id": "MATH8_SMOKE_TEST",
+      "subject": "Toán",
+      "grade": 8,
+      "chapter": "Chương I. Đa thức",
+      "lesson_title": "Đa thức",
+      "total_periods": 2,
+      "ppct": [
+        5,
+        6
+      ],
+      "weeks": [
+        3
+      ],
+      "yccd": [
+        {
+          "id": "YCCD-01",
+          "text": "Nhận biết khái niệm đa thức",
+          "level": "NHAN_BIET"
+        },
+        {
+          "id": "YCCD-02",
+          "text": "Thu gọn đa thức",
+          "level": "THONG_HIEU"
+        }
+      ],
+      "digital_competency_indicators": [
+        {
+          "id": "NLS-01",
+          "indicator": "Sử dụng chatbot tra cứu và đối chiếu SGK",
+          "target_activity": "act_b2",
+          "tool": "AI Assistant",
+          "student_action": "Nhập biểu thức và kiểm chứng",
+          "product": "Bảng đối chiếu",
+          "evidence": "Phiếu học tập"
+        }
+      ],
+      "subject_profile": "MATH (Toán học)",
+      "lesson_type": "NEW_KNOWLEDGE",
+      "form_mode": "DEFAULT_V12_FORM_MODE",
+      "textbook": {
+        "book": "SGK Toán 8",
+        "pages": "11–14",
+        "assets": []
+      },
+      "activities": [
+        {
+          "id": "act_b2",
+          "code": "B2",
+          "period": 1,
+          "title": "Thu gọn đa thức",
+          "time": 18,
+          "yccd_refs": [
+            "YCCD-02"
+          ],
+          "nls_refs": [
+            "NLS-01"
+          ],
+          "student_task": "Thảo luận nhóm 4 học sinh và đối chiếu bảng phụ",
+          "teacher_actions": "Hướng dẫn đối chiếu",
+          "product": "Bảng đối chiếu",
+          "evidence": "Phiếu học tập",
+          "digital_tool": "AI Assistant",
+          "source_refs": [
+            "SGK tr.12"
+          ],
+          "locked": false
+        }
+      ],
+      "created_at": "2026-09-20T10:27:41.202Z",
+      "updated_at": "2026-09-20T10:27:41.212Z",
+      "version": 3
+    }
+  },
+  "artifacts": {
+    "worksheet_01": {
+      "artifact_id": "worksheet_01",
+      "type": "WORKSHEET",
+      "lesson_id": "MATH8_SMOKE_TEST",
+      "period_id": 1,
+      "activity_refs": [
+        "act_b2"
+      ],
+      "yccd_refs": [
+        "YCCD-02"
+      ],
+      "nls_refs": [
+        "NLS-01"
+      ],
+      "source_refs": [
+        "SGK tr.12"
+      ],
+      "content": "PHIẾU HỌC TẬP — KHÁM PHÁ\nBÀI HỌC: ĐA THỨC (Toán 8) | TIẾT: 1\nHOẠT ĐỘNG: Thu gọn đa thức\nYCCĐ: YCCD-02 | NLS: NLS-01\nPHIÊN BẢN: GIÁO VIÊN (KÈM ĐÁP ÁN & RUBRIC)\nNGUỒN CĂN CỨ: SGK trang 11–14\n\nNhiệm vụ 01 [Mức độ: Nhận biết]:\n  Thực hiện yêu cầu bám sát mục 1 trang 11–14 SGK Toán 8.\n  >> [ĐÁP ÁN & RUBRIC]: Kết quả chuẩn xác theo SGK trang 11–14. Biểu điểm: 2.5 điểm.\n\nNhiệm vụ 02 [Mức độ: Nhận biết]:\n  Thực hiện yêu cầu bám sát mục 2 trang 11–14 SGK Toán 8.\n  >> [ĐÁP ÁN & RUBRIC]: Kết quả chuẩn xác theo SGK trang 11–14. Biểu điểm: 2.5 điểm.\n\nNhiệm vụ 03 [Mức độ: Thông hiểu]:\n  Thực hiện yêu cầu bám sát mục 3 trang 11–14 SGK Toán 8.\n  >> [ĐÁP ÁN & RUBRIC]: Kết quả chuẩn xác theo SGK trang 11–14. Biểu điểm: 2.5 điểm.\n\nNhiệm vụ 04 [Mức độ: Thông hiểu]:\n  Thực hiện yêu cầu bám sát mục 4 trang 11–14 SGK Toán 8.\n  >> [ĐÁP ÁN & RUBRIC]: Kết quả chuẩn xác theo SGK trang 11–14. Biểu điểm: 2.5 điểm.\n\n",
+      "qa": {
+        "score": 97,
+        "status": "PASS"
+      },
+      "stale": true,
+      "version": 1,
+      "updated_at": "2026-09-20T10:27:41.205Z"
+    },
+    "game_01": {
+      "artifact_id": "game_01",
+      "type": "GAME",
+      "lesson_id": "MATH8_SMOKE_TEST",
+      "period_id": 1,
+      "activity_refs": [
+        "act_b2"
+      ],
+      "yccd_refs": [
+        "YCCD-02"
+      ],
+      "nls_refs": [
+        "NLS-01"
+      ],
+      "source_refs": [
+        "SGK tr.12"
+      ],
+      "content": {
+        "game_type": "Ô cửa bí mật",
+        "platforms_blocked": [
+          "Quizizz",
+          "Kahoot"
+        ],
+        "native_format": "HTML5_WEBAPP",
+        "questions": [
+          {
+            "item_id": "q_1",
+            "yccd_ref": "YCCD-02",
+            "activity_ref": "act_b2",
+            "difficulty": "NHAN_BIET",
+            "stem": "Câu hỏi số 1: Nhận định nào sau đây là chính xác theo SGK Toán 8 trang 11–14?",
+            "options": [
+              "A. Đáp án chuẩn xác theo quy tắc SGK trang 11–14",
+              "B. Phương án gây nhiễu loại 1",
+              "C. Phương án gây nhiễu loại 2",
+              "D. Phương án gây nhiễu loại 3"
+            ],
+            "correct_answer": "A",
+            "explanation": "Căn cứ theo định nghĩa và ví dụ trong SGK trang 11–14.",
+            "source_ref": "SGK Toán 8 tr. 11–14"
+          },
+          {
+            "item_id": "q_2",
+            "yccd_ref": "YCCD-02",
+            "activity_ref": "act_b2",
+            "difficulty": "NHAN_BIET",
+            "stem": "Câu hỏi số 2: Nhận định nào sau đây là chính xác theo SGK Toán 8 trang 11–14?",
+            "options": [
+              "A. Đáp án chuẩn xác theo quy tắc SGK trang 11–14",
+              "B. Phương án gây nhiễu loại 1",
+              "C. Phương án gây nhiễu loại 2",
+              "D. Phương án gây nhiễu loại 3"
+            ],
+            "correct_answer": "A",
+            "explanation": "Căn cứ theo định nghĩa và ví dụ trong SGK trang 11–14.",
+            "source_ref": "SGK Toán 8 tr. 11–14"
+          },
+          {
+            "item_id": "q_3",
+            "yccd_ref": "YCCD-02",
+            "activity_ref": "act_b2",
+            "difficulty": "NHAN_BIET",
+            "stem": "Câu hỏi số 3: Nhận định nào sau đây là chính xác theo SGK Toán 8 trang 11–14?",
+            "options": [
+              "A. Đáp án chuẩn xác theo quy tắc SGK trang 11–14",
+              "B. Phương án gây nhiễu loại 1",
+              "C. Phương án gây nhiễu loại 2",
+              "D. Phương án gây nhiễu loại 3"
+            ],
+            "correct_answer": "A",
+            "explanation": "Căn cứ theo định nghĩa và ví dụ trong SGK trang 11–14.",
+            "source_ref": "SGK Toán 8 tr. 11–14"
+          },
+          {
+            "item_id": "q_4",
+            "yccd_ref": "YCCD-02",
+            "activity_ref": "act_b2",
+            "difficulty": "NHAN_BIET",
+            "stem": "Câu hỏi số 4: Nhận định nào sau đây là chính xác theo SGK Toán 8 trang 11–14?",
+            "options": [
+              "A. Đáp án chuẩn xác theo quy tắc SGK trang 11–14",
+              "B. Phương án gây nhiễu loại 1",
+              "C. Phương án gây nhiễu loại 2",
+              "D. Phương án gây nhiễu loại 3"
+            ],
+            "correct_answer": "A",
+            "explanation": "Căn cứ theo định nghĩa và ví dụ trong SGK trang 11–14.",
+            "source_ref": "SGK Toán 8 tr. 11–14"
+          },
+          {
+            "item_id": "q_5",
+            "yccd_ref": "YCCD-02",
+            "activity_ref": "act_b2",
+            "difficulty": "THONG_HIEU",
+            "stem": "Câu hỏi số 5: Nhận định nào sau đây là chính xác theo SGK Toán 8 trang 11–14?",
+            "options": [
+              "A. Đáp án chuẩn xác theo quy tắc SGK trang 11–14",
+              "B. Phương án gây nhiễu loại 1",
+              "C. Phương án gây nhiễu loại 2",
+              "D. Phương án gây nhiễu loại 3"
+            ],
+            "correct_answer": "A",
+            "explanation": "Căn cứ theo định nghĩa và ví dụ trong SGK trang 11–14.",
+            "source_ref": "SGK Toán 8 tr. 11–14"
+          }
+        ]
+      },
+      "qa": {
+        "score": 96,
+        "status": "PASS"
+      },
+      "stale": true,
+      "version": 1,
+      "updated_at": "2026-09-20T10:27:41.207Z"
+    },
+    "video_01": {
+      "artifact_id": "video_01",
+      "type": "VIDEO",
+      "lesson_id": "MATH8_SMOKE_TEST",
+      "period_id": 1,
+      "activity_refs": [
+        "act_b2"
+      ],
+      "yccd_refs": [
+        "YCCD-02"
+      ],
+      "nls_refs": [
+        "NLS-01"
+      ],
+      "source_refs": [
+        "SGK tr.12"
+      ],
+      "content": {
+        "video_type": "01. Video Khởi động",
+        "scene_count": 3,
+        "style": "STYLE_02 Premium 3D",
+        "default_scene_seconds": 8,
+        "scenes": [
+          {
+            "scene_id": "SCENE_01",
+            "duration_seconds": 8,
+            "purpose": "Bám sát hoạt động B2 (Thu gọn đa thức)",
+            "source_ref": "SGK Toán 8 tr. 11–14",
+            "image_prompt": "High-end cinematic educational visual for Vietnamese students exploring Đa thức, natural lighting, 8k resolution.",
+            "video_prompt": "Smooth steady camera zoom into lesson concept, natural pacing for students, 24fps.",
+            "dialogue_vi": "Quan sát chuyển động thực tế và dự đoán quy luật bài học.",
+            "word_count": 13,
+            "camera": "Eye-level medium shot, cinematic depth of field",
+            "action": "Student-centered educational inquiry action",
+            "style": "STYLE_02 Premium 3D",
+            "negative_prompt": "no readable text, no subtitles, no captions, no on-screen text, no UI, no interface, no logo, no watermark, no random letters, no distorted hands, no duplicated people"
+          },
+          {
+            "scene_id": "SCENE_02",
+            "duration_seconds": 8,
+            "purpose": "Bám sát hoạt động B2 (Thu gọn đa thức)",
+            "source_ref": "SGK Toán 8 tr. 11–14",
+            "image_prompt": "High-end cinematic educational visual for Vietnamese students exploring Đa thức, natural lighting, 8k resolution.",
+            "video_prompt": "Smooth steady camera zoom into lesson concept, natural pacing for students, 24fps.",
+            "dialogue_vi": "Liệu kết quả này có luôn đúng trong mọi trường hợp không?",
+            "word_count": 12,
+            "camera": "Eye-level medium shot, cinematic depth of field",
+            "action": "Student-centered educational inquiry action",
+            "style": "STYLE_02 Premium 3D",
+            "negative_prompt": "no readable text, no subtitles, no captions, no on-screen text, no UI, no interface, no logo, no watermark, no random letters, no distorted hands, no duplicated people"
+          },
+          {
+            "scene_id": "SCENE_03",
+            "duration_seconds": 8,
+            "purpose": "Bám sát hoạt động B2 (Thu gọn đa thức)",
+            "source_ref": "SGK Toán 8 tr. 11–14",
+            "image_prompt": "High-end cinematic educational visual for Vietnamese students exploring Đa thức, natural lighting, 8k resolution.",
+            "video_prompt": "Smooth steady camera zoom into lesson concept, natural pacing for students, 24fps.",
+            "dialogue_vi": "Hãy quan sát kĩ tình huống này và đối chiếu ngay với trang 11–14 sách giáo khoa.",
+            "word_count": 17,
+            "camera": "Eye-level medium shot, cinematic depth of field",
+            "action": "Student-centered educational inquiry action",
+            "style": "STYLE_02 Premium 3D",
+            "negative_prompt": "no readable text, no subtitles, no captions, no on-screen text, no UI, no interface, no logo, no watermark, no random letters, no distorted hands, no duplicated people"
+          }
+        ]
+      },
+      "qa": {
+        "score": 95,
+        "status": "PASS"
+      },
+      "stale": true,
+      "version": 1,
+      "updated_at": "2026-09-20T10:27:41.210Z"
+    },
+    "slide_p1": {
+      "artifact_id": "slide_p1",
+      "type": "SLIDE",
+      "lesson_id": "MATH8_INTEGRATION_01",
+      "period_id": 1,
+      "activity_refs": [
+        "act_b2"
+      ],
+      "yccd_refs": [
+        "YCCD-01"
+      ],
+      "nls_refs": [
+        "NLS-01"
+      ],
+      "source_refs": [
+        "SGK tr.12"
+      ],
+      "content": {
+        "slide_count": 18,
+        "canva_prompts": "CANVA SLIDE DECK PROMPTS — TIẾT 1\nBÀI: ĐA THỨC (Toán 8)\nTỔNG SỐ SLIDE: 18 SLIDES | BÁM SÁT TIẾN TRÌNH KHDH\n\nSLIDE 01: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 02: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 03: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 04: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 05: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 06: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 07: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 08: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 09: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 10: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 11: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 12: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 13: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 14: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 15: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 16: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 17: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\nSLIDE 18: [Title: Thu gọn đa thức] Prompt visual: Educational diagram for Đa thức matching SGK page 11–14.\n",
+        "notebooklm_markdown": "# NOTEBOOKLM SLIDE DECK — TIẾT 1\n\n## Đa thức (Toán 8)\n\n### Slide 1: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 2: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 3: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 4: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 5: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 6: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 7: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 8: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 9: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 10: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 11: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 12: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 13: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 14: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 15: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 16: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 17: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n### Slide 18: Thu gọn đa thức\n- Nhiệm vụ: Thu gọn đa thức và đối chiếu\n- Căn cứ: SGK trang 11–14\n\n"
+      },
+      "qa": {
+        "score": 98,
+        "status": "PASS"
+      },
+      "stale": true,
+      "version": 1,
+      "updated_at": "2026-09-20T10:27:33.913Z"
+    }
+  },
+  "teacher_preferences": {},
+  "audit_logs": [
+    {
+      "timestamp": "2026-09-20T09:55:53.906Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898153906"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T09:55:54.031Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898154031"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T09:56:01.782Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898161782"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:04:07.904Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898647904"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:04:16.414Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898656414"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:04:16.415Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898656415"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:04:35.785Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898675785"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:05:10.487Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898710487"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:09:42.559Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789898982559"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:10:00.734Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899000734"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:10:37.911Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899037911"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:10:49.190Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899049190"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:10:59.146Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899059146"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:11:04.567Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899064567"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:11:14.483Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899074483"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:12:00.158Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899120158"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:12:12.188Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899132188"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:12:39.674Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899159674"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:12:44.288Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899164288"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:17:01.525Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899421525"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:17:01.568Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899421568"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:17:11.426Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899431426"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:17:59.626Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899479626"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:20:17.865Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899617865"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:20:33.186Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789899633186"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:27:33.900Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789900053900"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:27:33.902Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789900053902"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:27:41.199Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789900061199"
+      }
+    },
+    {
+      "timestamp": "2026-09-20T10:42:58.059Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1789900978059"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "12.2.0-rc2",
+    "initialized_at": "2026-09-20T09:55:46.629Z",
+    "last_write": "2026-09-20T10:42:58.059Z"
+  }
+}

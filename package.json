@@ -1,0 +1,46 @@
+{
+  "name": "khdh-auto-v12-rc2-webapp-pro",
+  "version": "12.2.0-rc2",
+  "description": "KHDH AUTO V12-RC2 WEBAPP PRO — Single Source of Truth Engine for Lesson Data Pack, KHDH, Slides, Worksheets, Native Games, and Video AI",
+  "main": "dist/server/index.js",
+  "scripts": {
+    "dev": "ts-node server/index.ts",
+    "start": "node dist/server/index.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "node scripts/lint.js",
+    "test": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:unit": "ts-node tests/unit/runAllUnitTests.ts",
+    "test:integration": "ts-node tests/integration/runAllIntegrationTests.ts",
+    "test:e2e": "ts-node tests/e2e/smokeTest.ts"
+  },
+  "keywords": [
+    "khdh",
+    "v12-rc2",
+    "lesson-data-pack",
+    "education-ai",
+    "gemini",
+    "single-source-of-truth"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "MIT",
+  "dependencies": {
+    "adm-zip": "^0.6.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^2.4.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.13.9",
+    "@types/pdf-parse": "^1.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}
