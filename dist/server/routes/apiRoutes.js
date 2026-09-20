@@ -199,10 +199,31 @@ exports.apiRouter.get('/export/:type', (req, res) => {
     if (!lesson)
         return res.status(400).json({ error: 'No lesson active' });
     if (type === 'docx') {
-        const content = `KẾ HOẠCH BÀI DẠY: ${lesson.lesson_title}\nMôn: ${lesson.subject} ${lesson.grade}`;
+        const filename = `KHDH_V12_4PHAN_${lesson.subject}${lesson.grade}_${lesson.lesson_title.replace(/\s+/g, '_')}.doc`;
+        const docHtml = `
+      <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+      <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>KHDH ${lesson.lesson_title}</title>
+      <style>
+        @page { size: A4 portrait; margin: 20mm 20mm 20mm 20mm; }
+        body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; }
+        h2 { text-align: center; font-size: 16pt; font-weight: bold; }
+        table { width: 100%; border-collapse: collapse; margin: 6pt 0; }
+        td, th { border: 1pt solid #000; padding: 5pt; font-size: 12.5pt; vertical-align: top; }
+      </style>
+      </head>
+      <body>
+        <div style="text-align:center;font-size:12pt;margin-bottom:12pt">
+          <b>KẾ HOẠCH BÀI DẠY (FORM V12 — 4 PHẦN LIÊN TỤC, KHÔNG TÁCH TIẾT)</b><br>
+          <h2>${lesson.lesson_title.toUpperCase()}</h2>
+          <p>Môn: ${lesson.subject} – Lớp: ${lesson.grade} | Thời lượng: ${lesson.total_periods} tiết (PPCT: ${lesson.ppct.join(', ')})</p>
+        </div>
+      </body>
+      </html>
+    `;
         res.setHeader('Content-Type', 'application/msword');
-        res.setHeader('Content-Disposition', `attachment; filename=KHDH_${lesson.lesson_title}.doc`);
-        res.send(content);
+        res.setHeader('Content-Disposition', `attachment; filename=${encodeURIComponent(filename)}`);
+        res.send(docHtml);
     }
     else {
         res.json({ ok: true, message: `Exported ${type}` });

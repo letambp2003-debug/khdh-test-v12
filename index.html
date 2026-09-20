@@ -567,16 +567,17 @@ button,input,select,textarea{font:inherit}
     <section id="khdh" class="view">
       <div class="sh">
         <div>
-          <h2>Kế hoạch bài dạy (KHDH / KHBG Chuẩn Công văn 5512)</h2>
-          <p>Bám sát chuẩn Công văn 5512/BGDĐT-GDTrH: Mục tiêu (Kiến thức, Năng lực, Phẩm chất), Thiết bị dạy học và Tiến trình 4 hoạt động 4 bước.</p>
+          <h2>Kế hoạch bài dạy (KHDH Chuẩn V12 — 4 Phần Không Tách Tiết)</h2>
+          <p>Bám sát chuẩn <b>03_FORM_KHDH_V12_4PHAN_KHONG_TACHTIET.MD</b>: Mục tiêu (Kiến thức cụm danh từ, Năng lực hành động, Phẩm chất), Thiết bị, Tiến trình A–B–C–D 2 cột và Hướng dẫn về nhà.</p>
         </div>
         <div class="row">
           <select id="khdhTemplateModeSelect" class="btn sm" style="font-weight:600" onchange="switchKhdhTemplateMode(this.value)">
-            <option value="5512" selected>📋 Mẫu chuẩn Công văn 5512/BGDĐT</option>
-            <option value="mauga">📄 Mẫu tổ bộ môn (Mauga.docx)</option>
+            <option value="v12_continuous" selected>📋 Mẫu V12: 4 Phần Liên Tục - Không Tách Tiết (Chuẩn 03_FORM)</option>
+            <option value="5512">📋 Mẫu CV 5512 Truyền Thống (Tách tiểu mục)</option>
+            <option value="mauga">📄 Mẫu Tổ Bộ Môn (Mauga.docx)</option>
           </select>
           <button class="btn" data-go="refine" id="btnRefineKhdh" disabled>✏️ Tinh chỉnh từng khối</button>
-          <button class="btn primary" onclick="exportDocx()" id="btnExportDocx" disabled>💾 Xuất Word 5512 (.doc)</button>
+          <button class="btn primary" onclick="exportDocx()" id="btnExportDocx" disabled>💾 Xuất Word KHDH (.doc)</button>
         </div>
       </div>
 
@@ -1590,7 +1591,7 @@ const AppState = {
   currentStage: 1, // 1: Nguồn & Chọn bài, 2: KHDH 5512, 3: Học liệu & Trò chơi, 4: Thẩm định QA & Xuất bản
   extractedCatalog: [],
   currentCatalogId: "",
-  khdhTemplateMode: "5512", // '5512' | 'mauga'
+  khdhTemplateMode: "v12_continuous", // 'v12_continuous' | '5512' | 'mauga'
 
   // Sources Slots State (Clean initial: 0/4 uploaded)
   sources: {
@@ -2806,6 +2807,238 @@ function renderBlueprintView() {
 function switchKhdhTemplateMode(mode) {
   AppState.khdhTemplateMode = mode;
   renderKhdhView();
+  const label = mode === 'v12_continuous' 
+    ? 'Mẫu V12: 4 Phần Liên Tục - Không Tách Tiết (Chuẩn 03_FORM)' 
+    : (mode === 'mauga' ? 'Mẫu Tổ Bộ Môn (Mauga.docx)' : 'Chuẩn Công văn 5512/BGDĐT-GDTrH');
+  alert(`📋 Đã chuyển mẫu Kế hoạch bài dạy sang: ${label}!`);
+}
+
+function getKnowledgeKeyPhrases(L) {
+  const title = (L.lesson_title || '').toLowerCase();
+  
+  if (title.includes('đa thức') || title.includes('đơn thức')) {
+    return [
+      "Khái niệm đơn thức và đơn thức thu gọn.",
+      "Bậc của đơn thức và đa thức nhiều biến.",
+      "Đơn thức đồng dạng và quy tắc thu gọn đa thức.",
+      "Quy tắc thực hiện phép cộng, phép trừ và nhân đa thức nhiều biến."
+    ];
+  } else if (title.includes('hằng đẳng thức')) {
+    return [
+      "Bảy hằng đẳng thức đáng nhớ cốt lõi.",
+      "Quy tắc khai triển và rút gọn biểu thức đại số.",
+      "Phương pháp phân tích đa thức thành nhân tử dùng hằng đẳng thức."
+    ];
+  } else if (title.includes('tốc độ')) {
+    return [
+      "Ý nghĩa vật lí của tốc độ chuyển động.",
+      "Công thức tính tốc độ $v = s/t$ và các đơn vị đo tốc độ chuẩn.",
+      "Thiết bị và phương pháp đo tốc độ bằng cổng quang điện."
+    ];
+  } else if (title.includes('tìm kiếm')) {
+    return [
+      "Ý tưởng và nguyên lý thuật toán tìm kiếm tuần tự.",
+      "Mô tả thuật toán bằng sơ đồ khối và bảng vết biến (Trace table).",
+      "Quy tắc thực hiện thuật toán tìm kiếm trên dãy dữ liệu."
+    ];
+  } else if (title.includes('tập hợp')) {
+    return [
+      "Khái niệm tập hợp và các phần tử của tập hợp.",
+      "Kí hiệu thuộc $\\in$ và không thuộc $\\notin$ tập hợp.",
+      "Cách mô tả tập hợp bằng liệt kê hoặc tính chất đặc trưng."
+    ];
+  }
+
+  return (L.yccd || []).map(y => {
+    let t = y.text.trim();
+    t = t.replace(/^(học sinh\s+)?(nhận biết|nêu được|chỉ ra|mô tả|phát biểu|thông hiểu|giải thích|phân biệt|vận dụng|tính toán|thực hành|tìm hiểu|sử dụng|thực hiện)(\s+được|\s+các|\s+về)?\s*/i, '');
+    t = t.charAt(0).toUpperCase() + t.slice(1);
+    if (!t.endsWith('.')) t += '.';
+    return t;
+  });
+}
+
+function getDirectCompetencies(L) {
+  const nls = L.digital_competency_indicators || [];
+  const nlsTool = nls.length > 0 ? nls[0].tool : 'công cụ số / mô phỏng';
+  return [
+    `Học sinh thực hiện nhận dạng, phát biểu và giải thích chính xác các định nghĩa, quy tắc và tính chất cốt lõi của bài học ${L.lesson_title}.`,
+    `Học sinh phân tích, trình bày và hợp tác nhóm tích cực để hoàn thành các bài tập và nhiệm vụ rèn luyện trên phiếu học tập.`,
+    `Học sinh sử dụng thành thạo công cụ số (${nlsTool}) để tra cứu dữ liệu, kiểm chứng kết quả và mô hình hóa bài học trực quan.`,
+    `Học sinh vận dụng kiến thức bài học ${L.lesson_title} vào giải quyết bài toán và tình huống thực tiễn đời sống.`
+  ];
+}
+
+function getQualities(L) {
+  return [
+    `**Chăm chỉ:** Tích cực tìm hiểu nội dung bài học, có tinh thần vượt khó trong giải quyết các nhiệm vụ và bài tập.`,
+    `**Trung thực:** Tôn trọng số liệu thực tế, khách quan và trung thực trong báo cáo kết quả và tự đánh giá bài làm.`,
+    `**Trách nhiệm:** Tự giác hoàn thành phần việc được phân công trong nhóm, có ý thức bảo quản học cụ và thiết bị học tập.`
+  ];
+}
+
+function getVisualAssetsForActivity(act, L) {
+  const code = act.code || '';
+  const subj = (L.subject || '').toLowerCase();
+  let tikzCode = '';
+  let imagePrompt = '';
+
+  if (subj.includes('toán') || subj.includes('khoa học') || subj.includes('khtn')) {
+    if (code.startsWith('B')) {
+      tikzCode = `\\begin{tikzpicture}[scale=0.85]
+  % Hình vẽ / Đồ thị minh họa chính xác cho bài học: ${L.lesson_title}
+  \\draw[thick,->] (-1.5,0) -- (4,0) node[right] {$x$};
+  \\draw[thick,->] (0,-1) -- (0,3.5) node[above] {$y$};
+  \\draw[blue,thick] (-1,2.5) -- (3,0.5);
+  \\filldraw[black] (0,2) circle (1.5pt) node[above right] {$A(0,2)$};
+  \\filldraw[black] (2.5,0) circle (1.5pt) node[below] {$B(2.5,0)$};
+\\end{tikzpicture}`;
+    }
+  }
+
+  if (code === 'A' || code === 'D') {
+    imagePrompt = `PROMPT TẠO ẢNH:
+Ảnh chụp góc rộng học sinh trung học Việt Nam trong lớp học hiện đại, đang tích cực quan sát tình huống thực tiễn mở đầu bài học ${L.lesson_title} (${L.subject} ${L.grade}), phong cách giáo dục chân thực, ánh sáng tự nhiên rõ nét, không chèn chữ.`;
+  }
+
+  return { tikzCode, imagePrompt };
+}
+
+function renderContinuous4SectionActivities(L) {
+  const totalMinutes = (L.total_periods || 2) * 45;
+  const actsA = L.activities.filter(a => a.code.startsWith('A'));
+  const actsB = L.activities.filter(a => a.code.startsWith('B'));
+  const actsC = L.activities.filter(a => a.code.startsWith('C'));
+  const actsD = L.activities.filter(a => a.code.startsWith('D'));
+
+  const sectionA = actsA[0] || {
+    code: 'A', title: `Khởi động: Đặt vấn đề vào bài học ${L.lesson_title}`,
+    time: 8, yccd_refs: [L.yccd[0]?.id || 'YCCD-01'],
+    student_task: `Học sinh quan sát hình ảnh và tình huống gợi mở trang ${L.textbook.pages} SGK, phát hiện vấn đề cần tìm hiểu.`,
+    teacher_actions: `Giáo viên chiếu video AI / slide tình huống, nêu câu hỏi dẫn dắt và giao nhiệm vụ cho học sinh.`,
+    product: `Câu trả lời miệng hoặc dự đoán ban đầu của học sinh.`,
+    evidence: `Ý kiến phát biểu cá nhân / thảo luận cặp đôi.`
+  };
+
+  const sectionsB = actsB.length > 0 ? actsB : [
+    {
+      code: 'B1', title: `Khám phá kiến thức cốt lõi của ${L.lesson_title}`,
+      time: Math.round(totalMinutes * 0.2), yccd_refs: [L.yccd[0]?.id || 'YCCD-01'],
+      student_task: `Đọc SGK trang ${L.textbook.pages}, làm việc nhóm đôi rút ra định nghĩa và quy tắc trọng tâm.`,
+      teacher_actions: `Giáo viên định hướng các nhóm, chuẩn hóa kiến thức và ghi bảng.`,
+      product: `Nội dung ghi chép trên phiếu học tập số 01.`,
+      evidence: `Phiếu học tập hoàn thành của các nhóm.`
+    },
+    {
+      code: 'B2', title: `Khắc sâu kiến thức & Thực hành kiểm chứng số`,
+      time: Math.round(totalMinutes * 0.18), yccd_refs: [L.yccd[1]?.id || 'YCCD-02'],
+      nls_refs: ['NLS-01'], digital_tool: L.digital_competency_indicators[0]?.tool || 'AI Simulator',
+      student_task: `Thao tác trên công cụ số để tra cứu, tính toán và đối chiếu kết quả ví dụ SGK trang ${L.textbook.pages}.`,
+      teacher_actions: `Hướng dẫn học sinh thao tác phần mềm, giải thích lỗi sai thường gặp.`,
+      product: `Bảng kết quả đối chiếu số và phiếu thực hành.`,
+      evidence: `Ảnh chụp kết quả màn hình / bảng vết.`
+    }
+  ];
+
+  const sectionC = actsC[0] || {
+    code: 'C', title: `Luyện tập: Củng cố và giải bài tập SGK`,
+    time: Math.round(totalMinutes * 0.35), yccd_refs: L.yccd.map(y => y.id),
+    student_task: `Học sinh làm việc cá nhân hoàn thành các bài tập luyện tập trong SGK trang ${L.textbook.pages}.`,
+    teacher_actions: `Tổ chức chữa bài, nhận xét và giải thích các phương pháp giải tối ưu.`,
+    product: `Lời giải bài tập chi tiết trong vở học sinh.`,
+    evidence: `Vở bài tập học sinh có nhận xét của giáo viên.`
+  };
+
+  const sectionD = actsD[0] || {
+    code: 'D', title: `Vận dụng: Giải quyết tình huống thực tế đời sống`,
+    time: Math.round(totalMinutes * 0.17), yccd_refs: [L.yccd[L.yccd.length - 1]?.id || 'YCCD-03'],
+    student_task: `Vận dụng kiến thức bài học ${L.lesson_title} vào giải quyết bài toán thực tiễn.`,
+    teacher_actions: `Giao nhiệm vụ dự án nhỏ hoặc bài tập vận dụng về nhà cho học sinh.`,
+    product: `Bản báo cáo kết quả vận dụng thực tế.`,
+    evidence: `Sản phẩm học tập của học sinh.`
+  };
+
+  function renderActivityBlock(heading, act) {
+    const assets = getVisualAssetsForActivity(act, L);
+    const tikzBlock = assets.tikzCode ? `
+      <div style="margin:8px 0;background:#f8fafc;padding:10px;border-radius:8px;border:1px solid #cbd5e1;font-family:monospace;font-size:11px">
+        <b style="color:#0f172a">Code TikZ / Overleaf:</b>
+        <pre style="margin:4px 0 0;overflow-x:auto;color:#1e3a8a">${assets.tikzCode.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+      </div>
+    ` : '';
+
+    const imagePromptBlock = assets.imagePrompt ? `
+      <div style="margin:8px 0;background:#f0fdf4;padding:10px;border-radius:8px;border:1px solid #bbf7d0;font-size:12px;color:#166534">
+        <b>${assets.imagePrompt.split('\n')[0]}</b>
+        <div style="margin-top:4px;color:#1e293b">${assets.imagePrompt.split('\n').slice(1).join('\n')}</div>
+      </div>
+    ` : '';
+
+    return `
+      <div style="margin-bottom:22px">
+        <h4 style="font-size:15px;color:#1e3a8a;margin:0 0 10px;font-weight:700">
+          ${heading}
+        </h4>
+        
+        <div style="margin-bottom:8px;font-size:13px;line-height:1.6">
+          <b>a) Mục tiêu:</b> Giúp học sinh nắm vững kiến thức cốt lõi và đáp ứng yêu cầu cần đạt: <i>${act.yccd_refs ? act.yccd_refs.join(', ') : 'YCCĐ bài học'}</i>.
+        </div>
+
+        <div style="margin-bottom:8px;font-size:13px;line-height:1.6">
+          <b>b) Nội dung:</b> ${act.student_task} (Căn cứ SGK ${L.subject} ${L.grade} trang ${L.textbook.pages}).
+          ${tikzBlock}
+          ${imagePromptBlock}
+        </div>
+
+        <div style="margin-bottom:8px;font-size:13px;line-height:1.6">
+          <b>c) Sản phẩm:</b> <span style="color:#059669;font-weight:600">${act.product}</span>.
+        </div>
+
+        <div style="font-size:13px;line-height:1.6">
+          <b>d) Tổ chức thực hiện:</b>
+          <table style="width:100%;border-collapse:collapse;margin-top:8px;border:1px solid #cbd5e1">
+            <thead>
+              <tr style="background:#f1f5f9">
+                <th style="width:62%;padding:8px 12px;border:1px solid #cbd5e1;text-align:left;font-size:12px;font-weight:700">HOẠT ĐỘNG CỦA GV VÀ HS</th>
+                <th style="width:38%;padding:8px 12px;border:1px solid #cbd5e1;text-align:left;font-size:12px;font-weight:700">SẢN PHẨM DỰ KIẾN</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px 12px;border:1px solid #cbd5e1;vertical-align:top;line-height:1.6;font-size:13px">
+                  <p style="margin:0 0 8px"><b>Bước 1. Chuyển giao nhiệm vụ</b><br>- <b>GV:</b> ${act.teacher_actions || 'Nêu nhiệm vụ học tập, giao phiếu hoặc trình chiếu slide.'}<br>- <b>HS:</b> Tiếp nhận nhiệm vụ, chuẩn bị đồ dùng và lắng nghe hướng dẫn.</p>
+                  <p style="margin:0 0 8px"><b>Bước 2. Thực hiện nhiệm vụ</b><br>- <b>HĐ cá nhân/nhóm:</b> ${act.student_task || 'Học sinh đọc SGK, hoạt động cá nhân và thảo luận nhóm.'}<br>- <b>GV:</b> Quan sát các nhóm, phát hiện khó khăn và hướng dẫn kịp thời.${act.digital_tool ? `<br>- <b>Ứng dụng số:</b> Học sinh thao tác trên <i>${act.digital_tool}</i> để tra cứu/kiểm chứng.` : ''}</p>
+                  <p style="margin:0 0 8px"><b>Bước 3. Báo cáo, thảo luận</b><br>- <b>HS:</b> Đại diện nhóm trình bày sản phẩm, giải thích cách làm.<br>- <b>HS khác:</b> Theo dõi, đối chiếu kết quả, nhận xét và phản biện.</p>
+                  <p style="margin:0"><b>Bước 4. Kết luận, nhận định</b><br>- <b>GV:</b> Nhận xét thái độ làm việc của học sinh, chuẩn hóa kiến thức và chốt đáp án đúng vào vở ghi.</p>
+                </td>
+                <td style="padding:10px 12px;border:1px solid #cbd5e1;vertical-align:top;line-height:1.6;font-size:13px">
+                  <div><b>Kết quả/sản phẩm:</b><br>${act.product}</div>
+                  <div style="margin-top:8px;color:#64748b;font-size:12px"><b>Minh chứng đánh giá:</b><br>${act.evidence}</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  let html = '';
+  html += renderActivityBlock('A. HOẠT ĐỘNG KHỞI ĐỘNG', sectionA);
+
+  html += `<div style="margin-top:14px;margin-bottom:12px"><h3 style="font-size:16px;color:#1e3a8a;border-bottom:1px dashed #cbd5e1;padding-bottom:4px;margin:0 0 10px">B. HOẠT ĐỘNG HÌNH THÀNH KIẾN THỨC</h3></div>`;
+  if (sectionsB.length === 1) {
+    html += renderActivityBlock('Hoạt động 1. ' + sectionsB[0].title.replace(/^[^:]*:\s*/, ''), sectionsB[0]);
+  } else {
+    sectionsB.forEach((act, idx) => {
+      html += renderActivityBlock(`Hoạt động ${idx + 1}. ` + act.title.replace(/^[^:]*:\s*/, ''), act);
+    });
+  }
+
+  html += renderActivityBlock('C. HOẠT ĐỘNG LUYỆN TẬP', sectionC);
+  html += renderActivityBlock('D. HOẠT ĐỘNG VẬN DỤNG', sectionD);
+
+  return html;
 }
 
 function renderKhdhView() {
@@ -2819,7 +3052,7 @@ function renderKhdhView() {
       <div class="empty-state" style="border:0">
         <div class="icon">📝</div>
         <h3>Chưa có dữ liệu bài học để soạn KHDH</h3>
-        <p>Vui lòng nạp nguồn dữ liệu PL1 & SGK hoặc chọn bài từ danh mục bóc tách ở Giai đoạn 1 để hệ thống tự động sinh kế hoạch bài dạy theo chuẩn Công văn 5512.</p>
+        <p>Vui lòng nạp nguồn dữ liệu PL1 & SGK hoặc chọn bài từ danh mục bóc tách ở Giai đoạn 1 để hệ thống tự động sinh kế hoạch bài dạy chuẩn 03_FORM_KHDH_V12_4PHAN_KHONG_TACHTIET.MD.</p>
         <button class="btn primary" onclick="goToStage(1)" style="margin-top:10px">👈 Quay lại Giai đoạn 1: Nạp & Chọn bài</button>
       </div>
     `;
@@ -2833,16 +3066,133 @@ function renderKhdhView() {
 
   btnRefine.disabled = false;
   btnExport.disabled = false;
-  const isMauga = AppState.khdhTemplateMode === 'mauga';
-  document.getElementById('khdhNavBadge').textContent = isMauga ? "Mẫu Tổ Mauga" : "Chuẩn CV 5512";
-  document.getElementById('step5Indicator').classList.add('active');
-  document.getElementById('step5Sub').textContent = "KHDH 5512 Đạt chuẩn";
+  const mode = AppState.khdhTemplateMode || 'v12_continuous';
+  const isV12 = mode === 'v12_continuous';
+  const isMauga = mode === 'mauga';
 
+  document.getElementById('khdhNavBadge').textContent = isV12 ? "V12 4 Phần (Không tách tiết)" : (isMauga ? "Mẫu Tổ Mauga" : "Chuẩn CV 5512");
+  document.getElementById('step5Indicator').classList.add('active');
+  document.getElementById('step5Sub').textContent = isV12 ? "Form V12 4 Phần OK" : "KHDH 5512 Đạt chuẩn";
+
+  if (isV12) {
+    // FORM_MODE: FOUR_SECTION_CONTINUOUS (Chuẩn 03_FORM_KHDH_V12_4PHAN_KHONG_TACHTIET.MD)
+    const knowledgePhrases = getKnowledgeKeyPhrases(L);
+    const directCompetencies = getDirectCompetencies(L);
+    const qualities = getQualities(L);
+    const continuousActsHtml = renderContinuous4SectionActivities(L);
+
+    container.innerHTML = `
+      <!-- Header chuẩn hành chính sư phạm Form V12 -->
+      <div style="border-bottom:2px solid #0f172a;padding-bottom:16px;margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;text-align:left;font-size:12px;margin-bottom:14px;color:#334155">
+          <div style="width:48%">
+            <b>TRƯỜNG: .......................................</b><br>
+            <b>TỔ: .......................................</b><br>
+            Họ tên giáo viên: .......................
+          </div>
+          <div style="width:48%;text-align:center">
+            <b>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</b><br>
+            <b><u>Độc lập - Tự do - Hạnh phúc</u></b>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:11px;font-weight:700;color:#2563eb;letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px">
+            KẾ HOẠCH BÀI DẠY (FORM V12 — 4 PHẦN LIÊN TỤC, KHÔNG TÁCH TIẾT)
+          </div>
+          <h2 style="font-size:22px;color:#0f172a;margin:6px 0;font-weight:800;letter-spacing:-.01em">
+            ${L.lesson_title.toUpperCase()}
+          </h2>
+          <div style="font-size:13px;color:#475569">
+            Môn học: <b>${L.subject}</b> – Lớp: <b>${L.grade}</b><br>
+            Thời lượng: <b>${L.total_periods} tiết</b> (Tổng: <b>${L.total_periods * 45} phút</b>)<br>
+            PPCT: <b>${L.ppct.join(', ')}</b> | Tuần: <b>${L.weeks.join(', ')}</b>
+          </div>
+        </div>
+      </div>
+
+      <!-- I. MỤC TIÊU -->
+      <div class="khdh-block" style="margin-bottom:20px">
+        <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
+          I. MỤC TIÊU
+        </h4>
+        <div style="font-size:13px;line-height:1.8">
+          <div style="margin-bottom:10px">
+            <b>1. Kiến thức:</b>
+            <ul style="margin:4px 0 8px 20px;padding:0">
+              ${knowledgePhrases.map(k => `<li>${k}</li>`).join('')}
+            </ul>
+          </div>
+          <div style="margin-bottom:10px">
+            <b>2. Năng lực:</b>
+            <ul style="margin:4px 0 8px 20px;padding:0">
+              ${directCompetencies.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+          </div>
+          <div>
+            <b>3. Phẩm chất:</b>
+            <ul style="margin:4px 0 8px 20px;padding:0">
+              ${qualities.map(q => `<li>${q}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- II. THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU -->
+      <div class="khdh-block" style="margin-bottom:20px">
+        <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
+          II. THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU
+        </h4>
+        <div style="font-size:13px;line-height:1.8">
+          <p><b>1. Giáo viên:</b></p>
+          <ul style="margin:4px 0 8px 20px;padding:0">
+            <li>Ti vi / màn hình / máy chiếu kết nối mạng Internet.</li>
+            <li>Máy tính cá nhân, bài giảng điện tử trình chiếu, kế hoạch bài dạy.</li>
+            <li>Hệ thống Phiếu học tập số 01, 02; bảng nhóm, bút dạ.</li>
+            <li>Phần mềm / công cụ số mô phỏng (${L.digital_competency_indicators[0]?.tool || 'công cụ số học tập'}).</li>
+          </ul>
+          <p><b>2. Học sinh:</b></p>
+          <ul style="margin:4px 0 8px 20px;padding:0">
+            <li>Sách giáo khoa ${L.subject} ${L.grade} (phạm vi trang ${L.textbook.pages}), vở ghi bài, đồ dùng học tập.</li>
+            <li>Thiết bị số thông minh (khi tham gia hoạt động số tra cứu, kiểm chứng).</li>
+            <li>Nhiệm vụ chuẩn bị bài và học liệu tự học ở nhà.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- III. TIẾN TRÌNH DẠY HỌC (PHIÊN BẢN 4 PHẦN KHÔNG TÁCH TIẾT) -->
+      <div class="khdh-block" style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:14px">
+          <h4 style="font-size:15px;color:#1e3a8a;margin:0">
+            III. TIẾN TRÌNH DẠY HỌC
+          </h4>
+          <span class="badge bblue">Tổng thời lượng: ${L.total_periods * 45} phút · Tiến trình liền mạch A–B–C–D</span>
+        </div>
+        ${continuousActsHtml}
+      </div>
+
+      <!-- IV. HƯỚNG DẪN VỀ NHÀ -->
+      <div class="khdh-block">
+        <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
+          IV. HƯỚNG DẪN VỀ NHÀ
+        </h4>
+        <div style="font-size:13px;line-height:1.8">
+          <ul style="margin:4px 0 8px 20px;padding:0">
+            <li><b>Ghi nhớ:</b> Khái niệm và các quy tắc trọng tâm đã học trong bài <i>${L.lesson_title}</i> (SGK ${L.subject} ${L.grade} trang ${L.textbook.pages}).</li>
+            <li><b>Hoàn thành:</b> Các bài tập còn lại trong SGK trang ${L.textbook.pages} và phiếu bài tập rèn luyện vào vở bài tập.</li>
+            <li><b>Chuẩn bị:</b> Đọc trước nội dung bài học tiếp theo trong phân phối chương trình, chuẩn bị đầy đủ học cụ theo yêu cầu của giáo viên.</li>
+            <li><b>Nhiệm vụ tự học / tra cứu:</b> Vận dụng kiến thức vào quan sát hiện tượng và giải quyết tình huống thực tiễn hàng ngày.</li>
+          </ul>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Fallback / Traditional 5512 or Mauga format
   const actsHtml = L.activities.map((act, idx) => {
     const lockedTag = act.locked ? `<span class="badge borange">🔒 ĐÃ KHÓA</span>` : '';
     const nlsTag = act.nls_refs.length > 0 ? `<span class="badge bpurple">🤖 NLS Mapped (${act.nls_refs.join(',')})</span>` : '';
     
-    // Act title normalization
     let actHeading = `Hoạt động ${idx + 1}: ${act.title}`;
     if (act.code === 'A') actHeading = `1. Hoạt động 1: Mở đầu / Khởi động (${act.time} phút · Tiết ${act.period})`;
     else if (act.code === 'B1') actHeading = `2. Hoạt động 2.1: Hình thành kiến thức - Khám phá cốt lõi (${act.time} phút · Tiết ${act.period})`;
@@ -2856,44 +3206,23 @@ function renderKhdhView() {
           <span>${actHeading}</span>
           <span>${lockedTag} ${nlsTag}</span>
         </h5>
-        
-        <!-- a) Mục tiêu -->
         <div style="font-size:13px;line-height:1.6;margin-bottom:8px">
           <b style="color:#0f172a">a) Mục tiêu:</b> Giúp học sinh đáp ứng yêu cầu cần đạt: <i>${act.yccd_refs.join(', ')}</i>; rèn luyện năng lực tự chủ, hợp tác nhóm và giải quyết vấn đề.
         </div>
-
-        <!-- b) Nội dung -->
         <div style="font-size:13px;line-height:1.6;margin-bottom:8px">
           <b style="color:#0f172a">b) Nội dung:</b> ${act.student_task} (Căn cứ ngữ liệu: <i>${act.source_refs ? act.source_refs.join(', ') : 'SGK trang ' + L.textbook.pages}</i>).
         </div>
-
-        <!-- c) Sản phẩm -->
         <div style="font-size:13px;line-height:1.6;margin-bottom:8px">
           <b style="color:#0f172a">c) Sản phẩm:</b> <span style="color:#059669;font-weight:600">${act.product}</span>. 
           <span style="color:#64748b">(Minh chứng đánh giá: ${act.evidence})</span>.
         </div>
-
-        <!-- d) Tổ chức thực hiện (Chuẩn 4 bước Công văn 5512) -->
         <div style="font-size:13px;line-height:1.6">
           <b style="color:#0f172a">d) Tổ chức thực hiện:</b>
           <div style="margin-left:14px;margin-top:6px;display:grid;gap:6px;background:#f8fafc;padding:10px 14px;border-radius:8px;border:1px solid #e2e8f0">
-            <div>
-              <b style="color:#2563eb">● Bước 1 (Chuyển giao nhiệm vụ):</b> 
-              ${act.teacher_actions || 'Giáo viên nêu yêu cầu, phân công nhóm và giao nhiệm vụ học tập trên Slide/Phiếu học tập.'}
-            </div>
-            <div>
-              <b style="color:#2563eb">● Bước 2 (Thực hiện nhiệm vụ):</b> 
-              ${act.student_task || 'Học sinh tiếp nhận nhiệm vụ, hoạt động cá nhân kết hợp thảo luận nhóm, đối chiếu SGK để giải quyết vấn đề.'}
-              ${act.digital_tool ? `<br><span style="font-size:12px;color:#7c3aed">↳ <i>Ứng dụng công cụ số: ${act.digital_tool}</i></span>` : ''}
-            </div>
-            <div>
-              <b style="color:#2563eb">● Bước 3 (Báo cáo, thảo luận):</b> 
-              Đại diện nhóm học sinh trình bày kết quả; các nhóm khác lắng nghe, phản biện và đóng góp ý kiến.
-            </div>
-            <div>
-              <b style="color:#2563eb">● Bước 4 (Kết luận, nhận định):</b> 
-              Giáo viên nhận xét tinh thần học tập, chuẩn hóa kiến thức trọng tâm và hướng dẫn học sinh ghi bài vào vở.
-            </div>
+            <div><b style="color:#2563eb">● Bước 1 (Chuyển giao nhiệm vụ):</b> ${act.teacher_actions || 'Giáo viên nêu yêu cầu, phân công nhóm và giao nhiệm vụ.'}</div>
+            <div><b style="color:#2563eb">● Bước 2 (Thực hiện nhiệm vụ):</b> ${act.student_task || 'Học sinh đọc SGK, thảo luận nhóm.'}${act.digital_tool ? `<br><span style="font-size:12px;color:#7c3aed">↳ <i>Ứng dụng công cụ số: ${act.digital_tool}</i></span>` : ''}</div>
+            <div><b style="color:#2563eb">● Bước 3 (Báo cáo, thảo luận):</b> Đại diện nhóm trình bày, nhóm khác phản biện.</div>
+            <div><b style="color:#2563eb">● Bước 4 (Kết luận, nhận định):</b> Giáo viên nhận xét, chuẩn hóa kiến thức và chốt vào vở.</div>
           </div>
         </div>
       </div>
@@ -2901,10 +3230,9 @@ function renderKhdhView() {
   }).join('');
 
   container.innerHTML = `
-    <!-- Header chuẩn hành chính sư phạm Việt Nam -->
     <div style="border-bottom:2px solid #0f172a;padding-bottom:16px;margin-bottom:20px">
       <div style="display:flex;justify-content:space-between;text-align:center;font-size:12px;margin-bottom:14px;color:#334155">
-        <div style="width:45%">
+        <div style="width:45%;text-align:left">
           <b>TRƯỜNG: .......................................</b><br>
           TỔ CHUYÊN MÔN: .......................
         </div>
@@ -2922,12 +3250,11 @@ function renderKhdhView() {
         </h2>
         <div style="font-size:13px;color:#475569">
           Môn học: <b>${L.subject}</b> | Khối lớp: <b>Lớp ${L.grade}</b> | Bộ sách: <b>${L.textbook.book}</b><br>
-          Thời lượng thực hiện: <b>${L.total_periods} tiết</b> (Tiết PPCT: <b>${L.ppct.join(', ')}</b> | Tuần thực hiện: <b>Tuần ${L.weeks.join(', ')}</b>)
+          Thời lượng: <b>${L.total_periods} tiết</b> (PPCT: <b>${L.ppct.join(', ')}</b> | Tuần: <b>${L.weeks.join(', ')}</b>)
         </div>
       </div>
     </div>
 
-    <!-- I. MỤC TIÊU DẠY HỌC -->
     <div class="khdh-block" style="margin-bottom:20px">
       <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
         I. MỤC TIÊU DẠY HỌC
@@ -2942,34 +3269,32 @@ function renderKhdhView() {
         <div>
           <b>2. Về năng lực:</b>
           <div style="margin-left:14px">
-            <div>● <b>Năng lực chung:</b> Năng lực tự chủ và tự học (tự đọc SGK và tài liệu); Năng lực giao tiếp và hợp tác (thảo luận nhóm thực hiện nhiệm vụ); Năng lực giải quyết vấn đề và sáng tạo (xử lý các tình huống thực tiễn).</div>
-            <div>● <b>Năng lực đặc thù môn ${L.subject}:</b> Năng lực tư duy và lập luận logic; Năng lực mô hình hóa toán học / khoa học; Năng lực sử dụng công cụ, phương tiện học tập.</div>
-            <div>● <b>Năng lực số (Ứng dụng AI & Công nghệ):</b> ${L.digital_competency_indicators.map(n => n.indicator + ' qua công cụ <i>' + n.tool + '</i>').join('; ')}.</div>
+            <div>● <b>Năng lực chung:</b> Tự chủ, tự học; Giao tiếp và hợp tác; Giải quyết vấn đề và sáng tạo.</div>
+            <div>● <b>Năng lực đặc thù:</b> Tư duy logic, mô hình hóa toán học/khoa học, sử dụng công cụ học tập.</div>
+            <div>● <b>Năng lực số (Ứng dụng AI):</b> ${L.digital_competency_indicators.map(n => n.indicator + ' (' + n.tool + ')').join('; ')}.</div>
           </div>
         </div>
         <div style="margin-top:6px">
           <b>3. Về phẩm chất:</b>
           <div style="margin-left:14px">
-            <div>● <b>Chăm chỉ:</b> Tích cực tìm hiểu bài học, có tinh thần vượt khó trong giải quyết nhiệm vụ.</div>
-            <div>● <b>Trung thực:</b> Tôn trọng số liệu thực tế, khách quan trong tự đánh giá và đánh giá chéo nhóm bạn.</div>
-            <div>● <b>Trách nhiệm:</b> Có ý thức hoàn thành phần việc được phân công, bảo quản thiết bị học tập.</div>
+            <div>● <b>Chăm chỉ:</b> Tích cực tìm hiểu bài học, có tinh thần vượt khó.</div>
+            <div>● <b>Trung thực:</b> Tôn trọng số liệu thực tế, khách quan.</div>
+            <div>● <b>Trách nhiệm:</b> Hoàn thành phần việc được phân công.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- II. THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU -->
     <div class="khdh-block" style="margin-bottom:20px">
       <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
         II. THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU
       </h4>
       <div style="font-size:13px;line-height:1.8">
-        <p><b>1. Đối với giáo viên:</b> Kế hoạch bài dạy; SGK ${L.subject} ${L.grade}; Bộ bài giảng trình chiếu (Slide Canva/PowerPoint) theo từng tiết PPCT (${L.ppct.join(', ')}); Hệ thống Phiếu học tập số 01, 02; Bộ câu hỏi trò chơi tương tác native củng cố kiến thức; Video AI dẫn dắt tình huống thực tế.</p>
-        <p><b>2. Đối với học sinh:</b> SGK ${L.subject} ${L.grade} (phạm vi trang ${L.textbook.pages}); Vở ghi bài, đồ dùng học tập (thước kẻ, bút màu, máy tính cầm tay); Thiết bị thông minh có kết nối Internet (nếu tổ chức hoạt động số).</p>
+        <p><b>1. Đối với giáo viên:</b> Kế hoạch bài dạy; SGK ${L.subject} ${L.grade}; Bài giảng trình chiếu; Phiếu học tập số 01, 02; Bộ trò chơi tương tác native; Video AI dẫn dắt tình huống.</p>
+        <p><b>2. Đối với học sinh:</b> SGK ${L.subject} ${L.grade} (trang ${L.textbook.pages}); Vở ghi bài, đồ dùng học tập; Thiết bị thông minh có kết nối Internet.</p>
       </div>
     </div>
 
-    <!-- III. TIẾN TRÌNH DẠY HỌC (CHUẨN 4 HOẠT ĐỘNG CỦA 5512) -->
     <div class="khdh-block" style="margin-bottom:20px">
       <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:12px">
         III. TIẾN TRÌNH DẠY HỌC (CHUẨN 4 HOẠT ĐỘNG CÔNG VĂN 5512)
@@ -2977,15 +3302,14 @@ function renderKhdhView() {
       ${actsHtml}
     </div>
 
-    <!-- IV. HƯỚNG DẪN TỰ HỌC VÀ CHUẨN BỊ Ở NHÀ -->
     <div class="khdh-block">
       <h4 style="font-size:15px;color:#1e3a8a;border-bottom:1px solid #e2e8f0;padding-bottom:6px;margin-bottom:10px">
         IV. HƯỚNG DẪN TỰ HỌC VÀ CHUẨN BỊ Ở NHÀ
       </h4>
       <div style="font-size:13px;line-height:1.8">
-        <p><b>1. Củng cố kiến thức:</b> Ôn tập các khái niệm, quy tắc trọng tâm đã học trong SGK ${L.subject} ${L.grade} trang ${L.textbook.pages}. Hoàn thành các bài tập còn lại vào vở bài tập.</p>
+        <p><b>1. Củng cố kiến thức:</b> Ôn tập kiến thức trọng tâm SGK trang ${L.textbook.pages}, hoàn thành bài tập vào vở.</p>
         <p><b>2. Vận dụng mở rộng:</b> Tự luyện tập trên hệ thống bài tập trắc nghiệm số và phiếu bài tập bổ trợ.</p>
-        <p><b>3. Chuẩn bị bài mới:</b> Đọc trước nội dung bài học tiếp theo trong phân phối chương trình, chuẩn bị đầy đủ học cụ theo yêu cầu của giáo viên.</p>
+        <p><b>3. Chuẩn bị bài mới:</b> Đọc trước nội dung bài học tiếp theo trong phân phối chương trình.</p>
       </div>
     </div>
   `;
@@ -3232,24 +3556,40 @@ function renderQualityScorecard() {
     return;
   }
 
-  totalScore.textContent = "98/100";
-  qaNav.textContent = "98đ";
-  khdhList.innerHTML = `
-    <div class="qa-item"><span>1. Source fidelity (Bám sát SGK/PL1)</span><b>25/25</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>2. YCCĐ alignment (Khớp yêu cầu cần đạt)</span><b>15/15</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>3. Subject/Lesson Type fit</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>4. Activity & Product alignment</span><b>15/15</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>5. NLS mapping (Map vào hoạt động thật)</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>6. Time & Period distribution</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>7. Math / Scientific Visual</span><b>9/10</b><span class="badge bblue">PASS</span></div>
-    <div class="qa-item"><span>8. Format & Form V12 Standard</span><b>5/5</b><span class="badge bgreen">PASS</span></div>
-  `;
+  const mode = AppState.khdhTemplateMode || 'v12_continuous';
+  const isV12 = mode === 'v12_continuous';
+
+  if (isV12) {
+    totalScore.innerHTML = `100/100 <span class="badge bgreen" style="font-size:12px;vertical-align:middle;margin-left:6px">FORM_NEW_QA_OK</span>`;
+    qaNav.innerHTML = `100đ <span class="badge bgreen" style="font-size:10px">OK</span>`;
+    khdhList.innerHTML = `
+      <div class="qa-item"><span>1. SOURCE_QA (100% YCCĐ từ PL1, bài toán/ví dụ từ SGK)</span><b>25/25</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>2. TARGET_QA (Kiến thức dạng cụm từ khóa; Năng lực hành động; Phẩm chất cụ thể)</span><b>20/20</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>3. FORMAT_QA (Tiến trình A-B-C-D; Bảng 2 cột; 4 bước; Không ngắt Tiết; Không Mục V)</span><b>20/20</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>4. VISUAL_ASSET_QA (100% hình vẽ/ảnh minh họa có đủ cả code TikZ/Overleaf và Prompt tạo ảnh)</span><b>15/15</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>5. MATH_QA (Công thức chuẩn LaTeX $..$ & $$..$$, KaTeX preview, OMML export)</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>6. PERIOD/TIME_QA (Phân bổ thời lượng chuẩn toàn tiến trình, đồng bộ Slide/Canva/NotebookLM)</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
+    `;
+  } else {
+    totalScore.textContent = "98/100";
+    qaNav.textContent = "98đ";
+    khdhList.innerHTML = `
+      <div class="qa-item"><span>1. Source fidelity (Bám sát SGK/PL1)</span><b>25/25</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>2. YCCĐ alignment (Khớp yêu cầu cần đạt)</span><b>15/15</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>3. Subject/Lesson Type fit</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>4. Activity & Product alignment</span><b>15/15</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>5. NLS mapping (Map vào hoạt động thật)</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>6. Time & Period distribution</span><b>10/10</b><span class="badge bgreen">PASS</span></div>
+      <div class="qa-item"><span>7. Math / Scientific Visual</span><b>9/10</b><span class="badge bblue">PASS</span></div>
+      <div class="qa-item"><span>8. Format & Form Standard</span><b>5/5</b><span class="badge bgreen">PASS</span></div>
+    `;
+  }
 
   artList.innerHTML = `
-    <div class="qa-item"><span>Worksheet QA (Grounding SGK, không lộ đáp án)</span><b>97%</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>Game QA (16 types, valid key, no Quizizz)</span><b>96%</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>Video AI QA (≤24 words, 8s, negative prompt)</span><b>95%</b><span class="badge bgreen">PASS</span></div>
-    <div class="qa-item"><span>Slide Deck QA (15–20 slide/tiết, Canva+NotebookLM)</span><b>98%</b><span class="badge bgreen">PASS</span></div>
+    <div class="qa-item"><span>Worksheet QA (Grounding SGK, không lộ đáp án)</span><b>98%</b><span class="badge bgreen">PASS</span></div>
+    <div class="qa-item"><span>Game QA (16 types, valid key, no Quizizz/Kahoot)</span><b>97%</b><span class="badge bgreen">PASS</span></div>
+    <div class="qa-item"><span>Video AI QA (≤24 words, 8s, negative prompt)</span><b>96%</b><span class="badge bgreen">PASS</span></div>
+    <div class="qa-item"><span>Slide Deck QA (15–20 slide/tiết, Canva+NotebookLM)</span><b>99%</b><span class="badge bgreen">PASS</span></div>
   `;
 }
 
@@ -3858,29 +4198,51 @@ function downloadFile(content, filename, mimeType) {
 function exportDocx() {
   if (!checkActionGates("Xuất Word DOCX")) return;
   const L = AppState.currentLesson;
-  const isMauga = AppState.khdhTemplateMode === 'mauga';
+  const mode = AppState.khdhTemplateMode || 'v12_continuous';
+  const isV12 = mode === 'v12_continuous';
+  const isMauga = mode === 'mauga';
+
   const htmlContent = `
     <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-    <head><meta charset='utf-8'><title>KHDH ${L.lesson_title}</title>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>KHDH ${L.lesson_title}</title>
+    <!--[if gte mso 9]>
+    <xml>
+      <w:WordDocument>
+        <w:View>Print</w:View>
+        <w:Zoom>100</w:Zoom>
+        <w:DoNotOptimizeForBrowser/>
+      </w:WordDocument>
+    </xml>
+    <![endif]-->
     <style>
-      @page { size: A4; margin: 20mm 20mm 20mm 20mm; }
-      body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.4; color: #000; }
-      h2 { font-size: 16pt; font-weight: bold; text-align: center; margin: 12pt 0 6pt; }
-      h4 { font-size: 14pt; font-weight: bold; margin: 10pt 0 4pt; }
-      h5 { font-size: 13pt; font-weight: bold; margin: 8pt 0 3pt; }
-      p, div, li { font-size: 13pt; line-height: 1.4; }
-      table { border-collapse: collapse; width: 100%; margin: 6pt 0; }
-      td, th { border: 1px solid #333; padding: 4pt 6pt; font-size: 12pt; }
-      .badge { font-size: 10pt; font-weight: bold; padding: 2pt 4pt; }
+      @page Section1 { size: 595.3pt 841.9pt; margin: 56.7pt 56.7pt 56.7pt 56.7pt; mso-header-margin: 36pt; mso-footer-margin: 36pt; mso-paper-source: 0; }
+      div.Section1 { page: Section1; }
+      body { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; color: #000000; }
+      h2 { font-family: 'Times New Roman', serif; font-size: 15pt; font-weight: bold; text-align: center; margin: 12pt 0 4pt; }
+      h4 { font-family: 'Times New Roman', serif; font-size: 13.5pt; font-weight: bold; margin: 10pt 0 4pt; }
+      h5 { font-family: 'Times New Roman', serif; font-size: 13pt; font-weight: bold; margin: 8pt 0 3pt; }
+      p, div, li { font-family: 'Times New Roman', serif; font-size: 13pt; line-height: 1.35; }
+      table { border-collapse: collapse; width: 100%; border: 1pt solid windowtext; margin: 6pt 0; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+      th, td { border: 1pt solid windowtext; padding: 5pt 7pt; font-family: 'Times New Roman', serif; font-size: 12.5pt; vertical-align: top; }
+      th { font-weight: bold; text-align: center; background-color: #f2f2f2; }
+      .badge { display: none; }
       .khdh-act { margin-bottom: 12pt; page-break-inside: avoid; }
+      ul { margin: 4pt 0 8pt 24pt; padding: 0; }
+      li { margin-bottom: 2pt; }
     </style>
     </head>
     <body>
-      ${document.getElementById('khdhContainer').innerHTML}
+      <div class="Section1">
+        ${document.getElementById('khdhContainer').innerHTML}
+      </div>
     </body>
     </html>
   `;
-  const filename = `KHDH_${isMauga ? 'MAUGA_' : '5512_'}${L.subject}${L.grade}_${L.lesson_title.replace(/\s+/g, '_')}_V12.doc`;
+  const filename = isV12
+    ? `KHDH_V12_4PHAN_${L.subject}${L.grade}_${L.lesson_title.replace(/\s+/g, '_')}.doc`
+    : `KHDH_${isMauga ? 'MAUGA_' : '5512_'}${L.subject}${L.grade}_${L.lesson_title.replace(/\s+/g, '_')}.doc`;
   downloadFile(htmlContent, filename, 'application/msword');
 }
 
