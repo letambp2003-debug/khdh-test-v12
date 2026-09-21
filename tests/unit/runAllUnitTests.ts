@@ -158,11 +158,84 @@ it('AuthService: Đăng nhập liên kết Google ID nhanh chóng', () => {
   assert.strictEqual(googleUser.name, 'Thầy Lê Tâm');
 });
 
+// 6. Test KhdhService & Gemini 3.7 Flash Thinking Engine
+import { KhdhService } from '../../server/services/khdhService';
+import { GeminiService } from '../../server/services/geminiService';
 
+async function runAsyncTests() {
+  // Test Gemini 3.7 Flash Thinking High
+  totalTests++;
+  try {
+    const aiRes = await GeminiService.generateWithThinking(
+      'Soạn hoạt động khởi động cho bài Phép chia đa thức',
+      'Chuẩn sư phạm GDPT 2018',
+      'gemini-3.7-flash',
+      8192
+    );
+    assert.strictEqual(aiRes.ok, true);
+    assert.ok(aiRes.text.length > 0, 'Phải sinh nội dung text');
+    assert.ok(aiRes.modelUsed.includes('gemini-3.7-flash'), 'Phải ưu tiên model Gemini 3.7 Flash');
+    console.log(`  ✅ PASS: GeminiService: Sinh nội dung với Gemini 3.7 Flash Thinking High (8K budget)`);
+    passedTests++;
+  } catch (err: any) {
+    console.error(`  ❌ FAIL: GeminiService Thinking Engine: ${err.message}`);
+  }
 
-console.log(`\nTổng kết Unit Tests: ${passedTests}/${totalTests} tests hoàn thành thành công.`);
-if (passedTests === totalTests) {
-  process.exit(0);
-} else {
-  process.exit(1);
+  // Test KhdhService: One-shot Generation
+  totalTests++;
+  try {
+    const sampleState = LessonStateManager.getActiveState()!;
+    const oneShotRes = await KhdhService.generateOneShot(sampleState, {
+      model: 'gemini-3.7-flash',
+      thinkingBudget: 8192
+    });
+    assert.strictEqual(oneShotRes.ok, true);
+    assert.strictEqual(oneShotRes.lesson.activities.length, 5, 'KHDH 4 phần chuẩn phải có đủ 5 hoạt động (A, B1, B2, C, D)');
+    assert.ok(oneShotRes.lesson.activities.some(a => a.code === 'A'), 'Phải có hoạt động Khởi động A');
+    assert.ok(oneShotRes.lesson.activities.some(a => a.code === 'B1'), 'Phải có hoạt động B1');
+    assert.ok(oneShotRes.lesson.activities.some(a => a.code === 'B2'), 'Phải có hoạt động B2 tích hợp NLS');
+    console.log(`  ✅ PASS: KhdhService: Sinh toàn bộ KHDH 4 phần liên tục 1 lần (One-shot) thành công`);
+    passedTests++;
+  } catch (err: any) {
+    console.error(`  ❌ FAIL: KhdhService One-shot: ${err.message}`);
+  }
+
+  // Test KhdhService: 4-Step Phased Generation
+  totalTests++;
+  try {
+    const sampleState = LessonStateManager.getActiveState()!;
+    for (let step = 1; step <= 4; step++) {
+      const stepRes = await KhdhService.generateStep(step, sampleState);
+      assert.strictEqual(stepRes.ok, true);
+      assert.strictEqual(stepRes.step, step);
+    }
+    console.log(`  ✅ PASS: KhdhService: Sinh KHDH tuần tự 4 bước tách biệt (Step-by-step 1-4)`);
+    passedTests++;
+  } catch (err: any) {
+    console.error(`  ❌ FAIL: KhdhService Phased Steps: ${err.message}`);
+  }
+
+  // Test KhdhService: Sync Artifacts (Single Source of Truth)
+  totalTests++;
+  try {
+    const sampleState = LessonStateManager.getActiveState()!;
+    const syncRes = KhdhService.syncArtifacts(sampleState);
+    assert.ok(syncRes.worksheetData.linked_activity, 'Phiếu học tập phải liên kết với hoạt động KHDH');
+    assert.ok(syncRes.gameData.game_type, 'Trò chơi phải có thể loại native');
+    assert.strictEqual(syncRes.videoData.max_words_per_scene, 24, 'Lời thoại Video AI phải kiểm soát <= 24 từ/cảnh');
+    console.log(`  ✅ PASS: KhdhService: Đồng bộ liên kết 100% dữ liệu sang Phiếu học tập, Trò chơi và Video AI (<=24 từ)`);
+    passedTests++;
+  } catch (err: any) {
+    console.error(`  ❌ FAIL: KhdhService Sync Artifacts: ${err.message}`);
+  }
+
+  console.log(`\nTổng kết Unit Tests: ${passedTests}/${totalTests} tests hoàn thành thành công.`);
+  if (passedTests === totalTests) {
+    process.exit(0);
+  } else {
+    process.exit(1);
+  }
 }
+
+runAsyncTests();
+

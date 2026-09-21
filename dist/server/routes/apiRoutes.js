@@ -18,6 +18,7 @@ const qualityQaService_1 = require("../services/qualityQaService");
 const pl1Parser_1 = require("../parsers/pl1Parser");
 const sgkParser_1 = require("../parsers/sgkParser");
 const fileStorage_1 = require("../storage/fileStorage");
+const khdhService_1 = require("../services/khdhService");
 const upload = (0, multer_1.default)({ limits: { fileSize: 100 * 1024 * 1024 } }); // 100 MB: Thoải mái cho SGK PDF và tài liệu chuyên môn
 exports.apiRouter = (0, express_1.Router)();
 // 1. Health Checks
@@ -187,6 +188,49 @@ exports.apiRouter.post('/sources/commit', (req, res) => {
     }
     lessonStateManager_1.LessonStateManager.setActiveState(lesson);
     res.json({ ok: true, lesson });
+});
+// 4B. KHDH Generation (One-Shot & 4-Step Phased with Gemini 3.7 Flash Thinking High)
+exports.apiRouter.post('/khdh/generate-one-shot', async (req, res) => {
+    try {
+        const lesson = req.body.lesson || lessonStateManager_1.LessonStateManager.getActiveState();
+        if (!lesson) {
+            return res.status(400).json({ ok: false, error: 'Chưa có bài học được kích hoạt để tạo KHDH' });
+        }
+        const { model, thinkingBudget } = req.body;
+        const result = await khdhService_1.KhdhService.generateOneShot(lesson, { model, thinkingBudget });
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
+});
+exports.apiRouter.post('/khdh/generate-step/:step', async (req, res) => {
+    try {
+        const step = parseInt(req.params.step, 10);
+        const lesson = req.body.lesson || lessonStateManager_1.LessonStateManager.getActiveState();
+        if (!lesson) {
+            return res.status(400).json({ ok: false, error: 'Chưa có bài học được kích hoạt' });
+        }
+        const { model, thinkingBudget } = req.body;
+        const result = await khdhService_1.KhdhService.generateStep(step, lesson, { model, thinkingBudget });
+        res.json(result);
+    }
+    catch (err) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
+});
+exports.apiRouter.post('/khdh/sync-artifacts', (req, res) => {
+    try {
+        const lesson = req.body.lesson || lessonStateManager_1.LessonStateManager.getActiveState();
+        if (!lesson) {
+            return res.status(400).json({ ok: false, error: 'Chưa có bài học được kích hoạt' });
+        }
+        const result = khdhService_1.KhdhService.syncArtifacts(lesson);
+        res.json({ ok: true, sync: result });
+    }
+    catch (err) {
+        res.status(500).json({ ok: false, error: err.message });
+    }
 });
 // 5. Artifacts
 exports.apiRouter.post('/artifacts/worksheet', (req, res) => {

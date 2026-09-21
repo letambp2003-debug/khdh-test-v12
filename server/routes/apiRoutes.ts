@@ -12,6 +12,7 @@ import { QualityQaService } from '../services/qualityQaService';
 import { Pl1Parser } from '../parsers/pl1Parser';
 import { SgkParser } from '../parsers/sgkParser';
 import { storage } from '../storage/fileStorage';
+import { KhdhService } from '../services/khdhService';
 
 const upload = multer({ limits: { fileSize: 100 * 1024 * 1024 } }); // 100 MB: Thoải mái cho SGK PDF và tài liệu chuyên môn
 export const apiRouter = Router();
@@ -197,7 +198,51 @@ apiRouter.post('/sources/commit', (req: Request, res: Response) => {
   res.json({ ok: true, lesson });
 });
 
+// 4B. KHDH Generation (One-Shot & 4-Step Phased with Gemini 3.7 Flash Thinking High)
+apiRouter.post('/khdh/generate-one-shot', async (req: Request, res: Response) => {
+  try {
+    const lesson = req.body.lesson || LessonStateManager.getActiveState();
+    if (!lesson) {
+      return res.status(400).json({ ok: false, error: 'Chưa có bài học được kích hoạt để tạo KHDH' });
+    }
+    const { model, thinkingBudget } = req.body;
+    const result = await KhdhService.generateOneShot(lesson, { model, thinkingBudget });
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+apiRouter.post('/khdh/generate-step/:step', async (req: Request, res: Response) => {
+  try {
+    const step = parseInt(req.params.step, 10);
+    const lesson = req.body.lesson || LessonStateManager.getActiveState();
+    if (!lesson) {
+      return res.status(400).json({ ok: false, error: 'Chưa có bài học được kích hoạt' });
+    }
+    const { model, thinkingBudget } = req.body;
+    const result = await KhdhService.generateStep(step, lesson, { model, thinkingBudget });
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+apiRouter.post('/khdh/sync-artifacts', (req: Request, res: Response) => {
+  try {
+    const lesson = req.body.lesson || LessonStateManager.getActiveState();
+    if (!lesson) {
+      return res.status(400).json({ ok: false, error: 'Chưa có bài học được kích hoạt' });
+    }
+    const result = KhdhService.syncArtifacts(lesson);
+    res.json({ ok: true, sync: result });
+  } catch (err: any) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
 // 5. Artifacts
+
 apiRouter.post('/artifacts/worksheet', (req: Request, res: Response) => {
   try {
     const artifact = WorksheetService.generate(req.body);

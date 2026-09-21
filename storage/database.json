@@ -43,31 +43,107 @@
       },
       "activities": [
         {
-          "id": "act_01",
+          "id": "act_a",
+          "code": "A",
+          "period": 1,
+          "title": "Khởi động: Tình huống thực tế gắn liền bài học Bài Test QA",
+          "time": 7,
+          "yccd_refs": [
+            "YCCD-01"
+          ],
+          "student_task": "Quan sát tình huống gợi mở và phát hiện vấn đề cần giải quyết liên quan đến Bài Test QA.",
+          "teacher_actions": "Giáo viên nêu câu hỏi dẫn dắt, tổ chức hoạt động và chốt mục tiêu.",
+          "product": "Câu trả lời miệng hoặc dự đoán ban đầu của học sinh.",
+          "evidence": "Bản phát biểu ý kiến cá nhân",
+          "digital_tool": "Slide Khởi động / Video AI",
+          "source_refs": [
+            "SGK Khởi động"
+          ],
+          "locked": false
+        },
+        {
+          "id": "act_b1",
           "code": "B1",
           "period": 1,
-          "title": "Khám phá",
+          "title": "Hình thành kiến thức 1: Khám phá định nghĩa và quy tắc cốt lõi của Bài Test QA",
           "time": 20,
+          "yccd_refs": [
+            "YCCD-01"
+          ],
+          "student_task": "Đọc SGK, thảo luận nhóm đôi và rút ra kiến thức trọng tâm về Bài Test QA.",
+          "teacher_actions": "Giáo viên quan sát, chuẩn hóa kiến thức và ghi bảng.",
+          "product": "Nội dung định nghĩa và ví dụ mẫu vào vở.",
+          "evidence": "Vở ghi học sinh và phiếu nhóm",
+          "digital_tool": "Slide Khám phá kiến thức",
+          "source_refs": [
+            "SGK mục 1"
+          ],
+          "locked": false
+        },
+        {
+          "id": "act_b2",
+          "code": "B2",
+          "period": 2,
+          "title": "Hình thành kiến thức 2: Phân tích sâu & Kiểm chứng số bài Bài Test QA",
+          "time": 18,
           "yccd_refs": [
             "YCCD-01"
           ],
           "nls_refs": [
             "NLS-01"
           ],
-          "student_task": "Nhiệm vụ",
-          "teacher_actions": "Hướng dẫn",
-          "product": "Sản phẩm",
-          "evidence": "Minh chứng",
+          "student_task": "Thực hiện đối chiếu ví dụ nâng cao và sử dụng công cụ số kiểm chứng Bài Test QA.",
+          "teacher_actions": "Hướng dẫn thao tác công cụ số, giải thích lỗi sai thường gặp.",
+          "product": "Phiếu học tập đối chiếu số liệu thực tế.",
+          "evidence": "Biên bản nhóm và kết quả kiểm chứng",
           "digital_tool": "AI",
           "source_refs": [
-            "SGK tr.1"
+            "SGK mục 2"
+          ],
+          "locked": false
+        },
+        {
+          "id": "act_c",
+          "code": "C",
+          "period": 2,
+          "title": "Luyện tập: Thực hành giải bài tập chuẩn và vận dụng quy tắc Bài Test QA",
+          "time": 25,
+          "yccd_refs": [
+            "YCCD-01"
+          ],
+          "student_task": "Học sinh làm việc cá nhân hoàn thành các bài tập trong SGK và phiếu luyện tập.",
+          "teacher_actions": "Tổ chức chữa bài, hướng dẫn phương pháp giải.",
+          "product": "Lời giải chi tiết bài tập trong vở.",
+          "evidence": "Bài làm trên phiếu học tập",
+          "digital_tool": "Trò chơi củng cố kiến thức native HTML5",
+          "source_refs": [
+            "SGK Bài tập"
+          ],
+          "locked": false
+        },
+        {
+          "id": "act_d",
+          "code": "D",
+          "period": 2,
+          "title": "Vận dụng: Giải quyết tình huống thực tiễn và bài toán đời sống của Bài Test QA",
+          "time": 15,
+          "yccd_refs": [
+            "YCCD-01"
+          ],
+          "student_task": "Vận dụng kiến thức Bài Test QA vào bài toán thực tiễn đời sống.",
+          "teacher_actions": "Giao nhiệm vụ dự án nhỏ hoặc bài tập vận dụng về nhà.",
+          "product": "Bản báo cáo kết quả vận dụng thực tế.",
+          "evidence": "Sản phẩm học tập học sinh nộp lại",
+          "digital_tool": "Canva / Presentation báo cáo",
+          "source_refs": [
+            "SGK Vận dụng"
           ],
           "locked": false
         }
       ],
-      "created_at": "2026-09-21T13:54:43.276Z",
-      "updated_at": "2026-09-21T13:54:43.276Z",
-      "version": 2
+      "created_at": "2026-09-21T14:31:45.307Z",
+      "updated_at": "2026-09-21T14:31:45.420Z",
+      "version": 7
     },
     "MATH8_INTEGRATION_01": {
       "lesson_id": "MATH8_INTEGRATION_01",
@@ -133,8 +209,8 @@
           "locked": false
         }
       ],
-      "created_at": "2026-09-21T13:54:45.387Z",
-      "updated_at": "2026-09-21T13:54:45.394Z",
+      "created_at": "2026-09-21T14:31:47.332Z",
+      "updated_at": "2026-09-21T14:31:47.341Z",
       "version": 3
     },
     "MATH8_SMOKE_TEST": {
@@ -206,8 +282,8 @@
           "locked": false
         }
       ],
-      "created_at": "2026-09-21T13:54:47.404Z",
-      "updated_at": "2026-09-21T13:54:47.411Z",
+      "created_at": "2026-09-21T14:31:49.152Z",
+      "updated_at": "2026-09-21T14:31:49.161Z",
       "version": 3
     }
   },
@@ -236,7 +312,7 @@
       },
       "stale": true,
       "version": 1,
-      "updated_at": "2026-09-21T13:54:47.406Z"
+      "updated_at": "2026-09-21T14:31:49.154Z"
     },
     "game_01": {
       "artifact_id": "game_01",
@@ -351,7 +427,7 @@
       },
       "stale": true,
       "version": 1,
-      "updated_at": "2026-09-21T13:54:47.408Z"
+      "updated_at": "2026-09-21T14:31:49.156Z"
     },
     "video_01": {
       "artifact_id": "video_01",
@@ -426,7 +502,7 @@
       },
       "stale": true,
       "version": 1,
-      "updated_at": "2026-09-21T13:54:47.410Z"
+      "updated_at": "2026-09-21T14:31:49.159Z"
     },
     "slide_p1": {
       "artifact_id": "slide_p1",
@@ -456,7 +532,7 @@
       },
       "stale": true,
       "version": 1,
-      "updated_at": "2026-09-21T13:54:45.393Z"
+      "updated_at": "2026-09-21T14:31:47.339Z"
     }
   },
   "teacher_preferences": {},
@@ -873,11 +949,32 @@
       "details": {
         "ping": "_ping_1789998887398"
       }
+    },
+    {
+      "timestamp": "2026-09-21T14:31:47.327Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1790001107327"
+      }
+    },
+    {
+      "timestamp": "2026-09-21T14:31:47.330Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1790001107330"
+      }
+    },
+    {
+      "timestamp": "2026-09-21T14:31:49.146Z",
+      "action": "DB_PING",
+      "details": {
+        "ping": "_ping_1790001109146"
+      }
     }
   ],
   "metadata": {
     "version": "12.2.0-rc2",
     "initialized_at": "2026-09-20T09:55:46.629Z",
-    "last_write": "2026-09-21T13:54:47.418Z"
+    "last_write": "2026-09-21T14:31:49.166Z"
   }
 }
