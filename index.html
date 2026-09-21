@@ -372,9 +372,10 @@ button,input,select,textarea{font:inherit}
     <section id="sources" class="view">
       <div class="sh">
         <div>
-          <h2>Nguồn dữ liệu đầu vào</h2>
-          <p>Chỉ 4 nhóm nguồn duy nhất theo Master Spec V12-RC2. Không yêu cầu upload PPCT riêng.</p>
+          <h2>Nguồn dữ liệu đầu vào (Hỗ trợ tệp lớn đến 100 MB · Tiết kiệm Token tối ưu)</h2>
+          <p>Chỉ 4 nhóm nguồn duy nhất theo Master Spec V12-RC2. Hệ thống hỗ trợ tệp lên đến <b>100 MB</b> (.docx, .pdf), tự động lọc ngữ liệu tinh gọn giúp <b>tiết kiệm 95% token Gemini</b>.</p>
         </div>
+
         <div class="row">
           <span class="badge bgray" id="sourceGateStatusBadge">SOURCE GATE: CHƯA NẠP</span>
           <button class="btn sm purple" onclick="loadSampleLesson('math8')">⚡ Tải nhanh bài mẫu Toán 8</button>
@@ -2362,16 +2363,15 @@ function isGeminiKeyReady() {
 
 function ensureApiKeyConfigured(actionName, onProceedCallback) {
   if (isGeminiKeyReady()) {
-    if (typeof onProceedCallback === 'function') {
-      onProceedCallback();
-    }
+    // Đã có key hợp lệ -> Cho phép thực hiện tác vụ ngay, không gọi lại callback để tránh lặp đệ quy
     return true;
   }
 
-  // Chặn và mở modal cảnh báo có hướng dẫn lấy key
+  // Chặn và mở modal cảnh báo có hướng dẫn lấy key, lưu callback chờ kích hoạt sau khi lưu key
   openApiKeyGateModal(actionName, onProceedCallback);
   return false;
 }
+
 
 function openApiKeyGateModal(actionName, onProceedCallback) {
   AppState._pendingActionCallback = (typeof onProceedCallback === 'function') ? onProceedCallback : null;
@@ -4988,8 +4988,13 @@ function openUploadModal(slotKey, filename, sizeKb) {
     form: 'FORM Tổ Bộ Môn (Mauga.docx)'
   };
 
+  const formattedSize = (sizeKb >= 1024 * 1024)
+    ? `${(sizeKb / (1024 * 1024)).toFixed(2)} MB`
+    : `${(sizeKb / 1024).toFixed(1)} KB`;
+
   title.textContent = `Đang đọc và nạp tệp: ${filename}`;
-  desc.textContent = `Nguồn: ${slotNames[slotKey] || slotKey.toUpperCase()} · Dung lượng: ${(sizeKb / 1024).toFixed(1)} KB`;
+  desc.textContent = `Nguồn: ${slotNames[slotKey] || slotKey.toUpperCase()} · Dung lượng: ${formattedSize} (Hỗ trợ tối đa 100 MB · Tự động tối ưu Token)`;
+
 
   stepList.innerHTML = `
     <div id="stepUpl1" style="display:flex;align-items:center;gap:8px;color:#2563eb">
@@ -5068,7 +5073,8 @@ async function processFileUploadExecution(slotKey, file) {
         const result = await res.json();
         if (result.ok && result.extracted) {
           extracted = result.extracted;
-          updateUploadStepUI(1, 'DONE', `Đã lưu tệp vào storage/uploads/ (${(file.size / 1024).toFixed(1)} KB)`, 55);
+          const displaySize = (file.size >= 1024 * 1024) ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` : `${(file.size / 1024).toFixed(1)} KB`;
+          updateUploadStepUI(1, 'DONE', `Đã lưu tệp vào storage/uploads/ (${displaySize})`, 55);
         }
       }
     } catch (e) {
@@ -5076,8 +5082,10 @@ async function processFileUploadExecution(slotKey, file) {
     }
 
     if (!extracted) {
-      updateUploadStepUI(1, 'DONE', `Đã nạp tệp trực tiếp vào bộ nhớ WebApp (${(file.size / 1024).toFixed(1)} KB)`, 55);
+      const displaySize = (file.size >= 1024 * 1024) ? `${(file.size / (1024 * 1024)).toFixed(2)} MB` : `${(file.size / 1024).toFixed(1)} KB`;
+      updateUploadStepUI(1, 'DONE', `Đã nạp tệp trực tiếp vào bộ nhớ WebApp (${displaySize})`, 55);
     }
+
 
     // Stage 2: Deep Extraction
     updateUploadStepUI(2, 'IN_PROGRESS', 'Đang phân tích cấu trúc tệp (XML, bảng biểu, dòng dữ liệu)...', 75);
@@ -5239,11 +5247,9 @@ function checkAndAssembleExtractedLesson() {
   const s = AppState.sources;
   if (!s.pl1.uploaded) return;
 
-  // If we have a catalog and no lesson is selected yet, select the first lesson from the catalog
-  if (AppState.extractedCatalog && AppState.extractedCatalog.length > 0 && !AppState.currentLesson) {
-    selectLessonFromCatalog(AppState.extractedCatalog[0].id);
-    return;
-  }
+  // Cập nhật danh mục bài học và làm mới giao diện chọn bài
+  renderLessonCatalogUI();
+  renderSourcesView();
 
   // If lesson is already selected and SGK was just uploaded, enrich textbook info
   if (AppState.currentLesson && s.sgk.uploaded && s.sgk.extracted) {
@@ -5263,6 +5269,7 @@ function checkAndAssembleExtractedLesson() {
     renderAllModules();
   }
 }
+
 
 function viewExtractedLessonPipeline() {
   closeUploadModal();

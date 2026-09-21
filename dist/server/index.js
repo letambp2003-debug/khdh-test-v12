@@ -11,8 +11,8 @@ const config_1 = require("./config");
 const apiRoutes_1 = require("./routes/apiRoutes");
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
-exports.app.use(express_1.default.json({ limit: '50mb' }));
-exports.app.use(express_1.default.urlencoded({ extended: true, limit: '50mb' }));
+exports.app.use(express_1.default.json({ limit: '100mb' }));
+exports.app.use(express_1.default.urlencoded({ extended: true, limit: '100mb' }));
 // API Routes
 exports.app.use('/api', apiRoutes_1.apiRouter);
 // Static frontend files

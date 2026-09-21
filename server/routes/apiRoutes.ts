@@ -13,7 +13,7 @@ import { Pl1Parser } from '../parsers/pl1Parser';
 import { SgkParser } from '../parsers/sgkParser';
 import { storage } from '../storage/fileStorage';
 
-const upload = multer({ limits: { fileSize: 50 * 1024 * 1024 } });
+const upload = multer({ limits: { fileSize: 100 * 1024 * 1024 } }); // 100 MB: Thoải mái cho SGK PDF và tài liệu chuyên môn
 export const apiRouter = Router();
 
 // 1. Health Checks

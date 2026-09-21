@@ -18,7 +18,7 @@ const qualityQaService_1 = require("../services/qualityQaService");
 const pl1Parser_1 = require("../parsers/pl1Parser");
 const sgkParser_1 = require("../parsers/sgkParser");
 const fileStorage_1 = require("../storage/fileStorage");
-const upload = (0, multer_1.default)({ limits: { fileSize: 50 * 1024 * 1024 } });
+const upload = (0, multer_1.default)({ limits: { fileSize: 100 * 1024 * 1024 } }); // 100 MB: Thoải mái cho SGK PDF và tài liệu chuyên môn
 exports.apiRouter = (0, express_1.Router)();
 // 1. Health Checks
 exports.apiRouter.get('/health', (req, res) => {
